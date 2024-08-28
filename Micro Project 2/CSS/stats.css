@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+.stat-container
+{
+  font-family: "DM Sans", sans-serif;
+  display: flex;
+  margin-top: 120px;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 250px;
+  color: white;
+  font-size: 29px;
+  font-weight: 700;
+  text-align: left;
+} 
+
+.stat-1
+{
+  
+  background-color: rgba(146, 157, 255, 1);
+  width: 337px;
+  height: 145px;
+  border-radius: 11px;
+  box-shadow: 0px 9px 31px 0px rgba(0, 0, 0, 0.4);
+
+
+}
+.stat-2
+{
+  background-color: rgba(115, 76, 242, 1);
+  width: 337px;
+  height: 145px;
+  box-shadow: 0px 9px 31px 0px rgba(0, 0, 0, 0.4);
+  border-radius: 11px;
+  
+  
+}
+.stat-3
+{
+  background-color: rgba(210, 136, 255, 1);
+  width: 337px;
+  height: 145px;
+  box-shadow: 0px 9px 31px 0px rgba(0, 0, 0, 0.4);
+  border-radius: 11px;
+ 
+  
+}
+.stat-4
+{
+  background-color: rgba(0, 0, 0, 1);
+  width: 337px;
+  height: 145px;
+  box-shadow: 0px 9px 31px 0px rgba(0, 0, 0, 0.4);
+  border-radius: 11px;
+}

@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Delius+Unicase:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+
+header
+{
+  background-color:rgba(111, 106, 247, 1);
+  height: 127px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 100;
+}
+
+.logo
+{
+  
+  display: flex;
+  align-items: center;
+  padding-left: 3%;
+  font-family: "Delius Unicase", cursive;
+  font-size: 61px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+}
+nav
+{
+  display: flex;
+  flex: 1;
+  align-items: center;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400px;
+  color: white;
+  font-size: 36px;
+  margin-left: 5%;
+  max-width: 1000px;
+  justify-content: space-between;
+  
+}
+
+nav p
+{
+  cursor: pointer;;
+}
+
+.vector
+{
+  margin-left: 6px;
+  margin-bottom: 6px;
+}
+
+
+form input[type="search"]
+{
+  padding: 7%;
+  border: none;
+  font-size: 25px;
+  border-radius: 150px;
+  height: 57px;
+  max-width: 360px;
+  cursor: pointer;
+  background-image: url(search.png);
+  background-repeat: no-repeat;
+  background-position: 310px;
+
+  
+}
+
+.right-section
+{
+  display: flex;
+  align-items: center;
+  padding:  1% 4%;
+  
+}
+
+.right-section img
+{
+  cursor: pointer;
+}

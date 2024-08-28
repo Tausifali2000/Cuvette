@@ -1,0 +1,32 @@
+
+
+.social-media
+{
+  width: 300px;
+  height: 406px;
+  margin-top: 250px;
+  position: sticky;
+  top: 135px;
+  margin-left: 30px;
+}
+
+.social-media img
+{
+  cursor: pointer;
+}
+
+
+.assistance
+{
+  position: fixed;
+  top: 720px;
+  left: 1670px;
+}
+
+.assistance img
+{
+  cursor: pointer;
+}
+
+
+

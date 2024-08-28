@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+.main-container
+{
+  margin-left: 101px;
+  position: relative;
+  height: 1900px;
+  width: 1542px;
+}
+
+.content
+{
+  display: flex;
+  width: 1542px;
+  height: 550px;
+  margin-top: 160px;
+}
+
+.image-container
+{
+  border-radius: 20px;
+  margin-left: 30px;
+  width: 456px;
+  height: 507px;
+  box-shadow: 4px 7px 32px 0px rgba(0, 0, 0, 0.44);
+
+}
+
+.note
+{
+  font-family: "DM Sans", sans-serif;
+  margin-left: 50px;
+  width: 972px;
+  height: 507px;
+  border-radius: 20px;
+  background: rgba(229, 216, 255, 1);
+  margin-bottom: 20px;
+  box-shadow: 3px 5px 27px 0px rgba(0, 0, 0, 0.25) inset;
+  font-size: 29px;
+  color: rgba(111, 115, 115, 1);
+  font-weight: 400;
+}
+
+
+
+
+
+
