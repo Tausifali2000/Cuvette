@@ -17,42 +17,41 @@
   text-align: left;
 } 
 
-.stat-1
+.stat-1,.stat-2,.stat-3,.stat-4
 {
-  
   background-color: rgba(146, 157, 255, 1);
   width: 337px;
   height: 145px;
   border-radius: 11px;
   box-shadow: 0px 9px 31px 0px rgba(0, 0, 0, 0.4);
-
-
 }
+
 .stat-2
 {
   background-color: rgba(115, 76, 242, 1);
-  width: 337px;
-  height: 145px;
-  box-shadow: 0px 9px 31px 0px rgba(0, 0, 0, 0.4);
-  border-radius: 11px;
-  
-  
 }
+
 .stat-3
 {
   background-color: rgba(210, 136, 255, 1);
-  width: 337px;
-  height: 145px;
-  box-shadow: 0px 9px 31px 0px rgba(0, 0, 0, 0.4);
-  border-radius: 11px;
- 
-  
 }
+
 .stat-4
 {
   background-color: rgba(0, 0, 0, 1);
-  width: 337px;
-  height: 145px;
-  box-shadow: 0px 9px 31px 0px rgba(0, 0, 0, 0.4);
-  border-radius: 11px;
 }
+
+.stat-h
+{
+  margin-top: 20px; 
+  margin-left: 28px;
+}
+
+.stat-container p
+{
+  margin-top: 20px; 
+  margin-left: 28px;
+}
+
+
+

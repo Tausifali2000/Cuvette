@@ -43,6 +43,13 @@
   font-weight: 400;
 }
 
+.note p
+{
+  margin-top: 25px; 
+  margin-left: 25px; 
+  line-height: 50px;
+}
+
 
 
 

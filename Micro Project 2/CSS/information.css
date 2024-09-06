@@ -24,7 +24,7 @@
   text-align: center;
 }
 
-.tab1
+.tab1, .tab2, .tab3
 {
   width:397px;
   height: 133px;
@@ -38,29 +38,16 @@
 
 .tab2
 {
-  width:397px;
-  height: 133px;
-  margin-top: 73px;
-  margin-left: 52px;
-  border-radius: 21px;
+  background-color: transparent;
   color: white;
   border: 5px solid rgba(255, 255, 255, 1);
-  cursor: pointer;
-  
 }
 
 .tab3
 {
-  width:397px;
-  height: 133px;
-  margin-top: 73px;
-  margin-left: 52px;
-  border-radius: 21px;
+  background-color: transparent;
   color: white;
   border: 5px solid rgba(255, 255, 255, 1);
-
-  cursor: pointer;
-  
 }
 
 .information
