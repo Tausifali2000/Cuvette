@@ -2,12 +2,14 @@ let currentExpression = '';
 
 
 function updateDisplay(value) {
-    document.getElementById('display').innerText = value
+    
+    document.getElementById('display').innerText = value;
 }
 
 
 function appendNumber(number) {
-    const lastChar = currentExpression.slice(-1);
+    const lastChar = currentExpression;
+    
     if (lastChar === '.' && number === '.') return;
 
     currentExpression += number;
@@ -17,7 +19,7 @@ function appendNumber(number) {
 
 function appendOperator(op) {
     const lastChar = currentExpression.slice(-1);
-    
+    console.log(lastChar);
     if (['+', '-', '*', '/'].includes(lastChar) || currentExpression === '') {
         return;
     }
@@ -34,6 +36,7 @@ function calculate() {
         if (isNaN(result)) {
             updateDisplay('Error');
         } else {
+            currentExpression = result.toFixed(2); 
             updateDisplay(result);
             currentExpression = result.toString(); 
         }
