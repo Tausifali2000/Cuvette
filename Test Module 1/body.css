@@ -1,0 +1,172 @@
+
+body
+{
+  background: rgba(140, 196, 97, 1);
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  flex-direction: column;
+  zoom: 100%;
+}
+p
+{
+  margin: 0px;
+  padding: 0px;
+}
+h1
+{
+  margin: 0px;
+}
+
+.rules-button
+{
+  
+  z-index: 8;
+  position: fixed;
+  border: 2px solid rgba(255, 255, 255, 1);
+  height: 40px;
+  width: 119px;
+  border-radius: 10px;
+  background: transparent;
+  color: white;
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  bottom: 20px;
+  right: 30px;
+  max-width: 119px;
+  cursor: pointer;
+  
+}
+
+.rules-button:hover, .next-button:hover{
+  color: gray;
+  background-color: #fff;
+  transition: 1;
+}
+
+.rules-button:active, .next-button:active
+{
+  transform: scale(0.98); 
+
+}
+
+
+
+.next-button
+{
+  display: none;
+  z-index: 8;
+  position: fixed;
+  border: 2px solid rgba(255, 255, 255, 1);
+  height: 40px;
+  width: 119px;
+  border-radius: 10px;
+  background: transparent;
+  color: white;
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  bottom: 20px;
+  right: 30px;
+  
+  cursor: pointer;
+  
+}
+
+
+
+#rules-box
+{
+  top: 220px;
+  
+  background-color: transparent;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-top: 30px;
+  padding-right: 30px;
+  border: none;
+  z-index: 10;
+  
+  left: 1175px;  
+  
+  
+}
+
+
+#rules-close
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 1;
+  background: rgba(255, 0, 0, 1);
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(255, 255, 255, 1);
+  border-radius: 50%;
+  font-size: 44px;
+  color: white;
+  font-weight: 400;
+  font-family: "Dangrek", sans-serif;
+  right: 0px;
+  top: 0px
+}
+
+
+
+.game-rules-box {
+  background: rgba(0, 68, 41, 1);
+
+  border: 7px solid white;
+  border-radius: 13px;
+  width: 278px;
+  height: 325px;
+ 
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  margin: 0;
+  color: white;
+  font-size: 29px;
+  font-weight: 400;
+  
+}
+
+
+
+.rules {
+  list-style-type: none;
+  padding: 0;
+}
+
+.rules li {
+  margin: 22px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 14px;
+  color: white;
+}
+
+.rules li::before {
+  content: '■';
+  color: #FFEB3B;
+  font-weight: bold;
+  display: inline-block;
+  width: 15px;
+  margin-left: -20px;
+}

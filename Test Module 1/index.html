@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock-paper-&-scissors</title>
+
+  <link rel="stylesheet" href="body.css">
+  <link rel="stylesheet" href="head.css">
+  <link rel="stylesheet" href="game-buttons.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dangrek&display=swap');
+    </style>
+    
+</head>
+<body>
+  
+    <div class="heading">
+      <div class="title">
+        <h1>ROCK<br>PAPER<br>SCISSORS</h1>
+      </div>
+      <div class="score-board-container">
+        <div class="score-board">
+          <p>COMPUTER<br>SCORE</p>
+          <div class="computerScore" id="computerScore">0</div>
+        </div>
+        <div class="score-board" id="uscore">
+          <p>YOUR<br>SCORE</p>
+          <div class="userScore" id="userScore">0</div>
+        </div>
+      </div>
+    </div>
+  
+  
+
+  <div class="button-container">
+    <div class="button-container-0">
+      <button onclick="pickUserHand('rock')" class="button" id="rock">
+        <img src="images/rock.png">
+      </button>
+      <div class="connecting-line"></div>
+      <button onclick="pickUserHand('scissors')" class="button" id="scissors">
+        <img src="images/scissor.png">
+      </button>
+    </div>
+    <div class="button-container-1">
+      <div class="connecting-line-0"></div>
+      <div class="connecting-line-1"></div>
+      <button onclick="pickUserHand('paper')" class="button" id="paper">
+        <img src="images/paper.png">
+      </button>
+    </div>
+  </div>
+
+  <div class="contest">       
+    <div class="hand-container">
+      <div class="you-picked">
+        <h1>YOU PICKED</h1>
+      </div>
+      <div class="userhand">
+        <span id="animation" style ="--i:0";> </span>
+        <span id="animation" style ="--i:1";> </span>
+        <span id="animation" style ="--i:2";> </span>
+        <span id="animation" style ="--i:3";></span>
+          
+         <img id="userPickImage" src='/images/Paper-button.png'>
+       </div>
+    </div>
+    
+    <div class="referee"> 
+        <div class="decision"><h1> YOU WIN! </h1></div>
+        <div class="against-PC"><h1>AGAINST PC</h1></div>
+        <div class="newGame"><button onclick="restartGame()" id="replay">PLAY AGAIN<i class="fa-sharp fa-solid fa-chevron-right"></i></button></div>
+    </div>
+    <div class="hand-container">
+      <div class="computer-picked">
+        <h1>PC PICKED</h1> 
+      </div>  
+      <div class="computerhand">
+        <span id="animation" style ="--i:0";> </span>
+        <span id="animation" style ="--i:1";> </span>
+        <span id="animation" style ="--i:2";> </span>
+        <span id="animation"  style ="--i:3";></span>
+        
+        <img id="computerPickImage" src='/images/Paper-button.png' /> 
+           
+      </div>  
+    </div>
+        
+  </div>        
+</div>
+
+ 
+
+
+<button class="rules-button" id="rules-button">RULES</button>
+
+  
+<button onclick="window.location.href = 'hurray.html';"class="next-button" id="next-button">NEXT</button>
+
+
+<dialog id="rules-box">
+  <button id="rules-close">X</button>
+  <div class="game-rules-box">
+    <div class="header">
+        <h1>Game Rules</h1>
+        
+    </div>
+    <ul class="rules">
+        <li>Rock beats scissors, scissors beat paper, and paper beats rock.</li>
+        <li>Agree ahead of time whether you'll count off "rock, paper, scissors, shoot" or just "rock, paper, scissors."</li>
+        <li>Use rock, paper, scissors to settle minor decisions or simply play to pass the time.</li>
+        <li>If both players lay down the same hand, each player lays down another hand.</li>
+    </ul>
+  </div>
+</dialog>
+
+
+  <script src="rock-paper-scissors.js"></script>
+  
+</body>
+</html>

@@ -1,0 +1,90 @@
+
+
+
+.heading
+{
+  width: 800px;
+  height: 158px;
+  margin-top: 62px;
+  display: flex;
+  border: 2px white solid;
+  border-radius: 13px;
+  
+  
+}
+
+.title
+{
+ 
+ 
+  margin-left: 18px;
+  width: 235px;
+  height: 127.2px;
+  margin-top: 16px;
+}
+
+.title h1
+{
+ 
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 42px;
+  letter-spacing: 5px;
+  
+  color: white;
+}
+
+
+
+.score-board-container
+{
+  
+  margin-left: 220px;
+  margin-top: 15px;
+  width: 307px;
+  height: 128px;
+  display: flex;
+}
+
+.score-board
+{
+ 
+  width: 139px;
+  height: 128px;
+  display: flex;
+  text-align: center;
+  font-weight: 500;
+  justify-content: center;
+  background-color: white;
+  border-radius: 9px;
+  flex-wrap: wrap;
+}
+
+.score-board p
+{
+  
+  color: rgba(101, 101, 101, 1);
+  font-size: 17px;
+  margin-top: 7px;
+  flex-basis: 100%;
+
+}
+
+
+#uscore
+{
+  margin-left: 29px;
+}
+
+#computerScore, #userScore 
+{
+ 
+  font-size: 68px;
+  font-weight: 700;
+  text-align: center;
+  justify-content: center;
+  margin-top: 0px;
+  color: rgba(37, 37, 37, 1);
+
+}
+

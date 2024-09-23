@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huraay</title>
+
+  <link rel="stylesheet" href="body.css">
+  <link rel="stylesheet" href="head.css">
+  <link rel="stylesheet" href="game-buttons.css">
+  <link rel="stylesheet" href="hurray.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dangrek&display=swap');
+    </style>
+</head>
+<body>
+  <div class="image-container">
+    <img id="trophy" src="images/trophy.png">
+
+    <img class="star1" id="star1" src="images/star1.png">
+    <img class="star1" id="star4" src="images/star1.png">
+    <img class="star1" id="star5" src="images/star1.png">
+    <img class="star1" id="star7" src="images/star1.png">
+
+    <img class="star2" id="star3" src="images/star2.png">
+    
+    <img class="star3" id="star2" src="images/star3.png">
+    <img class="star3" id="star6" src="images/star3.png">
+    <img class="star3" id="star8" src="images/star3.png">
+  
+    
+  </div>
+  <div class="hurray"><h1>HURRAY!!</h1></div>
+  <div class="sub-text"><p>YOU WON THE GAME</p></div>
+  <div class="newGame"><button onclick="window.location.href = 'index.html';" id="replay">PLAY AGAIN</button></div>
+
+  <button class="rules-button" id="rules-button">RULES</button>
+
+  <dialog id="rules-box">
+    <button id="rules-close">X</button>
+    <div class="game-rules-box">
+      <div class="header">
+          <h1>Game Rules</h1>
+          
+      </div>
+      <ul class="rules">
+          <li>Rock beats scissors, scissors beat paper, and paper beats rock.</li>
+          <li>Agree ahead of time whether you'll count off "rock, paper, scissors, shoot" or just "rock, paper, scissors."</li>
+          <li>Use rock, paper, scissors to settle minor decisions or simply play to pass the time.</li>
+          <li>If both players lay down the same hand, each player lays down another hand.</li>
+      </ul>
+    </div>
+  </dialog>
+
+    
+
+  <script src="hurray.js"></script>
+  
+</body>
+</html>
