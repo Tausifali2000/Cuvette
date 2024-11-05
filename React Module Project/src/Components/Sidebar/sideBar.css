@@ -1,0 +1,40 @@
+.sideBar {
+  border: 1px solid black;
+  width: 30vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6.7vh;
+  position: relative;
+}
+
+.sideBar-title {
+  
+  border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.sideBar h1 {
+  font-family: "Roboto", serif;
+  font-size: 2rem;
+  font-weight: 500;
+} 
+.addNewGroup-button {
+  position: absolute;
+  bottom: 2rem;
+  width: 50px;
+  height: 50px;
+  right: 2vw;
+  bottom: 4vh;
+  border-radius: 50%;
+  background-color: #00008b;
+  color: white;
+  font-size: 2rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
