@@ -60,13 +60,10 @@ function playGame(userChoice, pcChoice)
         localStorage.setItem('score', JSON.stringify(score));
         
         setDecision("YOU WIN");
-        
-        
-        againstPC.style.display="block";
-        
-        document.getElementById("replay").innerText='PLAY AGAIN';
-        
-        
+
+        if(score.userScore > score.computerScore)
+        {
+          
         nextButton.style.display="block";
 
        
@@ -74,6 +71,14 @@ function playGame(userChoice, pcChoice)
 
         applyWinnerAnimation('.userhand');
 
+        }
+        
+        
+        againstPC.style.display="block";
+        
+        document.getElementById("replay").innerText='PLAY AGAIN';
+        
+        
       
         } 
   else {
