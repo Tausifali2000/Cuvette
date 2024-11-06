@@ -1,10 +1,12 @@
 import React from 'react'
-import SideBar from './Components/Sidebar/sideBar'
+import RenderDesktop from './PageRendering/Desktop/renderDesktop'
+
+
 
 const App = () => {
   return (
     <div className="app">
-      <SideBar />
+     <RenderDesktop />
     </div>
   )
 }

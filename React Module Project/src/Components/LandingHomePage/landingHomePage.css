@@ -1,0 +1,17 @@
+.notes-container {
+  width: 70vw;
+  height: 100vh;
+  position: absolute;
+  right: 0;
+  background: rgba(218, 229, 245, 1);
+
+ 
+  background-size: 30vw;
+  background-repeat: no-repeat;
+  background-position: 50% 40%;
+  text-align: center;
+}
+
+
+
+
