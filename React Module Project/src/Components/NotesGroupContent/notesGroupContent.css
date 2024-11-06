@@ -1,0 +1,43 @@
+* {
+  font-family: "Roboto", serif;
+}
+.content-header {
+  width: 70vw;
+  min-height: 14vh;
+  position: fixed;
+  top: 0vh;
+
+  background: rgba(0, 31, 139, 1);
+  color: white;
+  display: flex;
+  align-items: flex-start;
+}
+
+.content-container {
+  height: 60vh;
+  margin-top: 14vh;
+  width: 70vw;
+  background: rgba(218, 229, 245, 1);
+
+}
+
+.content-notes {
+  margin-left: 10vw;
+  margin-right: 10vw;
+  z-index: 6;
+  width: 50vw;
+  background-color: white;
+  
+  
+}
+
+.input-container
+{
+  height: 26vh;
+  width: 70vw;
+  background: rgba(0, 31, 139, 1);
+  position: fixed;
+  bottom: 0vh;
+
+
+}
