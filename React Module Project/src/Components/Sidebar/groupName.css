@@ -1,0 +1,54 @@
+.groupName-container {
+  border: black solid 1px;
+  display: flex;
+  margin-left: 1vw;
+  
+  width: 100%;
+  height: 98px;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+ 
+}
+
+
+
+.groupLogo {
+  border: black solid 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5%;
+  width: 68.9px;
+  height: 68.9px;
+  border-radius: 100%;
+  color: rgba(255, 255, 255, 1);
+  background-color: blue;
+  letter-spacing: 0.05em;
+  
+ 
+
+}
+
+.groupLogo h1 {
+ 
+  font-size: 24px;
+  font-weight: 500;
+ 
+}
+
+.groupName {
+  border: black solid 1px;
+
+  margin-left: 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.groupName h1 {
+  font-size: 24px;
+}

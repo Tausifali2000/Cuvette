@@ -14,6 +14,7 @@ const LandingHomePage = () => {
         </p>
       </div>
       <div className="encryption-message">
+        <img src = {assets.encryption_logo}/>
         <p>end-to-end encrypted</p>
       </div>
     </div>

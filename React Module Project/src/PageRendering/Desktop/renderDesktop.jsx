@@ -2,6 +2,7 @@ import React from 'react'
 import SideBar from '../../Components/Sidebar/sideBar'
 import LandingHomePage from '../../Components/LandingHomePage/landingHomePage'
 import './renderDesktop.css'
+import GroupName from '../../Components/Sidebar/groupName'
 
 
 const RenderDesktop = () => {
@@ -9,7 +10,7 @@ const RenderDesktop = () => {
    <>
     <div className="main-container">
       <SideBar />
-      <LandingHomePage />
+       <LandingHomePage />
     </div>
    </>
   

@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import "./sideBar.css";
+import GroupName from './groupName';
+import "./groupName.css";
+import NewGroupDialog from '../NotesGroupCreator/newGroupDialog';
+
 
 const SideBar = () => {
+
+  const dialogRef = useRef(null);
+  const handleAddNewGroupClick = () => {
+    if (dialogRef.current) {
+      dialogRef.current.toggleDialog();
+    }
+  };
   return (
     <>
      <div className="sideBar">
@@ -9,10 +20,12 @@ const SideBar = () => {
             <h1>Pocket Notes</h1>
         </div>
         
-        <button className="addNewGroup-button">
+        <button onClick={handleAddNewGroupClick}  className="addNewGroup-button">
           +
         </button>
-     </div>
+        <GroupName />
+       </div>
+       <NewGroupDialog ref={dialogRef} />
     </>
    
   )
