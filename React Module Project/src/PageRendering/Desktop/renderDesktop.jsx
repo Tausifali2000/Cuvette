@@ -4,9 +4,12 @@ import LandingHomePage from '../../Components/LandingHomePage/landingHomePage'
 import './renderDesktop.css'
 import GroupName from '../../Components/Sidebar/groupName'
 import NotesGroupContent from '../../Components/NotesGroupContent/notesGroupContent'
+import NoteContext from '../../Components/Context/NoteContex'
 
 
 const RenderDesktop = () => {
+  const noteData = useContext(NoteContext)
+  
   return (
    <>
     <div className="main-container">

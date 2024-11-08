@@ -1,10 +1,12 @@
-import React, { useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
+import React, { useRef, forwardRef, useImperativeHandle, useEffect, useState, useContext } from 'react';
+
 import './newGroupDialog.css';
+import NoteContext from '../Context/NoteContex';
 
 const NewGroupDialog = forwardRef((props, ref) => {
-  const dialogRef = useRef(null);
-
   
+ 
+  const dialogRef = useRef(null);
   const toggleDialog = () => {
     if (!dialogRef.current) {
       return;
@@ -14,10 +16,57 @@ const NewGroupDialog = forwardRef((props, ref) => {
       : dialogRef.current.showModal();
   };
 
- 
-  useImperativeHandle(ref, () => ({
+  
+
+ useImperativeHandle(ref, () => ({
     toggleDialog,
   }));
+
+  const dataContext = useContext(NoteContext);
+
+  const colors = [
+    "rgb(204, 204, 204)",
+    "rgb(255, 121, 242)",
+    "rgb(67, 230, 252)",
+    "rgb(241, 149, 118)",
+    "rgb(0, 71, 255)",
+    "rgb(102, 145, 255)"
+  ];
+
+  const [groupName, setGroupName] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [error, setError] = useState("");
+  
+  const handleClick = (e, selectedColor) => {
+   
+    setSelectedColor(selectedColor);
+  };
+
+  const handleGroupName = (e) => {
+    setGroupName(e.target.value);
+  };
+
+  const createGroup = (e) => {
+    e.preventDeafult();
+
+    const allGroups = JSON.parse(localStorage.getItem("notesData")) || [];
+  
+
+  const newGroup = {
+    groupName: groupName,
+    color: selectedColor,
+    isSelected: false,
+    notes: []
+  };
+
+  dataContext.setNotesData([...dataContext.notesData, newGroup]);
+  
+  localStorage.setItem("notesData",
+    JSON.stringify([...dataContext.notesData, newGroup])
+  );
+  setGroupName("");
+  setColor("");
+};
 
  
 
@@ -27,35 +76,47 @@ const NewGroupDialog = forwardRef((props, ref) => {
   return (
     <>
       
-      <dialog  ref={dialogRef} onClick={(e) => {
+      <dialog  ref={dialogRef} 
+      onClick={(e) => {
         if(e.currentTarget === e.target) {
           toggleDialog();
         }
       }}>
-        <div className="dialog-container" onClick={(e) => e.stopPropagation()}>
+        <form className="dialog-container" onSubmit={createGroup} onClick={(e) => e.stopPropagation()}>
           <h1>Create New Group</h1>
           <div className="dialog-groupName">
             <h2>Group Name</h2>
-            <input type="text" className="dialog-groupNameInput" />
+            <input 
+            type="text" 
+            className="dialog-groupNameInput"
+            id="groupName"
+            placeholder='Enter your group name...'
+            value = {groupName}
+            onChange={handleGroupName}
+            required
+            />
            </div>
            <div className="dialog-chooseColour">
             <h3>Choose Colour</h3>
             <div className="dialog-colorButtons">
-            <button className="color-1"></button>
-            <button className="color-2"></button>
-            <button className="color-3"></button>
-            <button className="color-4"></button>
-            <button className="color-5"></button>
-            <button className="color-6"></button>
+            {colors.map((color, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  className={`color-button ${selectedColor === color ? "selected" : ""}`}
+                  style={{ backgroundColor: color }}
+                  onClick={() => handleClick(color)}
+                />
+              ))}
             </div>
           </div>
           <div className="dialog-create-container">
-          <button className="dialog-create">
+          <button type="sumbit" className="dialog-create" >
             Create
           </button>
           </div>
           
-       </div>
+       </form>
       </dialog>
     </>
   );

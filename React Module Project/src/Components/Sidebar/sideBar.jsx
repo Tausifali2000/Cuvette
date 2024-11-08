@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import "./sideBar.css";
 import GroupName from './groupName';
 import "./groupName.css";
 import NewGroupDialog from '../NotesGroupCreator/newGroupDialog';
+import NoteContext from '../Context/NoteContex';
 
 
 const SideBar = () => {
@@ -13,6 +14,36 @@ const SideBar = () => {
       dialogRef.current.toggleDialog();
     }
   };
+  
+  const dataContext = useContext(NoteContext);
+  
+  const dataLocal = localStorage.getItem("notesData");
+  useEffect(() => {
+    if (dataLocal) {
+      dataContext.setNotesData(JSON.parse(dataLocal));
+    } else {
+      dataContext.setNotesData([]);
+    }
+  }, [dataLocal]);
+
+  const data = dataContext.notesData
+    ? Object.entries(dataContext.notesData)
+    : [];
+
+    useEffect(() => {
+      localStorage.setItem("selected", JSON.stringify(""));
+  
+      const storedData = JSON.parse(localStorage.getItem("notesData"));
+      if (storedData && storedData.length > 0) {
+        let foundIndex = storedData.findIndex((item) => item.isSelected === true);
+        if (foundIndex !== -1) {
+          storedData[foundIndex].isSelected = false;
+        }
+        localStorage.setItem("notesData", JSON.stringify(storedData));
+      }
+    }, []);
+
+
   return (
     <>
      <div className="sideBar">
