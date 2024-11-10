@@ -1,4 +1,4 @@
-.desktop__notes__content__note{
+.desktop-notesContent-container{
   display: flex;
   flex-direction: column;
   
@@ -14,7 +14,18 @@
   
 }
 
-.desktop__notes__content__date__time__details{
+.desktop-notesContent{
+  min-height: 12vh;
+  height: auto;
+  width: 65vw;
+  text-align: left;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  margin-top: 4vh;
+ 
+}
+
+.desktop-notesStamp-container{
   display: flex;
   justify-content: flex-end;
    align-items: center;
@@ -26,28 +37,19 @@
  
 }
 
-.desktop__notes__content__date{
+.desktop-notesDate {
   font-size: 1rem;
   font-weight: 600;
   
  
 }
 
-.desktop__notes__content__time{
+.desktop-notesTime {
   
   font-size: 1rem;
   font-weight: 600;
   
 }
 
-.desktop__notes__content__details{
-  min-height: 12vh;
-  height: auto;
-  width: 65vw;
-  text-align: left;
-  padding-left: 2vw;
-  padding-right: 2vw;
-  margin-top: 4vh;
- 
-}
+
 
