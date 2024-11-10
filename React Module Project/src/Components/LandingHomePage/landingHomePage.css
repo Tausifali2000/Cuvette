@@ -1,17 +1,63 @@
-.notes-container {
-  width: 70vw;
-  height: 100vh;
-  position: absolute;
-  right: 0;
-  background: rgba(218, 229, 245, 1);
-
- 
-  background-size: 30vw;
- 
-  background-position: 50% 40%;
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
 }
 
+img {
+  padding: 0;
+  margin: 0;
+}
 
+.desktop-landingPage{
+  width: 76vw;
+  height: 100vh;
+  background: rgba(218, 229, 245, 1);
+ 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+}
 
+.desktop-landingPage img {
+  margin-top: 15vh;
+  width: 626px;
+  height: 313px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.desktop-landingPage h1 {
+  font-size: 40px;
+  font-weight: 700;
+
+  margin-top: 1vh;
+}
+
+.desktop-landingPage p {
+  font-size: 18px;
+  margin-top: 1vh;
+}
+
+.desktop-encryption {
+  
+  margin-top: 23vh;
+  display: flex;
+  align-items: center;
+  
+}
+
+.desktop-encryption p {
+  font-size: 15px;
+  margin-left: 5px;
+  margin-top: 0;
+} 
+
+.desktop-encryption img {
+  width: 10px;
+  height: 14px;
+ margin: 0;
+ padding: 0;
+ 
+}

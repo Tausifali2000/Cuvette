@@ -1,0 +1,135 @@
+.desktop-dialog {
+ 
+  width: 710px;
+  border-radius: 6px;
+ 
+ 
+   z-index: 20;
+   display: flex;
+   flex-direction: column;
+  
+  
+ 
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: white;
+   border: none;
+   padding: 30px;
+   
+  
+ }
+ 
+ .backdrop {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: rgba(0, 0, 0, 0.5); 
+   z-index: 10; 
+ }
+ 
+ 
+ 
+ .desktop-dialog-title {
+   text-align: left;
+   
+   
+ }
+ 
+ .desktop-dialog-title h1{
+   font-size: 29px;
+   font-weight: 500;
+ 
+ }
+ 
+ .desktop-dialog-groupName 
+ {
+   
+   display: flex;
+   margin-top: 3vh;
+ }
+ 
+ .desktop-dialog-groupName h2 {
+   font-size: 27px;
+   font-weight: 500;
+ }
+ 
+ .desktop-dialog-groupName input{
+   margin-left: 3vw;
+   width: 435px;
+   border: 2px solid rgba(204, 204, 204, 1);
+   border-radius: 22px;
+   padding-left: 1vw;
+   font-weight: 400;
+   font-size: 15px;
+ }
+ 
+ 
+ 
+ .desktop-dialog-chooseColor
+ {
+   display: flex;
+   margin-top: 5vh;
+  
+ }
+ 
+ .desktop-dialog-chooseColor h3 {
+   font-size: 27px;
+   font-weight: 500;
+ }
+ 
+ 
+ .desktop-dialog-colorSelector {
+   display: flex;
+   justify-content: center;
+   gap: 15px;
+   margin-left: 3vw;
+   flex-wrap: wrap;
+   
+ }
+ 
+ .desktop-dialog-colorSelector div {
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   cursor: pointer;
+   border: 2px solid transparent;
+   transition: transform 0.2s ease, border-color 0.3s ease;
+ }
+ 
+ .desktop-dialog-colorSelector div:hover {
+   transform: scale(1.1);
+ }
+ 
+ .desktop-dialog-colorSelector .highlight {
+   border-color: #6d6d6d;
+   
+ }
+ 
+ 
+ .desktop-dialog-create {
+   
+   margin-top: 3vh;
+   display: flex;
+   justify-content: flex-end;
+   
+ 
+ }
+ 
+ .desktop-dialog-create button {
+   
+   width: 154px;
+   height: 38px;
+   background: rgba(0, 31, 139, 1);
+   color: white;
+   border: none;
+   border-radius: 11px;
+   font-size: 20px;
+   font-weight: 400;
+ 
+   
+ }
+ 
+ 

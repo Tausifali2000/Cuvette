@@ -1,43 +1,96 @@
-.sideBar {
-  
-  width: 30vw;
+
+
+.desktop-sidebar {
+  width: 24vw;
+  scrollbar-width: px;
+  overflow-y: auto;
   height: 100vh;
+  display: flex;
+  align-items: center;
+ 
+  flex-direction: column;
+
+  
+ 
+}
+
+
+
+.desktop-sidebar-title {
+  display: flex;
+  padding-bottom: 2vh;
+  justify-content: center;
+  
+  width: 24vw;
+  position: fixed;
+  background-color: white;
+  padding-top: 5vh;
+ 
+ 
+  
+
+  
+}
+.desktop-sidebar-title h1 {
+  
+  font-weight: 500;
+  font-size: 32px;
+ 
+
+  
+  
+  
+}
+
+.desktop-sidebar-noteGroup{
+  
+  
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 6.7vh;
-  font-family: "Roboto", serif;
-  
-}
-
-.sideBar-title {
-  
-  border: 1px solid black;
-  align-items: center;
   justify-content: center;
-  padding-bottom: 2vh;
-  
-}
-
-.sideBar h1 {
-
-  font-size: 35px;
+  margin-top: 15vh;
+  /* border: black 1px solid; */
   font-weight: 500;
-} 
-.addNewGroup-button {
-  background-color:#ddd;
-    position: fixed;
-    z-index: 3;
-    bottom: 2vh;
-    width: 93px;
-    height: 93px;
-    border-radius: 50%;
-    border: none;
-    color: white;
-    background-color: blue;
-    font-size: 70px;
-
-    
 }
 
 
+
+#desktop-dialog-open {
+  background-color:#ddd;
+  position: fixed;
+  left: 18vw;
+  z-index: 3;
+  bottom: 2vh;
+  width: 93px;
+  height: 93px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  background-color: blue;
+  font-size: 70px;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .desktop-sidebar button {
+    width: 70px; /* Adjust size for smaller screens */
+    height: 70px;
+    font-size: 50px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
