@@ -1,25 +1,19 @@
-import React from 'react'
-import SideBar from '../../Components/Desktop/Sidebar/sideBar'
-import LandingHomePage from '../../Components/Desktop/LandingHomePage/landingHomePage'
-import './renderDesktop.css'
-import GroupName from '../../Components/Desktop/Sidebar/groupName'
-import NotesGroupContent from '../../Components/NotesGroupContent/notesGroupContent'
-import NoteContext from '../../Components/Context/NoteContex'
+import React from "react";
+import "./renderDesktop.css";
+import usePocketContext from "../../Hooks/usePocketContext";
+import Sidebar from "../../Components/Desktop/Sidebar/sideBar";
+import NotesGroup from "../../Components/Desktop/NotesGroup/notesGroup";
+import LandingHomePage from "../../Components/Desktop/LandingHomePage/landingHomePage";
 
+function RenderDesktop() {
+  const { selected } = usePocketContext();
 
-const RenderDesktop = () => {
-  const noteData = useContext(NoteContext)
-  
   return (
-   <>
-    <div className="main-container">
-      <SideBar />
-       {/* <LandingHomePage /> */}
-       <NotesGroupContent />
+    <div className="desktop">
+      <Sidebar />
+      {selected.length > 0 ? <NotesGroup /> : <LandingHomePage />}
     </div>
-   </>
-  
-  )
+  );
 }
 
-export default RenderDesktop
+export default RenderDesktop;
