@@ -5,14 +5,14 @@ import { assets } from "../../../assets/assets";
 function NotesCardMobile ({ note }) {
   
   return (
-    <div className="desktop-notesContent-container">
-    <div className="desktop-notesContent">
+    <div className="mobile-notesContent-container">
+    <div className="mobile-notesContent">
       <p>{note.content}</p>
     </div>
-    <div className="desktop-notesStamp-container">
-      <div className="desktop-notesDate">{note.date}</div>
+    <div className="mobile-notesStamp-container">
+      <div className="mobile-notesDate">{note.date}</div>
       <div className="ellipse"><img src={assets.ellipse}/> </div>
-      <div className="desktop-notesTime">{note.time}</div>
+      <div className="mobile-notesTime">{note.time}</div>
     </div>
     
   </div>

@@ -20,15 +20,17 @@ function NotesGroupMobile() {
     setNotes(JSON.parse(localStorage.getItem(selected)) || []);
     const groupNames = JSON.parse(localStorage.getItem("groupNames"));
     const selectedGroup = groupNames.find((group) => group.name === selected);
+    
     if (selectedGroup) {
       setBgColor(selectedGroup.color);
-      setInitials(
-        selectedGroup.name
-          .split(" ")
-          .map((word) => word.charAt(0))
-          .join("")
-          .toUpperCase()
-      );
+
+      const nameParts = selectedGroup.name.split(" ");
+      const groupInitials = nameParts.length > 1
+        ? nameParts[0].charAt(0) + nameParts[1].charAt(0)
+        : nameParts[0].charAt(0) + nameParts[0].charAt(nameParts[0].length - 1);
+      
+      setInitials(groupInitials.toUpperCase());
+
       setSelectedTitle(
         selectedGroup.name
           .split(" ")
@@ -78,6 +80,8 @@ function NotesGroupMobile() {
     navigate("/");
   };
 
+ 
+
   return (
     <div className="mobileNotes-container">
       <div className="mobileNotes-title-container">
@@ -109,7 +113,12 @@ function NotesGroupMobile() {
         ></textarea>
         </div>
        
-         <img src={assets.create_enbaled} alt="enter" onClick={handleSaveNotes} /> 
+        <img
+          src={text.trim() ? assets.create_enbaled : assets.create_disabled} 
+          alt="enter"
+          onClick={handleSaveNotes}
+          style={{ cursor: text.trim() ? 'pointer' : 'not-allowed' }} 
+        />
       </div>
     </div>
   );

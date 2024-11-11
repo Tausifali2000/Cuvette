@@ -1,19 +1,10 @@
 import { useEffect, useState } from "react";
-
-
-
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider } from "./Context/PocketContext";
 import usePocketContext from "./Hooks/usePocketContext";
 import RenderDesktop from "./PageRender/Desktop/renderDesktop";
 import RenderMobile from "./PageRender/Mobile/renderMobile";
-
 import NotesGroupMobile from "./Components/Mobile/NotesGroupMobile/notesGroupMobile";
-
-
-
-
-
 
 
 function App() {
@@ -22,7 +13,7 @@ function App() {
 
   useEffect(() => {
     setSelected(localStorage.getItem("selected") || "");
-    // eslint-disable-next-line
+   
   }, [selected]);
   const checkScreenSize = () => {
     setScreenSize(window.innerWidth);

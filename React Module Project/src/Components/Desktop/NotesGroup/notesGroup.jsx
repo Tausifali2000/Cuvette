@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./notesGroup.css";
 import usePocketContext from "../../../Hooks/usePocketContext";
-import { assets } from "../../../assets/assets"; // Assume assets contains disabled and enabled images
+import { assets } from "../../../assets/assets"; 
 import NotesCard from "../NotesCard/notesCard";
+
 
 function NotesGroup() {
   const [text, setText] = useState("");
@@ -15,7 +16,7 @@ function NotesGroup() {
     setNotes(JSON.parse(localStorage.getItem(selected)) || []);
     const groupNames = JSON.parse(localStorage.getItem("groupNames"));
     const selectedGroup = groupNames.find((group) => group.name === selected);
-
+    
     if (selectedGroup) {
       setBgColor(selectedGroup.color);
 
@@ -98,12 +99,12 @@ function NotesGroup() {
           ></textarea>
         </div>
         
-        {/* Conditionally render the button image */}
+       
         <img
-          src={text.trim() ? assets.create_enabled : assets.create_disabled} // Change image based on input
+          src={text.trim() ? assets.create_enbaled : assets.create_disabled} 
           alt="enter"
           onClick={handleSaveNotes}
-          style={{ cursor: text.trim() ? 'pointer' : 'not-allowed' }} // Change cursor based on input
+          style={{ cursor: text.trim() ? 'pointer' : 'not-allowed' }} 
         />
       </div>
     </div>

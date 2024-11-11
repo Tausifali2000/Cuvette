@@ -1,4 +1,4 @@
-.desktop-notesContent-container{
+.mobile-notesContent-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,7 +16,7 @@
   
 }
 
-.desktop-notesContent{
+.mobile-notesContent{
  
   height: auto;
   width: 92vw;
@@ -27,7 +27,7 @@
  
 }
 
-.desktop-notesStamp-container{
+.mobile-notesStamp-container{
   display: flex;
   justify-content: flex-end;
    align-items: center;
@@ -39,14 +39,14 @@
  
 }
 
-.desktop-notesDate {
+.mobile-notesDate {
   font-size: 12px;
   font-weight: 500;
   
  
 }
 
-.desktop-notesTime {
+.mobile-notesTime {
   
   font-size: 12px;
   font-weight: 500;

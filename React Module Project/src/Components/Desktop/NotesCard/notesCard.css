@@ -1,27 +1,23 @@
 .desktop-notesContent-container{
   display: flex;
   flex-direction: column;
-  
-   border-radius: 8px;
+  border-radius: 8px;
   align-items: center;
-  min-height: 15vh;
   height: auto;
-  width: 69vw;
+  width: 70vw;
   margin-left: 2vw;
   background-color: white;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
   margin-top: 4vh;
-  
 }
 
 .desktop-notesContent{
-  min-height: 12vh;
+  min-height: 10vh;
   height: auto;
   width: 65vw;
   text-align: left;
-  padding-left: 2vw;
-  padding-right: 2vw;
   margin-top: 4vh;
+ 
  
 }
 
@@ -29,25 +25,26 @@
   display: flex;
   justify-content: flex-end;
    align-items: center;
-   width: 63vw;
+   width: 65vw;
   padding-bottom: 1vh;
   padding-top: 3vh;
+
   
   
  
 }
 
 .desktop-notesDate {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 500;
   
  
 }
 
 .desktop-notesTime {
   
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 500;
   
 }
 

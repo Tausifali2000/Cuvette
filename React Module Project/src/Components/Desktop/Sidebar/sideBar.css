@@ -47,7 +47,7 @@
   align-items: center;
   justify-content: center;
   margin-top: 15vh;
-  /* border: black 1px solid; */
+ 
   font-weight: 500;
 }
 
@@ -71,7 +71,7 @@
 
 @media (max-width: 1000px) {
   .desktop-sidebar button {
-    width: 70px; /* Adjust size for smaller screens */
+    width: 70px; 
     height: 70px;
     font-size: 50px;
   }

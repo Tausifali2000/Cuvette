@@ -9,10 +9,15 @@ function GroupCardMobile({ title }) {
 
   const nameInitials = title.name
     .split(" ")
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase();
-
+    .length > 1
+    ? title.name
+        .split(" ")
+        .map((word) => word.charAt(0))
+        .join("")
+        .toUpperCase()
+    : title.name.length > 1
+    ? (title.name[0] + title.name[title.name.length - 1]).toUpperCase()
+    : title.name.toUpperCase();
   const newTitle = title.name
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
