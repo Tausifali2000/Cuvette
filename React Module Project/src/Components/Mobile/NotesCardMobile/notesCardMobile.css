@@ -1,27 +1,29 @@
 .desktop-notesContent-container{
   display: flex;
   flex-direction: column;
-  
+  justify-content: center;
    border-radius: 8px;
   align-items: center;
   min-height: 15vh;
   height: auto;
-  width: 69vw;
-  margin-left: 2vw;
+  width: 94vw;
+  
   background-color: white;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-  margin-top: 4vh;
+  margin-top: 2vh;
+  margin-left: auto;
+  margin-right: auto;
   
 }
 
 .desktop-notesContent{
-  min-height: 12vh;
+ 
   height: auto;
-  width: 65vw;
+  width: 92vw;
   text-align: left;
   padding-left: 2vw;
   padding-right: 2vw;
-  margin-top: 4vh;
+  margin-top: 3vh;
  
 }
 
@@ -29,7 +31,7 @@
   display: flex;
   justify-content: flex-end;
    align-items: center;
-   width: 63vw;
+   width: 85vw;
   padding-bottom: 1vh;
   padding-top: 3vh;
   
@@ -38,16 +40,16 @@
 }
 
 .desktop-notesDate {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 500;
   
  
 }
 
 .desktop-notesTime {
   
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 500;
   
 }
 

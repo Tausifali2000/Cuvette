@@ -2,16 +2,12 @@
 
 .mobile-sidebar {
   width: 100vw;
- 
   overflow-y: auto;
   height: 100vh;
   display: flex;
-  align-items: center;
- 
-  flex-direction: column;
-
   
- 
+  flex-direction: column;
+  border: black 1px solid;
 }
 
 
@@ -19,7 +15,7 @@
 .mobile-sidebar-title {
   display: flex;
   padding-bottom: 2vh;
-  justify-content: center;
+  
   width: 100vw;
   position: fixed;
   background-color: white;
@@ -32,7 +28,7 @@
   
   font-weight: 500;
   font-size: 32px;
- 
+  margin-left: 12vw;
 
   
   
@@ -41,13 +37,12 @@
 
 .mobile-sidebar-noteGroup{
   
-  
+  margin-left: 8vw;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15vh;
-  /* border: black 1px solid; */
+  width: 90vw;
+  margin-top: 12vh;
+  border: black 1px solid; 
   font-weight: 500;
 }
 
@@ -58,7 +53,8 @@
   position: fixed;
   left: 18vw;
   z-index: 3;
-  bottom: 2vh;
+  bottom: 4vh;
+  right: 2vw;
   width: 93px;
   height: 93px;
   border-radius: 50%;
@@ -69,25 +65,5 @@
   font-weight: 500;
 }
 
-@media (max-width: 900px) {
-  .desktop-sidebar button {
-    width: 70px; /* Adjust size for smaller screens */
-    height: 70px;
-    font-size: 50px;
-  }
-}
 
 
-
-
-
-
-
-
-
-
-
-
-::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
-}

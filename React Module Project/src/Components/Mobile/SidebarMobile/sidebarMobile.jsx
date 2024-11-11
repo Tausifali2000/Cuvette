@@ -4,8 +4,6 @@ import GroupCardMobile from "../GroupCardMobile/groupCardMobile";
 import DialogMobile from "../NewGroupDialogMobile/dialogMobile";
 
 
-
-
 function SidebarMobile() {
   const [titles, setTitles] = useState([]);
   const [groupNamesParent, setGroupNamesParent] = useState(
@@ -41,9 +39,9 @@ function SidebarMobile() {
         ) : ""}
       </div>
       
-      <button id="mobile-dialog-open"onClick={handleOpenPopup}>+</button>
       
-      {/* Conditionally render the popup and custom backdrop */}
+      
+     
       {isPopupOpen && (
         <>
           <div className="mobile-backdrop" onClick={handleClosePopup}></div>
@@ -54,6 +52,11 @@ function SidebarMobile() {
           />
         </>
       )}
+
+     
+      <button id="mobile-dialog-open"onClick={handleOpenPopup}>+</button>
+    
+     
     </div>
   );
 }

@@ -1,6 +1,6 @@
 .mobile-dialog {
  
-  width: 710px;
+  width: 85vw;
   border-radius: 6px;
  
  
@@ -19,13 +19,13 @@
    
   
  }
- .backdrop {
+ .mobile-backdrop {
    position: fixed;
    top: 0;
    left: 0;
    right: 0;
    bottom: 0;
-   background-color: rgba(0, 0, 0, 0.5); 
+   background-color: rgba(0, 0, 0, 0.3); 
    z-index: 10; 
  }
  
@@ -38,7 +38,7 @@
  }
  
  .mobile-dialog-title h1{
-   font-size: 29px;
+   font-size: 18.4px;
    font-weight: 500;
  
  }
@@ -51,18 +51,19 @@
  }
  
  .mobile-dialog-groupName h2 {
-   font-size: 27px;
+   font-size: 14.6px;
    font-weight: 500;
  }
  
  .mobile-dialog-groupName input{
    margin-left: 3vw;
-   width: 435px;
+   width: 150px;
+   height: 23px;
    border: 2px solid rgba(204, 204, 204, 1);
    border-radius: 22px;
-   padding-left: 1vw;
+   padding-left: 2vw;
    font-weight: 400;
-   font-size: 15px;
+   font-size: 10px;
  }
  
  
@@ -70,12 +71,12 @@
  .mobile-dialog-chooseColor
  {
    display: flex;
-   margin-top: 5vh;
+   margin-top: 3vh;
   
  }
  
  .mobile-dialog-chooseColor h3 {
-   font-size: 27px;
+   font-size: 14.6px;
    font-weight: 500;
  }
  
@@ -83,15 +84,15 @@
  .mobile-dialog-colorSelector {
    display: flex;
    justify-content: center;
-   gap: 15px;
-   margin-left: 3vw;
+   gap: 10px;
+   margin-left: 5vw;
    flex-wrap: wrap;
    
  }
  
  .mobile-dialog-colorSelector div {
-   width: 40px;
-   height: 40px;
+   width: 17.6px;
+   height: 17.6px;
    border-radius: 50%;
    cursor: pointer;
    border: 2px solid transparent;
@@ -112,14 +113,14 @@
    
    margin-top: 3vh;
    display: flex;
-   justify-content: flex-end;
+   justify-content: center;
    
  
  }
  
  .mobile-dialog-create button {
    
-   width: 154px;
+   width: 60vw;
    height: 38px;
    background: rgba(0, 31, 139, 1);
    color: white;

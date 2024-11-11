@@ -6,6 +6,7 @@ import usePocketContext from "../../../Hooks/usePocketContext";
 import { assets } from "../../../assets/assets";
 
 import NotesCardMobile from "../NotesCardMobile/NotesCardMobile";
+import { useNavigate } from "react-router-dom";
 
 function NotesGroupMobile() {
   const [text, setText] = useState("");
@@ -13,7 +14,8 @@ function NotesGroupMobile() {
   const [initials, setInitials] = useState("");
   const [selectedTitle, setSelectedTitle] = useState("");
   const { notes, setNotes, selected } = usePocketContext();
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     setNotes(JSON.parse(localStorage.getItem(selected)) || []);
     const groupNames = JSON.parse(localStorage.getItem("groupNames"));
@@ -71,29 +73,37 @@ function NotesGroupMobile() {
     setText(e.target.value);
   };
 
+  const goBack = () => {
+    
+    navigate("/");
+  };
+
   return (
-    <div className="desktop__notes">
-      <div className="desktop__notes__title">
+    <div className="mobileNotes-container">
+      <div className="mobileNotes-title-container">
+        <div className="back-container">
+          <img onClick={goBack} src={assets.back} alt="" />
+        </div>
         <div
-          className="desktop__notes__title__color"
+          className="mobileNotes-title-logo"
           style={{ backgroundColor: bgColor }}
         >
           {initials}
         </div>
-        <div className="desktop__notes__title__text">{selectedTitle}</div>
+        <div className="mobileNotes-title"><h1>{selectedTitle}</h1></div>
       </div>
-      <div className="desktop__notes__content">
+      <div className="mobileNotes-content">
         {notes && notes.length > 0
           ? notes.map((note, index) => (
               <NotesCardMobile key={index} note={note} />
             ))
           : null}
       </div>
-      <div className="desktop-textInput-container">
-        <div className="textArea">
+      <div className="mobile-textInput-container">
+        <div className="mobile-textArea">
         <textarea
           value={text}
-          placeholder="Enter your notes here"
+          placeholder="Enter your text here.........."
           onChange={handleChange}
           onKeyDown={handleKeyDown}
         ></textarea>
