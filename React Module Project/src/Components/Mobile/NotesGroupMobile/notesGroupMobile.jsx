@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./notesGroupMobile.css";
 import usePocketContext from "../../../Hooks/usePocketContext";
 import { assets } from "../../../assets/assets";
-import NotesCardMobile from "../NotesCardMobile/notesCardMobile";
+import NotesCardMobile from "../NotesCardMobile/notesCardMobile.jsx";
 import { useNavigate } from "react-router-dom";
 
 function NotesGroupMobile() {
