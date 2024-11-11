@@ -5,11 +5,18 @@ import usePocketContext from "../../../Hooks/usePocketContext";
 function GroupCard({ title }) {
   const { selected, setSelected } = usePocketContext();
 
+  // Updated logic for generating initials
   const nameInitials = title.name
     .split(" ")
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase();
+    .length > 1
+    ? title.name
+        .split(" ")
+        .map((word) => word.charAt(0))
+        .join("")
+        .toUpperCase()
+    : title.name.length > 1
+    ? (title.name[0] + title.name[title.name.length - 1]).toUpperCase()
+    : title.name.toUpperCase(); // Handles the case where the name is only one character long.
 
   const newTitle = title.name
     .split(" ")

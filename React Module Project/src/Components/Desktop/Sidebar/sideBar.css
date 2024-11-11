@@ -56,7 +56,7 @@
 #desktop-dialog-open {
   background-color:#ddd;
   position: fixed;
-  left: 18vw;
+  left: 17vw;
   z-index: 3;
   bottom: 2vh;
   width: 93px;
@@ -69,7 +69,7 @@
   font-weight: 500;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .desktop-sidebar button {
     width: 70px; /* Adjust size for smaller screens */
     height: 70px;
@@ -87,7 +87,3 @@
 
 
 
-
-::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
-}

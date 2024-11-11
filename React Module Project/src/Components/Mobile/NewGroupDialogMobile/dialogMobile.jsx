@@ -30,7 +30,7 @@ const DialogMobile = forwardRef(({ groupNamesParent, setGroupNamesParent, onClos
       "groupNames",
       JSON.stringify([...groupNamesParent, newGroup])
     );
-    onClose(); // Close dialog
+    onClose(); 
   };
 
   return (

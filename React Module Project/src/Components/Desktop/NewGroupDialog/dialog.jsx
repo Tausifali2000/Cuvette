@@ -4,6 +4,7 @@ import "./dialog.css";
 const Dialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) => {
   const [groupName, setGroupName] = useState("");
   const [bgColor, setBgColor] = useState("");
+  const [error, setError] = useState(""); // New state to handle errors
 
   const colors = [
     "rgb(179, 139, 250)",
@@ -16,6 +17,7 @@ const Dialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) =
 
   const handleGroupName = (e) => {
     setGroupName(e.target.value);
+    setError(""); // Clear the error when user types
   };
 
   const handleColor = (color) => {
@@ -24,12 +26,29 @@ const Dialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) =
 
   const saveName = (e) => {
     e.preventDefault();
-    const newGroup = { name: groupName, color: bgColor };
+    
+    // Trim the group name to prevent accidental leading/trailing spaces from being considered different
+    const trimmedGroupName = groupName.trim();
+    
+    // Check if a group with the same name already exists (case-insensitive)
+    const groupExists = groupNamesParent.some(
+      (group) => group.name.toLowerCase() === trimmedGroupName.toLowerCase()
+    );
+  
+    if (groupExists) {
+      setError("Group name already exists!");
+      return; // Prevent saving if the group name already exists
+    }
+  
+    const newGroup = { name: trimmedGroupName, color: bgColor };
+    
+    // Update the group list and localStorage
     setGroupNamesParent([...groupNamesParent, newGroup]);
     localStorage.setItem(
       "groupNames",
       JSON.stringify([...groupNamesParent, newGroup])
     );
+    
     onClose(); // Close dialog
   };
 
@@ -46,6 +65,11 @@ const Dialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) =
             type="text"
             placeholder="Enter group name"
           />
+          
+          
+        </div>
+        <div className="desktop-error">
+          {error && <p className="error-message">{error}</p>}
         </div>
         
         <div className="desktop-dialog-chooseColor">

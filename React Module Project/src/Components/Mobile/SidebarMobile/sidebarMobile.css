@@ -5,9 +5,8 @@
   overflow-y: auto;
   height: 100vh;
   display: flex;
-  
   flex-direction: column;
-  border: black 1px solid;
+
 }
 
 
@@ -42,7 +41,7 @@
   flex-direction: column;
   width: 90vw;
   margin-top: 12vh;
-  border: black 1px solid; 
+
   font-weight: 500;
 }
 
@@ -51,17 +50,19 @@
 #mobile-dialog-open {
   background-color:#ddd;
   position: fixed;
-  left: 18vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 3;
   bottom: 4vh;
-  right: 2vw;
-  width: 93px;
-  height: 93px;
+  right: 4vw;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   border: none;
   color: white;
   background-color: blue;
-  font-size: 70px;
+  font-size: 45px;
   font-weight: 500;
 }
 

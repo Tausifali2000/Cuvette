@@ -1,7 +1,7 @@
 .desktop__notes {
   width: 76vw;
   height: 100vh;
-  
+  overflow-y: hidden;
   flex-direction: column;
   align-items: center;
   border:  1px black solid;
