@@ -35,7 +35,7 @@
     height: 7vh;
     width: 7vh;
     border-radius: 50%;
-    background-color: gray;
+    background: rgba(0, 71, 255, 1);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -18,7 +18,7 @@
    height: 62px;
    width: 62px;
    border-radius: 50%;
-   background-color: blue;
+   background: rgba(0, 71, 255, 1);
    display: flex;
    justify-content: center;
    align-items: center;

@@ -37,6 +37,7 @@
   align-items: center;
   color: white;
   font-size: 20px;
+  background: rgba(0, 71, 255, 1);
   
 }
 
@@ -70,12 +71,7 @@
     width: 100vw;
     height: 100%;
     background: rgba(0, 31, 139, 1);
-    
-    
-    
-    
-
-}
+  }
 
 .mobile-textArea {
  
