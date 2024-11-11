@@ -4,7 +4,7 @@ import "./dialog.css";
 const Dialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) => {
   const [groupName, setGroupName] = useState("");
   const [bgColor, setBgColor] = useState("");
-  const [error, setError] = useState(""); // New state to handle errors
+  const [error, setError] = useState(""); 
 
   const colors = [
     "rgb(179, 139, 250)",

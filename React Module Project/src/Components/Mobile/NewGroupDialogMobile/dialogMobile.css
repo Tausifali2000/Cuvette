@@ -132,4 +132,16 @@
    
  }
  
+ .mobile-error {
+
+  color: red;
+  margin-left: 25vw;
+  padding-top: 0.5vh ;
+
+ }
+
+ .mobile-error p {
+  font-size: 12px;
+ }
+ 
  

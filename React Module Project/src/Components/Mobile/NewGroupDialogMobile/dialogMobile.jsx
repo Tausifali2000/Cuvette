@@ -4,6 +4,7 @@ import "./dialogMobile.css";
 const DialogMobile = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) => {
   const [groupName, setGroupName] = useState("");
   const [bgColor, setBgColor] = useState("");
+  const [error, setError] = useState(""); 
 
   const colors = [
     "rgb(179, 139, 250)",
@@ -24,12 +25,25 @@ const DialogMobile = forwardRef(({ groupNamesParent, setGroupNamesParent, onClos
 
   const saveName = (e) => {
     e.preventDefault();
-    const newGroup = { name: groupName, color: bgColor };
+    const trimmedGroupName = groupName.trim();
+    const groupExists = groupNamesParent.some(
+      (group) => group.name.toLowerCase() === trimmedGroupName.toLowerCase()
+    );
+  
+    if (groupExists) {
+      setError("Group name already exists!");
+      return; 
+    }
+  
+    const newGroup = { name: trimmedGroupName, color: bgColor };
+    
+   
     setGroupNamesParent([...groupNamesParent, newGroup]);
     localStorage.setItem(
       "groupNames",
       JSON.stringify([...groupNamesParent, newGroup])
     );
+    
     onClose(); 
   };
 
@@ -46,6 +60,10 @@ const DialogMobile = forwardRef(({ groupNamesParent, setGroupNamesParent, onClos
             type="text"
             placeholder="Enter group name"
           />
+        </div>
+
+        <div className="mobile-error">
+          {error && <p className="error-message">{error}</p>}
         </div>
         
         <div className="mobile-dialog-chooseColor">

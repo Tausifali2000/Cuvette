@@ -23,7 +23,7 @@ function App() {
   return (
     <Provider>
       <div className="App">
-        {screenSize > 350 ? (
+        {screenSize > 500 ? (
           <RenderDesktop />
         ) : (
           <Router>

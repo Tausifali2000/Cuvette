@@ -18,9 +18,7 @@ function Sidebar() {
   }, []);
 
   useEffect(() => {
-    if (groupNamesParent.length > 0) {
-      setTitles(groupNamesParent);
-    }
+    setTitles(groupNamesParent);
   }, [groupNamesParent]);
 
   const handleOpenPopup = () => setIsPopupOpen(true);
@@ -31,16 +29,15 @@ function Sidebar() {
       <div className="desktop-sidebar-title">
         <h1>Pocket Notes</h1>
       </div>
-      
+
       <div className="desktop-sidebar-noteGroup">
-        {titles.length > 0 ? (
-          titles.map((title, index) => <GroupCard key={index} title={title} />)
-        ) : ""}
+        {titles.map((title, index) => (
+          <GroupCard key={index} title={title} />
+        ))}
       </div>
-      
-      <button id="desktop-dialog-open"onClick={handleOpenPopup}>+</button>
-      
-     
+
+      <button id="desktop-dialog-open" onClick={handleOpenPopup}>+</button>
+
       {isPopupOpen && (
         <>
           <div className="backdrop" onClick={handleClosePopup}></div>

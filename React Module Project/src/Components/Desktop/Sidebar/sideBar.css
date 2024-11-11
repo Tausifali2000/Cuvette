@@ -109,7 +109,10 @@
 #desktop-dialog-open {
   background-color:#ddd;
   position: fixed;
-  left: 15vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 16vw;
   z-index: 3;
   bottom: 2vh;
   width: 80px;
@@ -119,7 +122,7 @@
   color: white;
   background-color: blue;
   font-size: 70px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 @media (max-width: 800px) {
