@@ -7,12 +7,32 @@
   height: 100vh;
   display: flex;
   align-items: center;
- 
+  
   flex-direction: column;
 
-  
- 
 }
+
+@media (max-width: 800px) {
+  .desktop-sidebar {
+   width: 30vw;
+   min-width: 25vw;
+    height: 100vh;
+    font-size: 50px;
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 600px) {
+  .desktop-sidebar {
+   width: 50vw;
+   min-width: 25vw;
+    height: 100vh;
+    font-size: 50px;
+    overflow-x: hidden;
+  }
+}
+
+
 
 
 
@@ -24,20 +44,27 @@
   position: fixed;
   background-color: white;
   padding-top: 5vh;
- 
- 
-  
+ }
+
+ @media (max-width: 800px) {
+  .desktop-sidebar-title {
+   width: 30vw;
+   min-width: 30vw
+  }
 }
+
+@media (max-width: 600px) {
+  .desktop-sidebar-title {
+   width: 40vw;
+   min-width: 30vw
+  }
+}
+
 .desktop-sidebar-title h1 {
   
   font-weight: 500;
   font-size: 32px;
- 
-
-  
-  
-  
-}
+ }
 
 .desktop-sidebar-noteGroup{
   
@@ -47,20 +74,46 @@
   align-items: center;
   justify-content: center;
   margin-top: 15vh;
- 
   font-weight: 500;
+  width: 24vw;
 }
+
+
+@media (max-width: 800px) {
+  .desktop-sidebar-noteGroup {
+   width: 30vw;
+   min-width: 30vw
+    
+    
+  }
+}
+
+
+
+
+
+@media (max-width: 600px) {
+  .desktop-sidebar-noteGroup {
+   width: 40vw;
+   min-width: 30vw
+    
+    
+  }
+}
+
+
+
 
 
 
 #desktop-dialog-open {
   background-color:#ddd;
   position: fixed;
-  left: 17vw;
+  left: 15vw;
   z-index: 3;
   bottom: 2vh;
-  width: 93px;
-  height: 93px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   border: none;
   color: white;
@@ -69,14 +122,26 @@
   font-weight: 500;
 }
 
-@media (max-width: 1000px) {
-  .desktop-sidebar button {
-    width: 70px; 
-    height: 70px;
+@media (max-width: 800px) {
+  #desktop-dialog-open {
+    width: 60px; 
+    height: 60px;
     font-size: 50px;
+    left: 18vw;
+    bottom: 5vh;
+   
   }
 }
 
+@media (max-width: 600px) {
+  #desktop-dialog-open {
+    width: 60px; 
+    height: 60px;
+    font-size: 50px;
+    left: 25vw;
+    bottom: 5vh;
+  }
+}
 
 
 

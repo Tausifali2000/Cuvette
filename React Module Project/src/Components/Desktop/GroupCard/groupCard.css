@@ -14,6 +14,23 @@
    
 }
 
+@media (max-width: 800px) {
+    .desktop-groupName {
+     width: 30vw;
+     
+      
+    }
+  }
+
+
+@media (max-width: 600px) {
+    .desktop-groupName {
+     width: 40vw;
+     
+      
+    }
+  }
+
 .desktop-groupName-logo{
     height: 7vh;
     width: 7vh;

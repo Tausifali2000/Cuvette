@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function GroupCardMobile({ title }) {
   const { selected, setSelected } = usePocketContext();
-  const navigate = useNavigate(); // Use the useNavigate hook
+  const navigate = useNavigate(); 
 
   const nameInitials = title.name
     .split(" ")
@@ -25,7 +25,7 @@ function GroupCardMobile({ title }) {
 
   const handleTitleClick = () => {
     setSelected(title.name);
-    navigate("/notes"); // Use navigate as a function to redirect
+    navigate("/notes"); 
   };
 
   return (

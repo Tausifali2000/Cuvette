@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./sidebar.css";
-
-
-
 import GroupCard from "../GroupCard/groupCard";
 import Dialog from "../NewGroupDialog/dialog";
-
-
-
 
 function Sidebar() {
   const [titles, setTitles] = useState([]);
@@ -46,7 +40,7 @@ function Sidebar() {
       
       <button id="desktop-dialog-open"onClick={handleOpenPopup}>+</button>
       
-      {/* Conditionally render the popup and custom backdrop */}
+     
       {isPopupOpen && (
         <>
           <div className="backdrop" onClick={handleClosePopup}></div>

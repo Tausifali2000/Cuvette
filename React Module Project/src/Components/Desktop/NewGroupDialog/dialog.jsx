@@ -17,7 +17,7 @@ const Dialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) =
 
   const handleGroupName = (e) => {
     setGroupName(e.target.value);
-    setError(""); // Clear the error when user types
+    setError(""); 
   };
 
   const handleColor = (color) => {
@@ -26,30 +26,26 @@ const Dialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) =
 
   const saveName = (e) => {
     e.preventDefault();
-    
-    // Trim the group name to prevent accidental leading/trailing spaces from being considered different
     const trimmedGroupName = groupName.trim();
-    
-    // Check if a group with the same name already exists (case-insensitive)
     const groupExists = groupNamesParent.some(
       (group) => group.name.toLowerCase() === trimmedGroupName.toLowerCase()
     );
   
     if (groupExists) {
       setError("Group name already exists!");
-      return; // Prevent saving if the group name already exists
+      return; 
     }
   
     const newGroup = { name: trimmedGroupName, color: bgColor };
     
-    // Update the group list and localStorage
+   
     setGroupNamesParent([...groupNamesParent, newGroup]);
     localStorage.setItem(
       "groupNames",
       JSON.stringify([...groupNamesParent, newGroup])
     );
     
-    onClose(); // Close dialog
+    onClose(); 
   };
 
   return (

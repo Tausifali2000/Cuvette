@@ -19,6 +19,13 @@ img {
 
 }
 
+@media (max-width: 900px) {
+  .desktop-landingPage {
+    width: 50vw;
+  }
+}
+
+
 .desktop-landingPage img {
   margin-top: 15vh;
   width: 626px;
