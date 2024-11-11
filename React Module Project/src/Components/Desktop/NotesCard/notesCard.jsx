@@ -1,6 +1,6 @@
 import React from "react";
 import "./notesCard.css";
-import { assets } from "../../../assets/assets";
+import { assets } from "../../../assets/assests";
 
 function NotesCard ({ note }) {
   

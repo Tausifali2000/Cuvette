@@ -1,6 +1,6 @@
 import React from "react";
 import "./renderDesktop.css";
-import usePocketContext from "../../Hooks/usePocketContext";
+import usePocketContext from "../../Hooks/usePocketContext.jsx";
 import Sidebar from "../../Components/Desktop/Sidebar/sideBar";
 import NotesGroup from "../../Components/Desktop/NotesGroup/notesGroup";
 import LandingHomePage from "../../Components/Desktop/LandingHomePage/landingHomePage";

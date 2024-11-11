@@ -1,6 +1,7 @@
 import React from 'react';
 import "./landingHomePage.css";
-import { assets } from '../../../assets/assets';
+import { assets } from '../../../assets/assests';
+
 
 
 function LandingHomePage() {

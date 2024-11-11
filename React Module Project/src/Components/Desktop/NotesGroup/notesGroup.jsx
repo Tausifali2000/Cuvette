@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./notesGroup.css";
 
 import DesktopNotesContent from "../NotesCard/notesCard";
-import usePocketContext from "../../../Hooks/usePocketContext";
-import { assets } from "../../../assets/assets";
+import usePocketContext from "../../../Hooks/usePocketContext.jsx";
+import { assets } from "../../../assets/assests.js";
+
 
 function NotesGroup() {
   const [text, setText] = useState("");

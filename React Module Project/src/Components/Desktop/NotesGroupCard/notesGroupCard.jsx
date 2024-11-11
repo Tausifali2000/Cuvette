@@ -1,6 +1,6 @@
 import React from "react";
 import "./notesGroupCard.css";
-import usePocketContext from "../../../Hooks/usePocketContext";
+import usePocketContext from "../../../Hooks/usePocketContext.jsx";
 
 function NotesGroupCard({ title }) {
   const { selected, setSelected } = usePocketContext();
