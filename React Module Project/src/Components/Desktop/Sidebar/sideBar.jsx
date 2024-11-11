@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./sidebar.css";
-import CreateNotesPopup from "../NewGroupDialog/newGroupDialog";
-import NotesTitle from "../NotesGroupCard/notesGroupCard";
+
+
+
+import GroupCard from "../GroupCard/groupCard";
+import Dialog from "../NewGroupDialog/dialog";
+
+
+
 
 function Sidebar() {
   const [titles, setTitles] = useState([]);
@@ -34,7 +40,7 @@ function Sidebar() {
       
       <div className="desktop-sidebar-noteGroup">
         {titles.length > 0 ? (
-          titles.map((title, index) => <NotesTitle key={index} title={title} />)
+          titles.map((title, index) => <GroupCard key={index} title={title} />)
         ) : ""}
       </div>
       
@@ -44,7 +50,7 @@ function Sidebar() {
       {isPopupOpen && (
         <>
           <div className="backdrop" onClick={handleClosePopup}></div>
-          <CreateNotesPopup
+          <Dialog
             groupNamesParent={groupNamesParent}
             setGroupNamesParent={setGroupNamesParent}
             onClose={handleClosePopup}

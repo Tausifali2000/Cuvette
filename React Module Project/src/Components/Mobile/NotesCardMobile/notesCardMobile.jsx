@@ -1,8 +1,8 @@
 import React from "react";
-import "./notesCard.css";
+import "./notesCardMobile.css";
 import { assets } from "../../../assets/assets";
 
-function NotesCard ({ note }) {
+function NotesCardMobile ({ note }) {
   
   return (
     <div className="desktop-notesContent-container">
@@ -19,4 +19,4 @@ function NotesCard ({ note }) {
   );
 }
 
-export default NotesCard;
+export default NotesCardMobile;

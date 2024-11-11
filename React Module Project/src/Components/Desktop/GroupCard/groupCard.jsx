@@ -1,8 +1,8 @@
 import React from "react";
-import "./notesGroupCard.css";
-import usePocketContext from "../../../Hooks/usePocketContext.jsx";
+import "./groupCard.css";
+import usePocketContext from "../../../Hooks/usePocketContext";
 
-function NotesGroupCard({ title }) {
+function GroupCard({ title }) {
   const { selected, setSelected } = usePocketContext();
 
   const nameInitials = title.name
@@ -35,4 +35,4 @@ function NotesGroupCard({ title }) {
   );
 }
 
-export default NotesGroupCard;
+export default GroupCard;

@@ -2,10 +2,18 @@ import { useEffect, useState } from "react";
 
 
 
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider } from "./Context/PocketContext";
-import usePocketContext from "./Hooks/usePocketContext.jsx";
+import usePocketContext from "./Hooks/usePocketContext";
 import RenderDesktop from "./PageRender/Desktop/renderDesktop";
+import RenderMobile from "./PageRender/Mobile/renderMobile";
+
+import NotesGroupMobile from "./Components/Mobile/NotesGroupMobile/notesGroupMobile";
+
+
+
+
+
 
 
 function App() {
@@ -26,18 +34,14 @@ function App() {
       <div className="App">
         {screenSize > 500 ? (
           <RenderDesktop />
-        ) : <RenderDesktop /> }
-        
-        {/* // (
-        //   <Router>
-        //     <Routes>
-        //       <Route path="/" element={<MobileView />} />
-        //       <Route path="/notes" element={<NotesMobilePage />} />
-        //     </Routes>
-        //   </Router>
-        // ) */}
-        
-        
+        ) : (
+          <Router>
+            <Routes>
+              <Route path="/" element={<RenderMobile />} />
+               <Route path="/notes" element={<NotesGroupMobile/>} /> 
+            </Routes>
+          </Router>
+        )}
       </div>
     </Provider>
   );

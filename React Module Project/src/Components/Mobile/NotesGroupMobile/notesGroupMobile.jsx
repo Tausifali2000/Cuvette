@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "./notesGroup.css";
+import "./notesGroupMobile.css";
 
 
 import usePocketContext from "../../../Hooks/usePocketContext";
 import { assets } from "../../../assets/assets";
-import NotesCard from "../NotesCard/notesCard";
 
-function NotesGroup() {
+import NotesCardMobile from "../NotesCardMobile/NotesCardMobile";
+
+function NotesGroupMobile() {
   const [text, setText] = useState("");
   const [bgColor, setBgColor] = useState("#fff");
   const [initials, setInitials] = useState("");
@@ -84,7 +85,7 @@ function NotesGroup() {
       <div className="desktop__notes__content">
         {notes && notes.length > 0
           ? notes.map((note, index) => (
-              <NotesCard key={index} note={note} />
+              <NotesCardMobile key={index} note={note} />
             ))
           : null}
       </div>
@@ -104,4 +105,4 @@ function NotesGroup() {
   );
 }
 
-export default NotesGroup;
+export default NotesGroupMobile;

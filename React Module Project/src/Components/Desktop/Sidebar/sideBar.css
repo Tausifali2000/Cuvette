@@ -2,7 +2,7 @@
 
 .desktop-sidebar {
   width: 24vw;
-  scrollbar-width: px;
+ 
   overflow-y: auto;
   height: 100vh;
   display: flex;
@@ -20,15 +20,12 @@
   display: flex;
   padding-bottom: 2vh;
   justify-content: center;
-  
   width: 24vw;
   position: fixed;
   background-color: white;
   padding-top: 5vh;
  
  
-  
-
   
 }
 .desktop-sidebar-title h1 {

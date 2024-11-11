@@ -1,7 +1,7 @@
 import React, { useState, forwardRef } from "react";
-import "./newGroupDialog.css";
+import "./dialog.css";
 
-const NewGroupDialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) => {
+const Dialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onClose }) => {
   const [groupName, setGroupName] = useState("");
   const [bgColor, setBgColor] = useState("");
 
@@ -74,4 +74,4 @@ const NewGroupDialog = forwardRef(({ groupNamesParent, setGroupNamesParent, onCl
   );
 });
 
-export default NewGroupDialog;
+export default Dialog;
