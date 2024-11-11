@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./notesGroup.css";
-
-
 import usePocketContext from "../../../Hooks/usePocketContext";
-import { assets } from "../../../assets/assets";
+import { assets } from "../../../assets/assets"; // Assume assets contains disabled and enabled images
 import NotesCard from "../NotesCard/notesCard";
 
 function NotesGroup() {
@@ -17,15 +15,17 @@ function NotesGroup() {
     setNotes(JSON.parse(localStorage.getItem(selected)) || []);
     const groupNames = JSON.parse(localStorage.getItem("groupNames"));
     const selectedGroup = groupNames.find((group) => group.name === selected);
+
     if (selectedGroup) {
       setBgColor(selectedGroup.color);
-      setInitials(
-        selectedGroup.name
-          .split(" ")
-          .map((word) => word.charAt(0))
-          .join("")
-          .toUpperCase()
-      );
+
+      const nameParts = selectedGroup.name.split(" ");
+      const groupInitials = nameParts.length > 1
+        ? nameParts[0].charAt(0) + nameParts[1].charAt(0)
+        : nameParts[0].charAt(0) + nameParts[0].charAt(nameParts[0].length - 1);
+      
+      setInitials(groupInitials.toUpperCase());
+
       setSelectedTitle(
         selectedGroup.name
           .split(" ")
@@ -71,17 +71,17 @@ function NotesGroup() {
   };
 
   return (
-    <div className="desktop__notes">
-      <div className="desktop__notes__title">
+    <div className="desktopNotes-container">
+      <div className="desktopNotes-title-container">
         <div
-          className="desktop__notes__title__color"
+          className="desktopNotes-title-logo"
           style={{ backgroundColor: bgColor }}
         >
           {initials}
         </div>
-        <div className="desktop__notes__title__text">{selectedTitle}</div>
+        <div className="desktopNotes-title">{selectedTitle}</div>
       </div>
-      <div className="desktop__notes__content">
+      <div className="desktopNotes-content">
         {notes && notes.length > 0
           ? notes.map((note, index) => (
               <NotesCard key={index} note={note} />
@@ -89,16 +89,22 @@ function NotesGroup() {
           : null}
       </div>
       <div className="desktop-textInput-container">
-        <div className="textArea">
-        <textarea
-          value={text}
-          placeholder="Enter your notes here"
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        ></textarea>
+        <div className="desktop-textArea">
+          <textarea
+            value={text}
+            placeholder="Enter your text here.......... "
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+          ></textarea>
         </div>
-       
-         <img src={assets.create_enbaled} alt="enter" onClick={handleSaveNotes} /> 
+        
+        {/* Conditionally render the button image */}
+        <img
+          src={text.trim() ? assets.create_enabled : assets.create_disabled} // Change image based on input
+          alt="enter"
+          onClick={handleSaveNotes}
+          style={{ cursor: text.trim() ? 'pointer' : 'not-allowed' }} // Change cursor based on input
+        />
       </div>
     </div>
   );
