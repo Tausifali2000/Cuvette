@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./notesGroupMobile.css";
+import "./NotesGroupMobile.css";
 import usePocketContext from "../../../Hooks/usePocketContext";
 import { assets } from "../../../assets/assets";
-import NotesCardMobile from "../NotesCardMobile/notesCardMobile.jsx";
+
 import { useNavigate } from "react-router-dom";
+import NotesCardMobile from "../NotesCardMobile/notesCardMobile";
 
 function NotesGroupMobile() {
   const [text, setText] = useState("");

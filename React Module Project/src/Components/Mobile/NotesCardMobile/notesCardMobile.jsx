@@ -1,5 +1,5 @@
 import React from "react";
-import "./notesCardMobile.css";
+import "./NotesCardMobile.css";
 import { assets } from "../../../assets/assets";
 
 
