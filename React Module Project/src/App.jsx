@@ -6,33 +6,36 @@ import RenderDesktop from "./PageRender/Desktop/renderDesktop";
 import RenderMobile from "./PageRender/Mobile/renderMobile";
 import NotesGroupMobile from "./Components/Mobile/NotesGroupMobile/notesGroupMobile";
 
-
 function App() {
   const [screenSize, setScreenSize] = useState(window.innerWidth);
   const { selected, setSelected } = usePocketContext();
 
   useEffect(() => {
-    setSelected(localStorage.getItem("selected") || "");
-   
-  }, [selected]);
-  const checkScreenSize = () => {
-    setScreenSize(window.innerWidth);
-  };
+   setSelected(localStorage.getItem("selected") || "");
+  }, [setSelected]);
 
-  window.addEventListener("resize", checkScreenSize);
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setScreenSize(window.innerWidth);
+    };
+
+   window.addEventListener("resize", checkScreenSize);
+  return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
   return (
     <Provider>
       <div className="App">
-        {screenSize > 500 ? (
-          <RenderDesktop />
-        ) : (
-          <Router>
+        <Router>
+          {screenSize > 500 ? (
+            <RenderDesktop />
+          ) : (
             <Routes>
               <Route path="/" element={<RenderMobile />} />
-               <Route path="/notes" element={<NotesGroupMobile/>} /> 
+              <Route path="/notes" element={<NotesGroupMobile />} />
             </Routes>
-          </Router>
-        )}
+          )}
+        </Router>
       </div>
     </Provider>
   );
