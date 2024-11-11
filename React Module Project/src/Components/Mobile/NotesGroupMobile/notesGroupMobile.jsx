@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./notesGroupMobile.css";
 import usePocketContext from "../../../Hooks/usePocketContext";
 import { assets } from "../../../assets/assets";
-import NotesCardMobile from "../NotesCardMobile/NotesCardMobile";
+import NotesCardMobile from "../NotesCardMobile/notesCardMobile";
 import { useNavigate } from "react-router-dom";
 
 function NotesGroupMobile() {
@@ -109,6 +109,7 @@ function NotesGroupMobile() {
           onKeyDown={handleKeyDown}
         ></textarea>
         </div>
+        
        
         <img
           src={text.trim() ? assets.create_enbaled : assets.create_disabled} 

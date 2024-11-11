@@ -2,6 +2,7 @@ import React from "react";
 import "./notesCardMobile.css";
 import { assets } from "../../../assets/assets";
 
+
 function NotesCardMobile ({ note }) {
   
   return (
