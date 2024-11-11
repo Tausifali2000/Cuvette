@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./sidebar.css";
+import "./sideBar.css";
 import GroupCard from "../GroupCard/groupCard";
 import Dialog from "../NewGroupDialog/dialog";
 
