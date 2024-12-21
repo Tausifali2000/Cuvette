@@ -1,6 +1,14 @@
-import express from "express";
+import express from "express"; //express module import
 
-const app = express();
+import authRoutes from "./routes/auth.route.js"; //authroutes import
+
+const app = express();  //creating express instance
+
+app.use("/api/auth", authRoutes); //authentication routes
+
+
+
+
 
 
 
