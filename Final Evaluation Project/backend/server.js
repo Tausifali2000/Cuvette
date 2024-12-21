@@ -10,6 +10,8 @@ import { connectDB } from "./config/db.js"; //MongoDB connection import
 const app = express();  //creating express instance
 const PORT = ENV_VARS.PORT; //getting port value from envVars.js
 
+app.use(express.json()); //middleware - parsed data in req.body
+
 app.use("/api/auth", authRoutes); //authentication routes
 
 
