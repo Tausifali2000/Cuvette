@@ -79,11 +79,11 @@ export async function login (req, res) {
 
 		generateTokenAndSetCookie(user._id, res); //generate a token and set cookie
 
-		res.status(200).json({
+		res.status(200).json({ //sending login data in response
 			success: true,
 			user: {
 				...user._doc,
-				password: "",
+				password: "", //removes password from response
 			},
 		});
 	} catch (error) {
@@ -94,7 +94,7 @@ export async function login (req, res) {
 
 export async function logout (req, res) {
   try {
-		res.clearCookie("jwt-formbot");
+		res.clearCookie("jwt-formbot"); //clearing cookie on logout
 		res.status(200).json({ success: true, message: "Logged out successfully" });
 	} catch (error) {
 		console.log("Error in logout controller", error.message);
