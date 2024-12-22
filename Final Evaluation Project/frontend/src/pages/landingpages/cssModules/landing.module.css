@@ -1,0 +1,39 @@
+body {
+  justify-content: center;
+}
+
+header {
+  display: flex;
+  border: 1px black solid;
+  width: 80vw;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4vh;
+  
+}
+
+.title {
+ 
+  display: flex;
+}
+
+.headers {
+
+ padding-left: 40vw;
+  
+}
+
+.body {
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px black solid;
+ 
+  
+}
+
+img {
+  width: 50%;
+  height: 50%;
+}

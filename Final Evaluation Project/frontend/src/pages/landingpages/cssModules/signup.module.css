@@ -1,0 +1,23 @@
+body {
+  background-color: #18181B;
+ 
+}
+
+.backbutton {
+  position: absolute;
+  left: 3vw;
+  top: 3vh;
+  width: 3%;
+  height: 5%;
+}
+
+.formcontainer {
+  color: white;
+  border: white 1px solid;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  
+}
