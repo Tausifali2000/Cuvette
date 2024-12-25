@@ -1,8 +1,8 @@
-body {
+.landingbody {
   justify-content: center;
 }
 
-header {
+.landing header {
   display: flex;
   border: 1px black solid;
   width: 80vw;

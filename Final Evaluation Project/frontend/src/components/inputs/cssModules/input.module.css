@@ -1,0 +1,11 @@
+.input {
+  border: 1px black solid;
+   height: auto;
+   display: flex;
+   flex-direction: column;
+ }
+ 
+ .input button {
+   width: 20px;
+   border-radius: 50%; 
+ }

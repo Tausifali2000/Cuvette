@@ -4,6 +4,7 @@ import cors from 'cors';
 import authRoutes from "./routes/auth.route.js"; //authroutes import
 import { ENV_VARS } from "./config/envVars.js"; //Contant variable import
 import { connectDB } from "./config/db.js"; //MongoDB connection import
+import cookieParser from "cookie-parser";
 
 
 
@@ -11,6 +12,7 @@ const app = express();  //creating express instance
 const PORT = ENV_VARS.PORT; //getting port value from envVars.js
 
 app.use(express.json()); //middleware - parsed data in req.body
+app.use(cookieParser()); //middleware - parse cookie from req
 
 app.use(cors({
   origin: "http://localhost:5173", // Replace with your frontend's origin

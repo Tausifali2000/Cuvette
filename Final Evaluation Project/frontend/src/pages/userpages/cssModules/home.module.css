@@ -1,0 +1,103 @@
+.homebody {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+}
+
+.homeheader {
+  display: flex;
+  width: 100vw;
+  height: 5vh;
+  border: black 1px solid;
+  
+  align-items: center;
+  justify-content: end;
+}
+
+.btn {
+  display: flex;
+  padding-right: 2vw;
+  gap: 0.8rem;
+
+}
+
+.dropdown {
+  margin-right: 35vw;
+}
+
+.container {
+  border: black 1px solid;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70vw;
+  margin-top: 5vh;
+
+}
+
+.foldernames {
+  display: flex;
+  border: black solid 1px;
+  height: auto;
+  gap: 0.8rem;
+  padding-left: 1vw;
+  
+}
+
+.container0 {
+  border: black solid 1px;
+  display: flex;
+  padding-left: 1vw;
+ 
+  z-index: 0;
+  
+}
+
+.createform {
+  margin-top: 2vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 270px;
+  border: 1px black solid;
+  width: 225px;
+  margin-right: 1vw;
+  
+}
+
+.folders {
+  border: 1px black solid;
+  height: auto;
+  display: flex;
+  gap: 0.8rem;
+  padding-left: 1vw;
+}
+
+.forms {
+  border: 1px black solid;
+  padding-left: 1vw;
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.folderbox {
+  position: absolute;
+  z-index: 2;
+  border: 1px black solid;
+  top: 4rem;
+  left: 4rem;
+}
+
+.form {
+  margin-top: 2vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 270px;
+  border: 1px black solid;
+  width: 225px;
+  margin-right: 1vw;
+}

@@ -9,6 +9,7 @@ const LandingPage = () => {
 
   return (
     <>
+    <div className={landingStyle.landingbody}></div>
     <header>
       <div className={landingStyle.title}> 
         <div><img src="/Link.png" /></div>

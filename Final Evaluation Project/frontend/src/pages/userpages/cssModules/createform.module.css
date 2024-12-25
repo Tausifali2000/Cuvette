@@ -1,0 +1,55 @@
+.userheader {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.btn {
+  display: flex;
+  padding-right: 2vw ;
+  gap: 1vw;
+}
+
+.create {
+  width: 100vw;
+  height: 100vh;
+  padding-top: 8vh;
+  display: flex;
+  
+
+ 
+  border: black 1px solid;
+  
+
+}
+
+.sidebar {
+  width:20vw ;
+  border: black solid 1px;
+  height: 100vh;
+}
+
+.bubbles {
+ padding: 0.2rem;
+}
+
+.bubblesbtn {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.inputsbtn {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  margin-left: 30vw;
+
+}

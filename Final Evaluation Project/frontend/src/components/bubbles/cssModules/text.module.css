@@ -1,0 +1,12 @@
+.bubble {
+ border: 1px black solid;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.bubble button {
+  width: 20px;
+  border-radius: 50%; 
+}
+
