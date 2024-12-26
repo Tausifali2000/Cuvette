@@ -1,6 +1,6 @@
 import signupStyle from "./cssModules/signup.module.css";
 import { Link } from 'react-router-dom';
-import { useAuthStore } from '../../../../backend/store/authUser';
+import { useAuthStore } from '../../../store/authUser';
 import { useState } from "react";
 
 const Signup = () => {
@@ -16,6 +16,7 @@ const Signup = () => {
       console.log(username, email, password);
       signup({username, email, password});
     }
+    
   
   return (
     <>

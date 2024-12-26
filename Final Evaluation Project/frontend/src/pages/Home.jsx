@@ -1,13 +1,14 @@
 import React from 'react'
 import HomeScreen from './userpages/HomeScreen'
 import LandingPage from './landingpages/landingpage'
+import { useAuthStore } from '../../store/authUser'
 
 const Home = () => {
-  const user = true; //checking if user is logged in or not
+  const {user} = useAuthStore();
   return (
-    <div>
-      {user ? <HomeScreen /> : <HomeScreen />}; //rending page accordingly
-    </div>
+    <>
+      {user ? <HomeScreen /> : <LandingPage />}; 
+    </>
   )
 }
 

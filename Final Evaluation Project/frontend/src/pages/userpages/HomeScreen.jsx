@@ -6,6 +6,7 @@ const HomeScreen = () => {
   const [ folderBox, setFolderBox] = useState(false);
   const [formDiv, setFormdiv] = useState(true);
   const [folderName, setFolderName] = useState('');
+  const [folders, setFolders] = useState([]);
 
   function openFolderBox () {
     setFormdiv(false);
@@ -14,7 +15,10 @@ const HomeScreen = () => {
   }
  
   function createFolder() {
-    
+    setFolderBox(false);
+    setFormdiv(true);
+    setFolders((prev) => [...prev, { name: folderName, forms: [] }]);
+    setFolderName('');
   }
 
   return (
@@ -36,7 +40,14 @@ const HomeScreen = () => {
       <div className={homestyles.foldernames}>
         <button onClick={openFolderBox}>Create a folder</button>
         <div className={homestyles.folders}>
-            <button>Folder Name</button>
+        {folders.map((folder, index) => (
+                      <button
+                        key={index}
+                        onClick={() => enterFolder(folder)}
+                      >
+                        {folder.name}
+                      </button>
+                    ))}
         </div>
         
       </div>
@@ -53,7 +64,7 @@ const HomeScreen = () => {
                 onChange={(e) => setFolderName(e.target.value)}
                  />
             <div className={homestyles.folderboxbtn}>
-              <button>Done</button>
+              <button onClick={createFolder}>Done</button>
               <button>Cancel</button>  
             </div>
           </div>

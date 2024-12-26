@@ -1,12 +1,14 @@
 
+
+
 import landingStyle from "./cssModules/landing.module.css";
 import { Link } from 'react-router-dom';
 
 
+
 const LandingPage = () => {
 
- 
-
+   
   return (
     <>
     <div className={landingStyle.landingbody}></div>
@@ -33,9 +35,10 @@ const LandingPage = () => {
          <Link to="/login"> <button>Create a FormBot for free</button></Link>
       </div>
     </div>
-
+      
     <footer>
       Hello
+    
     </footer>
     </>
   )
