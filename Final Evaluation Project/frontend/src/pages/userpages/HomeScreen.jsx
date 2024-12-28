@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-
 import homestyles from "./cssModules/home.module.css";
 import { useFormFolderStore } from "../../../store/forms";
 
 const HomeScreen = () => {
   const [folderBox, setFolderBox] = useState(false);
+  const [formCon, setFormCon] = useState(true);
   const [folderName, setFolderName] = useState("");
+  const [selectedFolderId, setSelectedFolderId] = useState(null);
 
   const {
     folders,
@@ -14,27 +15,40 @@ const HomeScreen = () => {
     isLoadingForms,
     fetchHome,
     createFolder,
+    folderById,
   } = useFormFolderStore();
-  
 
   // Fetch folders and forms on component mount
   useEffect(() => {
     fetchHome();
   }, [fetchHome]);
 
-  // Open folder creation modal
-  const openFolderBox = () => {
+  // Open and close folder creation modal
+  function openFolderBox() {
     setFolderBox(true);
-  };
+    setFormCon(false);
+  }
+
+  function closeFolderBox() {
+    setFolderBox(false);
+    setFormCon(true);
+  }
 
   // Handle folder creation
-  const handleCreateFolder = async () => {
-    if (!folderName.trim()) {
-      return alert("Folder name is required.");
+  async function handleCreateFolder() {
+    try {
+      await createFolder({ name: folderName });
+      setFolderName(""); // Clear the input
+      closeFolderBox(); // Close the modal
+    } catch (error) {
+      console.error("Error creating folder:", error);
     }
-    await createFolder({ name: folderName });
-    setFolderName("");
-    setFolderBox(false);
+  }
+
+  // Handle folder selection (fetch forms inside the folder)
+  const handleFolderClick = (folderId) => {
+    setSelectedFolderId(folderId);
+    folderById(folderId); // Fetch forms for the selected folder
   };
 
   return (
@@ -56,11 +70,16 @@ const HomeScreen = () => {
               {isLoadingFolders ? (
                 <p>Loading folders...</p>
               ) : (
-                folders.map((folder, index) => (
-                  <button key={index}>
-                    {folder.name}
-                  </button>
-                ))
+                folders?.map((folder, index) =>
+                  folder ? (
+                    <button
+                      key={index}
+                      onClick={() => handleFolderClick(folder._id)} // Pass folder ID to fetch forms
+                    >
+                      {folder.name}
+                    </button>
+                  ) : null // Skip undefined folders
+                )
               )}
             </div>
           </div>
@@ -80,19 +99,23 @@ const HomeScreen = () => {
                   />
                   <div className={homestyles.folderboxbtn}>
                     <button onClick={handleCreateFolder}>Done</button>
-                    <button onClick={() => setFolderBox(false)}>Cancel</button>
+                    <button onClick={() => closeFolderBox()}>Cancel</button>
                   </div>
                 </div>
               )}
 
-              {!isLoadingForms && forms.length > 0 ? (
-                forms.map((form, index) => (
-                  <div key={index} className={homestyles.form}>
-                    {form.name}
-                  </div>
-                ))
-              ) : (
-                <p>No forms available.</p>
+              {formCon && selectedFolderId && (
+                <div className={homestyles.formList}>
+                  {isLoadingForms ? (
+                    <p>Loading forms...</p>
+                  ) : (
+                    forms?.map((form, index) => (
+                      <div key={index} className={homestyles.form}>
+                        {form.name}
+                      </div>
+                    ))
+                  )}
+                </div>
               )}
             </div>
           </div>
