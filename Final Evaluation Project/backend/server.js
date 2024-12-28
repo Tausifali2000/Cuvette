@@ -25,7 +25,7 @@ app.use(cors({
 
 
 app.use("/api/auth", authRoutes); //authentication routes
-app.use("/api/homes", homeRoutes);
+app.use("/api/home", homeRoutes);
 
 
 

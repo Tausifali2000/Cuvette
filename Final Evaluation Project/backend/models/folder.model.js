@@ -1,17 +1,24 @@
 import mongoose from "mongoose";
 
 const folderSchema = mongoose.Schema({
+ 
+  
   name: {
     type: String,
     required: true,
     trim: true,
   },
+  
   forms : [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Form",
   },
 ],
-default: [],
+user: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User", // Reference the User model
+  required: true,
+},
 },
 )
 
