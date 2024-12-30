@@ -1,103 +1,225 @@
 .homebody {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: white;
+  
   display: flex;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  align-items: center;
 }
 
 .homeheader {
   display: flex;
-  width: 100vw;
-  height: 5vh;
-  border: black 1px solid;
-  
+  justify-content: space-between;
   align-items: center;
-  justify-content: end;
+  padding: 10px 20px;
+  background-color: #1e1e1e;
+  border-bottom: 1px solid #333;
+}
+
+.dropdown {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .btn {
   display: flex;
-  padding-right: 2vw;
-  gap: 0.8rem;
-
+  gap: 15px;
+  align-items: center;
 }
 
-.dropdown {
-  margin-right: 35vw;
+.btn div {
+  font-size: 14px;
+}
+
+.btn button {
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn button:hover {
+  background-color: #1c86e0;
 }
 
 .container {
-  border: black 1px solid;
+  display: flex;
+ 
+  
+  gap: 20px;
+  width: 80vw;
+  border: 1px white solid;
   margin-left: auto;
   margin-right: auto;
-  width: 70vw;
   margin-top: 5vh;
+}
 
+.workspace {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px white solid;
 }
 
 .foldernames {
   display: flex;
-  border: black solid 1px;
-  height: auto;
-  gap: 0.8rem;
-  padding-left: 1vw;
-  
-}
-
-.container0 {
-  border: black solid 1px;
-  display: flex;
-  padding-left: 1vw;
- 
-  z-index: 0;
-  
-}
-
-.createform {
-  margin-top: 2vh;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  height: 270px;
-  border: 1px black solid;
-  width: 225px;
-  margin-right: 1vw;
+  gap: 15px;
   
+  border: 1px white solid;
 }
 
 .folders {
-  border: 1px black solid;
-  height: auto;
   display: flex;
-  gap: 0.8rem;
-  padding-left: 1vw;
+  gap: 15px;
+  width: 100%;
+  border: 1px white solid;
+}
+.foldernames button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.foldernames button:hover {
+  background-color: #444;
+}
+
+.container0 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.createform {
+  background-color: #1e90ff;
+  width: 225px;
+  height: 270px;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+ 
+  
+}
+
+.createform:hover {
+  background-color: #1c86e0;
 }
 
 .forms {
-  border: 1px black solid;
-  padding-left: 1vw;
-  z-index: 1;
-  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
   width: 100%;
-  height: auto;
-}
-
-.folderbox {
-  position: absolute;
-  z-index: 2;
-  border: 1px black solid;
-  top: 4rem;
-  left: 4rem;
 }
 
 .form {
-  margin-top: 2vh;
+  background-color: #999;
+  color: black;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  flex: 1 1 calc(30% - 15px); /* Responsive card sizing */
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.form:hover {
+  background-color: #aaa;
+}
+
+.folderbox {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  margin: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 270px;
-  border: 1px black solid;
-  width: 225px;
-  margin-right: 1vw;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.folderbox h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.folderbox input {
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: #2e2e2e;
+  color: white;
+  font-size: 14px;
+}
+
+.folderboxbtn {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.folderboxbtn button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.folderboxbtn button:first-child {
+  background-color: #1e90ff;
+  color: white;
+}
+
+.folderboxbtn button:last-child {
+  background-color: #333;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .form {
+    flex: 1 1 calc(45% - 15px);
+  }
+
+  .foldernames {
+    justify-content: center;
+  }
+
+  .btn button {
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    flex: 1 1 100%;
+  }
+
+  .createform {
+    flex-grow: unset;
+    width: 100%;
+  }
+
+  .foldernames {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

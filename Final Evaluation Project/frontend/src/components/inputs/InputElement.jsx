@@ -11,19 +11,19 @@ const InputElement = ({ id, type, label, removeElement, updateLabel }) => {
   // Define dynamic hints for different input types
   const getHint = (type) => {
     switch (type) {
-      case 'text':
+      case 'textInput':
         return 'Hint: User will enter text';
-      case 'number':
+      case 'numberInput':
         return 'Hint: User will enter a number';
-      case 'email':
+      case 'emailInput':
         return 'Hint: User will enter an email address';
-      case 'phone':
+      case 'phoneInput':
         return 'Hint: User will enter a phone number';
-      case 'date':
+      case 'dateInput':
         return 'Hint: User will select the date';
-      case 'rating':
+      case 'ratingInput':
         return 'Hint: User will provide a rating';
-      case 'button':
+      case 'buttonInput':
         return 'Hint: User will select a button';
       default:
         return 'Hint: Input type not recognized';

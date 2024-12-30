@@ -28,7 +28,7 @@ function App() {
         <Route path='/login' element={!user ? <Login/> : <Navigate to={'/'} />} />
         <Route path='/signup' element={!user ? <Signup/> : <Navigate to={'/'} />} />
         <Route path ='/home' element={<HomeScreen />} />
-        <Route path ='/createform' element={<CreateForm />}/>
+        <Route path ='/buildform/:formId' element={<CreateForm />}/>
      </Routes>
      <Toaster />
     </>

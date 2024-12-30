@@ -85,5 +85,29 @@ export const useFormFolderStore = create((set) => ({
   }
 },
 
+createForm: async (formData) => {
+  set({ isCreatingForm: true });
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/home/createform",
+      formData,
+      { withCredentials: true } // Ensure cookies are included
+    );
+
+    const newForm = response.data.form;
+
+    set((state) => ({
+      forms: [...state.forms, newForm], // Add the new form to the state
+      isCreatingForm: false,
+    }));
+
+    toast.success("Type Bot created successfully");
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Failed to create Type Bot");
+    set({ isCreatingForm: false });
+  }
+},
+
+
  
 }));

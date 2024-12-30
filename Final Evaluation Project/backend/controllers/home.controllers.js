@@ -2,6 +2,8 @@ import { Folder } from "../models/folder.model.js";
 import { Form } from "../models/form.model.js";
 
 
+
+//Get Home all Data
 export async function getHome(req, res) {
   try {
     const userId = req.user?.id;
@@ -28,7 +30,7 @@ export async function getHome(req, res) {
   }
 }
 
-
+//Create Folder
 export async function createFolder(req, res) {
 
       try {
@@ -63,6 +65,7 @@ export async function createFolder(req, res) {
       }
 }
 
+//Create Form
 export async function createForm(req, res) {
   try {
     const { name, folderId } = req.body
@@ -127,6 +130,8 @@ export async function createForm(req, res) {
   }
 }
 
+
+//Get folder by ID
 export async function getFolderById(req, res) {
     try {
       const folderId = req.params.id;
@@ -160,7 +165,7 @@ export async function getFormById(req, res) {
 }
 
 
-
+//Delete Form by ID
 export async function deleteFormById(req, res) {
   try {
     const formId = req.params.id;
@@ -191,7 +196,7 @@ export async function deleteFormById(req, res) {
   }
 }
 
-
+// Delete Folder by ID
 export async function deleteFolderById(req, res) {
   try {
     const folderId = req.params.id;
@@ -215,3 +220,4 @@ export async function deleteFolderById(req, res) {
     res.status(500).json({ message: "Server error" });
   }
 }
+

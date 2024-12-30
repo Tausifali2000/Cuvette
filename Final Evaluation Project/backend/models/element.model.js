@@ -1,15 +1,38 @@
-import mongoose from 'mongoose';
 
-const ElementSchema = new mongoose.Schema({
-  elementType: {
+import mongoose from "mongoose";
+
+
+const testSchema = new mongoose.Schema({
+  type: {
     type: String,
-    enum: ['Bubble', 'Input'], // Define element as Bubble or Input
-    required: true,
+     enum: ['textBubble', 'imageBubble' ,'textInput', 'numberInput', 'emailInput', 'phoneInput', 'dateInput', 'ratingInput', 'buttonInput'],
+    required: true, 
   },
-  bubble: BubbleSchema, // Embedded schema for Bubbles
-  input: InputSchema, // Embedded schema for Inputs
-  order: {
-    type: Number,
-    required: true, // Order of the element in the form
+  label: {
+    type: String,
+    required: true, 
+  },
+  content: {
+    type: String,
+   
   },
 });
+
+
+const arraySchema = new mongoose.Schema({
+
+  
+});
+
+
+const ElementSchema = new mongoose.Schema({
+  name: {
+    type: String
+  },
+  element : {
+    type: [testSchema]
+  }
+
+});
+
+export const Element = mongoose.model('Element', ElementSchema);

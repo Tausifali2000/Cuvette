@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.route.js"; //authroutes import
 import homeRoutes from "./routes/home.route.js";
+import fromRoutes from "./routes/form.route.js";
 import { ENV_VARS } from "./config/envVars.js"; //Contant variable import
 import { connectDB } from "./config/db.js"; //MongoDB connection import
 
@@ -26,6 +27,7 @@ app.use(cors({
 
 app.use("/api/auth", authRoutes); //authentication routes
 app.use("/api/home", homeRoutes);
+app.use("/api/form", fromRoutes);
 
 
 

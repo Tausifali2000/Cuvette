@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from "react-router-dom";
 import BubbleImage from '../../components/bubbles/Bubbles.image';
 import BubbleText from '../../components/bubbles/Bubbles.text';
 import createform from './cssModules/createform.module.css';
 import InputElement from '../../components/inputs/InputElement';
+import { des } from '../Destructure';
 
 const CreateForm = () => {
+  const { formId } = useParams();
+
+  useEffect(() => {
+    console.log("Form ID:", formId); // Fetch or use the form data based on formId
+  }, [formId]);
+
   const [elements, setElements] = useState([]);
 
+  console.log(elements);
+  
+    
+    des(elements);
+ 
   const addElement = (type) => {
     // Count existing elements of the same type
     const count = elements.filter((el) => el.type === type).length + 1;
@@ -32,16 +45,6 @@ const CreateForm = () => {
     setElements((prev) => prev.filter((element) => element.id !== id));
   };
 
-  const sendToBackend = async (data) => {
-    try {
-      await axios.post('http://localhost:4000/save-elements', data, {
-        withCredentials: true,
-      });
-      alert('Data sent to backend!');
-    } catch (error) {
-      console.error('Error sending data to backend:', error);
-    }
-  };
 
   const saveData = () => {
     console.log(elements);
@@ -73,21 +76,21 @@ const CreateForm = () => {
           <div className={createform.bubbles}>
             <h1>Bubbles</h1>
             <div className={createform.bubblesbtn}>
-              <button onClick={() => addElement('Text Bubble')}>Text</button>
-              <button onClick={() => addElement('Image Bubble')}>Image</button>
+              <button onClick={() => addElement('textBubble')}>Text</button>
+              <button onClick={() => addElement('imageBubble')}>Image</button>
             </div>
           </div>
 
           <div className={createform.inputs}>
             <h2>Inputs</h2>
             <div className={createform.inputsbtn}>
-              <button onClick={() => addElement('Text Input')}>Text</button>
-              <button onClick={() => addElement('Number Input')}>Number</button>
-              <button onClick={() => addElement('Email Input')}>Email</button>
-              <button onClick={() => addElement('Phone Input')}>Phone</button>
-              <button onClick={() => addElement('Date Input')}>Date</button>
-              <button onClick={() => addElement('Rating Input')}>Rating</button>
-              <button onClick={() => addElement('Button Input')}>Buttons</button>
+              <button onClick={() => addElement('textInput')}>Text</button>
+              <button onClick={() => addElement('numberInput')}>Number</button>
+              <button onClick={() => addElement('emailInput')}>Email</button>
+              <button onClick={() => addElement('phoneInput')}>Phone</button>
+              <button onClick={() => addElement('dateInput')}>Date</button>
+              <button onClick={() => addElement('ratingInput')}>Rating</button>
+              <button onClick={() => addElement('buttonInput')}>Buttons</button>
             </div>
           </div>
         </div>
@@ -96,7 +99,7 @@ const CreateForm = () => {
           <button className="start">Start</button>
           {elements.map((element) => {
             switch (element.type) {
-              case 'Text Bubble':
+              case 'textBubble':
                 return (
                   <BubbleText
                     key={element.id}
@@ -106,7 +109,7 @@ const CreateForm = () => {
                     removeElement={removeElement}
                   />
                 );
-              case 'Image Bubble':
+              case 'imageBubble':
                 return (
                   <BubbleImage
                     key={element.id}
