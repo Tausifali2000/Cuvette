@@ -2,7 +2,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
 
-export const useFormFolderStore = create((set) => ({
+export const useHomeStore = create((set) => ({
   folders: [],
   forms: [],
   isCreatingFolder: false,
@@ -42,7 +42,7 @@ export const useFormFolderStore = create((set) => ({
   },
   
 
-
+//Create Folder
   createFolder: async (folderData) => {
     set({ isCreatingFolder: true });
     console.log(folderData);
@@ -85,6 +85,7 @@ export const useFormFolderStore = create((set) => ({
   }
 },
 
+//create Form
 createForm: async (formData) => {
   set({ isCreatingForm: true });
   try {

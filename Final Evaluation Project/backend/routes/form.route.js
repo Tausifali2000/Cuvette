@@ -1,14 +1,14 @@
 import express from "express";
 import { protectRoute } from "../middleware/protectRoute.js";
-import { saveForm, addElementsToForm } from "../controllers/form.controllers.js"
+import { fetchForm, saveForm, deleteElement } from "../controllers/form.controllers.js"
 
 
 const router = express.Router();
 
- router.put("/:formId/save", protectRoute, saveForm);
-// router.post("/:id/element", protectRoute, addElement);
-router.patch("/:formId/element", protectRoute, addElementsToForm);
-// router.post("/element", protectRoute, buildForm );
+router.get("/:formId", protectRoute, fetchForm)
+router.post("/:formId/saveform", protectRoute, saveForm);
+router.post("/:formId/deleteelement", protectRoute, deleteElement)
+
 
 
 export default router;

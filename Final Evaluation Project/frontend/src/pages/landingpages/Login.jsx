@@ -1,6 +1,6 @@
 
 import { useState } from 'react'
-import signupStyle from "./cssModules/signup.module.css";
+import loginStyle from "./cssModules/login.module.css";
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../../store/authUser';
 
@@ -19,26 +19,29 @@ const Login = () => {
 return (
   <>
   
-  <div className={signupStyle.backbutton}><img src="/arrow_back.png" /></div>
-  <div className={signupStyle.formcontainer}>
+  <div className={loginStyle.backbutton}><img src="/arrow_back.png" /></div>
+  <img src="/triangle2.png" />
+  <img src="/ellipse1.png" />
+  <img src="/ellipse2.png"/>
+  <div className={loginStyle.formcontainer}>
     <form onSubmit={handleLogin}>
      
         
       <div>
       <label htmlFor="email">Email</label>
       <input 
-          type="email"
-          placeholder='Enter a email'
+          type="Email"
+          placeholder='Enter your email'
           id='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)} />
       </div>
      
      <div>
-     <label htmlFor="password">Password</label>
+     <label htmlFor="Password">Password</label>
       <input 
           type="password"
-          placeholder='******'
+          placeholder='*************'
           value={password}
           onChange={(e) => setPassword(e.target.value)}/>
         
@@ -51,11 +54,12 @@ return (
       
     
      
-      <button type='onSubmit'>Login</button>
+      <button type='onSubmit'>Log In</button>
      
     </form>
-    <p>Don't have an account?</p>
-    <Link to='/signup' > <p>signup</p></Link>
+    <div className={loginStyle.para}>  <p>Don't have an account?</p>
+    <Link to='/signup' > <a>Register now</a></Link></div>
+   
   </div>
   </>
 )

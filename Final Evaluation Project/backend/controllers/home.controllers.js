@@ -108,7 +108,8 @@ export async function createForm(req, res) {
     const newForm = new Form({
       name,
       user: userId,
-      folder: folderId || null, // Associate with folder if folderId exists
+      folder: folderId || null,
+       // Associate with folder if folderId exists
     });
 
     await newForm.save();

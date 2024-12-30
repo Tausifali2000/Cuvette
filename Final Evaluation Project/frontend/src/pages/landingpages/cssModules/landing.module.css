@@ -3,10 +3,11 @@
 .landingbody {
   background-color: #0b0d1a;
   color: #ffffff;
-  font-family: "Inter", sans-serif;
+ 
   margin: 0;
   padding: 0;
-  width: 100vw;
+  font-family: "Outfit", serif;
+
   
  
 }
@@ -71,7 +72,7 @@
   text-align: center;
   justify-content: center;
   flex-direction: column;
-  height: 1200px;
+  height: auto;
   border: 1px white solid;
   background-color: #0b0d1a;
   
@@ -82,6 +83,16 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.bimg1 {
+  
+  width: 288px;
+ 
+  rotate: -20deg;
+  position: absolute;
+  left: 30px;
+  top: 82px;
 }
 
 .body h2 {

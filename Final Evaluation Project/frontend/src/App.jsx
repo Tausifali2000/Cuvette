@@ -4,7 +4,7 @@ import Signup from "./pages/landingpages/Signup";
 import Login from "./pages/landingpages/Login";
 import { Toaster } from "react-hot-toast";
 import HomeScreen from "./pages/userpages/HomeScreen";
-import CreateForm from "./pages/userpages/CreateForm";
+import CreateForm from "./pages/userpages/BuildForm";
 import Home from "./pages/Home";
 import { useAuthStore } from "../store/authUser";
 import { useEffect } from "react";

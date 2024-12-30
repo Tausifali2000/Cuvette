@@ -27,14 +27,17 @@ const LandingPage = () => {
 
     <div className={landingStyle.body}>
       <div className={landingStyle.bodyContent}>
+        {/* <div className={landingStyle.bimg1}> <img  src="/triangle.png" /></div>
+        <div className={landingStyle.bimg2} > <img  src="/semicircle.png"/></div> */}
+       
+        
           <h2>Build advanced chatbots
           visually</h2>
           <p>Typebot gives you powerful blocks to create unique chat experiences. Embed them
           anywhere on your web/mobile apps and start collecting results like magic.</p>
           <Link to="/login"> <button>Create a FormBot for free</button></Link>
-          <img src="/image.png" alt="" />
-        
       </div>
+      <img src="/image.png" alt="" />
     </div>
       
     <footer className={landingStyle.footer}>
