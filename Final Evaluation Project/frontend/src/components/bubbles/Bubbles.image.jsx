@@ -23,14 +23,14 @@ const BubbleImage = ({ id, label, bubblecontent = '', updateLabel, removeElement
           value={editableLabel}
           onChange={(e) => setEditableLabel(e.target.value)}
           onBlur={handleBlur}
-          placeholder="Edit label"
+          placeholder= ""
         />
         <input
           type="text"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onBlur={handleBlur}
-          placeholder="Enter text here"
+          placeholder="Click to add link"
         />
       </form>
     </div>

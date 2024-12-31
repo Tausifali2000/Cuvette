@@ -53,11 +53,11 @@ export const useAuthStore = create((set) => ({
   authCheck: async () => {
     set({ isCheckingAuth: true});
     try {
-     console.log("In store authcheck");
+     
       const response = await axios.get("http://localhost:5000/api/auth/authCheck", {
         withCredentials: true, // Send cookies with the request
       });
-      console.log(response);
+      
       set({ user: response.data.user, isCheckingAuth: false});
     } catch (error) {
       set({ isCheckingAuth: false, user:null});      

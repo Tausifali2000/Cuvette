@@ -30,7 +30,7 @@ const BubbleText = ({ id, label, bubblecontent = '', updateLabel, removeElement 
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onBlur={handleBlur}
-          placeholder="Enter text here"
+          placeholder="Click here to edit"
         />
       </form>
     </div>

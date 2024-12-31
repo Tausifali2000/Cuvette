@@ -23,95 +23,56 @@ export async function fetchForm(req, res) {
 }
 
 
-export async function saveForm(req, res) {
+export const saveForm = async (req, res) => {
   try {
-    const { formId } = req.params; // Get the form ID from the request params
-    const { name, elements } = req.body; // Expect form name and elements array in the request body
-    const userId = req.user?.id; // Get the user ID from the authenticated request
+    // Extract data from the request body
+    const { formId } = req.params; // The form ID to be updated
+    const { folder, name, elements } = req.body; // Use 'elements' to match the input data
+    const userId = req.user?.id; // Extract user ID from request context
 
+    // Validate required fields
+    if (!elements || !Array.isArray(elements) || elements.length === 0) {
+      return res.status(400).json({ message: "At least one element is required." });
+    }
+
+    // Validate user
     if (!userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
+      return res.status(401).json({ message: "User not authenticated." });
     }
 
-    // Validate the request body
-    if (!name || typeof name !== "string" || name.trim() === "") {
-      return res.status(400).json({ success: false, message: "Form name is required and should be a non-empty string" });
+    // Find and update the form
+    const updatedForm = await Form.findOneAndUpdate(
+      { _id: formId, user: userId }, // Ensure the user owns the form
+      {
+        folder: folder || null, // Update folder if provided, or set to null
+        name: name?.trim() || "Untitled Form", // Update name or default it
+        element: elements, // Update elements
+      },
+      { new: true, runValidators: true } // Return the updated document and validate input
+    );
+
+    // If no form is found, return an error
+    if (!updatedForm) {
+      return res.status(404).json({ message: "Form not found or you do not have permission to update it." });
     }
 
-    if (!Array.isArray(elements) || elements.length === 0) {
-      return res.status(400).json({ success: false, message: "Elements should be a non-empty array" });
-    }
-
-    const validTypes = [
-      "textBubble",
-      "imageBubble",
-      "textInput",
-      "numberInput",
-      "emailInput",
-      "phoneInput",
-      "dateInput",
-      "ratingInput",
-      "buttonInput",
-    ];
-
-    // Ensure all elements have valid types and required fields
-    for (const element of elements) {
-      if (!element.type || !element.label) {
-        return res.status(400).json({ success: false, message: "Each element must have a 'type' and 'label'" });
-      }
-      if (!validTypes.includes(element.type)) {
-        return res.status(400).json({ success: false, message: `Invalid element type: ${element.type}` });
-      }
-    }
-
-    // Find the form by ID and ensure it belongs to the authenticated user
-    const form = await Form.findOne({ _id: formId, user: userId });
-    if (!form) {
-      return res.status(404).json({ success: false, message: "Form not found" });
-    }
-
-    // Update form name
-    form.name = name;
-
-    const updatedElements = [];
-    const newElements = [];
-
-    // Separate new and existing elements
-    for (const element of elements) {
-      if (element._id) {
-        // Existing element - check for updates
-        const existingElement = form.element.id(element._id);
-        if (existingElement) {
-          existingElement.label = element.label || existingElement.label;
-          existingElement.content = element.content || existingElement.content;
-          updatedElements.push(existingElement);
-        } else {
-          return res.status(404).json({ success: false, message: `Element with ID ${element._id} not found` });
-        }
-      } else {
-        // New element
-        newElements.push(element);
-      }
-    }
-
-    // Add new elements to the form
-    form.element.push(...newElements);
-
-    // Save the updated form
-    await form.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Form updated successfully",
-      updatedElements,
-      newElements,
-      form,
+    // Respond with the updated form
+    return res.status(200).json({
+      message: "Form updated successfully!",
+      form: updatedForm,
     });
   } catch (error) {
-    console.error("Error in saveForm controller:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.error("Error updating form:", error);
+    return res.status(500).json({
+      message: "An error occurred while updating the form.",
+      error: error.message,
+    });
   }
-}
+};
+
+
+
+
 
 
 

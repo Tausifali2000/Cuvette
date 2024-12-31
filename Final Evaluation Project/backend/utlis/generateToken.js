@@ -11,7 +11,7 @@ export const generateTokenAndSetCookie = (userId, res) => {
 		secure: false,
 	});
 
-	console.log("token: ", token)
+	
 	return token;
 
 };
