@@ -30,24 +30,26 @@ export const saveForm = async (req, res) => {
     const { folder, name, elements } = req.body; // Use 'elements' to match the input data
     const userId = req.user?.id; // Extract user ID from request context
 
-    // Validate required fields
-    if (!elements || !Array.isArray(elements) || elements.length === 0) {
-      return res.status(400).json({ message: "At least one element is required." });
-    }
-
     // Validate user
     if (!userId) {
       return res.status(401).json({ message: "User not authenticated." });
     }
 
+    // Prepare the update object
+    const updateData = {
+      folder: folder || null, // Update folder if provided, or set to null
+      name: name?.trim() || "Untitled Form", // Update name or default it
+    };
+
+    // Conditionally add 'elements' only if it's provided
+    if (elements && Array.isArray(elements)) {
+      updateData.element = elements;
+    }
+
     // Find and update the form
     const updatedForm = await Form.findOneAndUpdate(
       { _id: formId, user: userId }, // Ensure the user owns the form
-      {
-        folder: folder || null, // Update folder if provided, or set to null
-        name: name?.trim() || "Untitled Form", // Update name or default it
-        element: elements, // Update elements
-      },
+      updateData,
       { new: true, runValidators: true } // Return the updated document and validate input
     );
 
@@ -69,6 +71,7 @@ export const saveForm = async (req, res) => {
     });
   }
 };
+
 
 
 

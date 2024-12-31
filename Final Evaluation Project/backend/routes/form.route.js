@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get("/:formId", protectRoute, fetchForm)
 router.post("/:formId/saveform", protectRoute, saveForm);
+router.post("folder/:formId/saveform", protectRoute, saveForm);
 router.post("/:formId/deleteelement", protectRoute, deleteElement)
 
 

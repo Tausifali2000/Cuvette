@@ -6,104 +6,151 @@ import useFormStore from './form.js';
 const useSessionStore = create(
   persist(
     (set, get) => ({
-      formName: '', // Holds the name of the form
-      elements: [], // Holds the elements array
-      isLoading: false, // Loading state
+      forms: {}, // Store forms using formId as key
+      isLoading: false,
 
-      // Initialize the state with data from the backend
-      initializeState: (name, elements) => {
-        set({
-          formName: name,
-          elements: elements.map((el) => ({
-            ...el,
-            id: el.id || Date.now() + Math.random(), // Add unique id if not present
-          })),
-        });
-      },
-      
-
-      // Fetch the form and initialize the state
+      // Fetch a form and store it by formId
       fetchForm: async (formId) => {
-        set({ isLoading: true });
         const { fetchFormFromBackend } = useFormStore.getState();
-      
+        set({ isLoading: true });
+
         try {
           const form = await fetchFormFromBackend(formId);
-          const { name, element } = form;
-      
-          set({
-            formName: name,
-            elements: element.map((el) => ({
-              ...el,
-              id: el.id || Date.now() + Math.random(), // Assign unique id if not present
-            })),
+          
+          const { name, folder, element } = form;
+          console.log(folder);
+          set((state) => ({
+            forms: {
+              ...state.forms,
+              [formId]: {
+                formName: name,
+                folder: folder,
+                elements: element.map((el) => ({
+                  ...el,
+                  id: el.id || Date.now() + Math.random(),
+                })),
+              },
+            },
             isLoading: false,
-          });
-      
+          }));
           toast.success('Form loaded successfully!');
         } catch (error) {
           toast.error('Failed to load form.');
           set({ isLoading: false });
         }
       },
-      
 
-      // Save the form to the backend
+      // Check if a form has been fetched
+      hasFormBeenFetched: (formId) => {
+        return !!get().forms[formId];
+      },
+
+      // Save a form by formId
       saveForm: async (formId) => {
-        const { formName, elements } = get();
+        const { forms } = get();
+        const form = forms[formId];
+        // console.log(forms)
+        if (!form) return;
+
         const { sendFormToBackend } = useFormStore.getState();
-          
+
         const payload = {
-          name: formName,
-          elements: elements.map(({ type, label, bubblecontent }) => ({
+          name: form.formName || '',
+          folder: forms.folder || null,
+          elements: form.elements.map(({ type, label, bubblecontent }) => ({
             type,
-            label,
-            content: bubblecontent || "",
+            label:label || '',
+            content: bubblecontent || '',
           })),
-          
         };
-        
-        
-          
+
+       
+
         try {
-         
           await sendFormToBackend(formId, payload);
           toast.success('Form saved successfully!');
+          // console.log(payload);
+          // Sync the persisted session storage state with the database
+          set((state) => ({
+            forms: {
+              ...state.forms,
+              [formId]: {
+                ...form,
+                formName: payload.name,
+                folderId: payload.folderId,
+                elements: payload.elements,
+              },
+            },
+          }));
+
+          // Clear the session storage data for the saved formId
+          sessionStorage.removeItem(`zustand-form-storage-${formId}`);
+
+          // Re-fetch the form data from the backend
+          await get().fetchForm(formId);
         } catch (error) {
           toast.error('Failed to save form.');
         }
       },
 
-      // Add, update, remove elements
-      addElement: (type) => {
+      // Add element to a form by formId
+      addElement: (formId, type) => {
         set((state) => ({
-          elements: [
-            ...state.elements,
-            {
-              id: Date.now(),
-              type,
-              label: '',
-              bubblecontent: '',
+          forms: {
+            ...state.forms,
+            [formId]: {
+              ...state.forms[formId],
+              elements: [
+                ...state.forms[formId].elements,
+                {
+                  id: Date.now(),
+                  type,
+                  label: '',
+                  bubblecontent: '',
+                },
+              ],
             },
-          ],
+          },
         }));
       },
 
-      updateElement: (id, newLabel, newContent) => {
+      // Update element in a form by formId
+      updateElement: (formId, id, newLabel, newContent) => {
         set((state) => ({
-          elements: state.elements.map((el) =>
-            el.id === id ? { ...el, label: newLabel, bubblecontent: newContent } : el
-          ),
+          forms: {
+            ...state.forms,
+            [formId]: {
+              ...state.forms[formId],
+              elements: state.forms[formId].elements.map((el) =>
+                el.id === id ? { ...el, label: newLabel, bubblecontent: newContent } : el
+              ),
+            },
+          },
         }));
       },
 
-      removeElement: (id) => {
+      // Remove element from a form by formId
+      removeElement: (formId, id) => {
         set((state) => ({
-          elements: state.elements.filter((el) => el.id !== id),
+          forms: {
+            ...state.forms,
+            [formId]: {
+              ...state.forms[formId],
+              elements: state.forms[formId].elements.filter((el) => el.id !== id),
+            },
+          },
         }));
       },
 
-      resetFormState: () => set({ formName: '', elements: [] }),
+      // Reset form state for a specific formId
+      resetFormState: (formId) => {
+        set((state) => ({
+          forms: {
+            ...state.forms,
+            [formId]: { formName: '', elements: [] },
+          },
+        }));
+      },
     }),
     {
       name: 'form-storage',

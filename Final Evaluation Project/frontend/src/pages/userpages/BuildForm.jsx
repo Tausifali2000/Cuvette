@@ -1,40 +1,44 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import createform from './cssModules/createform.module.css';
 import InputElement from '../../components/inputs/InputElement';
 import BubbleElement from '../../components/bubbles/BubbleElement';
 import useSessionStore from '../../../store/session';
 
-
-
 const BuildForm = () => {
   const { formId } = useParams(); // Get the form ID from the URL
+  const navigate = useNavigate(); // Navigation hook
+
   const {
-    formName,
-    elements,
+    forms,
     isLoading,
     fetchForm,
+    hasFormBeenFetched,
+    saveForm,
     addElement,
     updateElement,
     removeElement,
-    saveForm,
-    setFormName,
   } = useSessionStore();
 
-  useEffect(() => {
-    if (formId) {
-      fetchForm(formId); // Fetch the form when the component mounts
-    }
-  }, []);
+  const form = forms[formId] || { formName: '', elements: [] }; // Get specific form data
 
-  
+  useEffect(() => {
+    if (formId && !hasFormBeenFetched(formId)) {
+      fetchForm(formId); // Fetch only if the form hasn't been fetched
+    }
+  }, [formId, fetchForm, hasFormBeenFetched]);
+
+  const handleSaveForm = async () => {
+    if (formId) {
+      await saveForm(formId); // Save the form to the backend
+    } else {
+      console.error('No form ID provided for saving!');
+    }
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  const handleSaveForm = () => {
-    saveForm(formId); // Save the form
-  };
 
   return (
     <>
@@ -43,14 +47,24 @@ const BuildForm = () => {
           <input
             type="text"
             placeholder="Form Name"
-            value={formName}
-            onChange={(e) => setFormName(e.target.value)}
+            value={form.formName}
+            onChange={(e) =>
+              useSessionStore.setState((state) => ({
+                forms: {
+                  ...state.forms,
+                  [formId]: {
+                    ...state.forms[formId],
+                    formName: e.target.value,
+                  },
+                },
+              }))
+            }
           />
         </div>
 
         <div className="response">
-          <button>Flow</button>
-          <button>Response</button>
+          <button onClick={() => navigate(`/buildform/${formId}`)}>Flow</button>
+          <button onClick={() => navigate(`/response/${formId}`)}>Response</button>
         </div>
 
         <div className={createform.btn}>
@@ -64,22 +78,26 @@ const BuildForm = () => {
         <div className={createform.sidebar}>
           <div className={createform.bubbles}>
             <h1>Bubbles</h1>
-            <button onClick={() => addElement('textBubble')}>Text</button>
-            <button onClick={() => addElement('imageBubble')}>Image</button>
+            <button onClick={() => addElement(formId, 'textBubble')}>Text</button>
+            <button onClick={() => addElement(formId, 'imageBubble')}>Image</button>
           </div>
 
           <div className={createform.inputs}>
             <h2>Inputs</h2>
-            <button onClick={() => addElement('textInput')}>Text</button>
-            <button onClick={() => addElement('numberInput')}>Number</button>
-            <button onClick={() => addElement('emailInput')}>Email</button>
-            <button onClick={() => addElement('phoneInput')}>Phone</button>
+            <button onClick={() => addElement(formId, 'textInput')}>Text</button>
+            <button onClick={() => addElement(formId, 'numberInput')}>Number</button>
+            <button onClick={() => addElement(formId, 'emailInput')}>Email</button>
+            <button onClick={() => addElement(formId, 'phoneInput')}>Phone</button>
+            <button onClick={() => addElement(formId, 'dateInput')}>Date</button>
+            <button onClick={() => addElement(formId, 'ratingInput')}>Rating</button>
+            <button onClick={() => addElement(formId, 'buttonInput')}>Buttons</button>
           </div>
         </div>
 
         <div className={createform.flow}>
-          {elements.length > 0 ? (
-            elements.map((el) =>
+          <div><button>Start</button></div>
+          
+            {form.elements.map((el) =>
               el.type === 'textBubble' || el.type === 'imageBubble' ? (
                 <BubbleElement
                   key={el.id}
@@ -87,8 +105,10 @@ const BuildForm = () => {
                   type={el.type === 'textBubble' ? 'text' : 'image'}
                   label={el.label}
                   bubblecontent={el.bubblecontent}
-                  updateLabel={updateElement}
-                  removeElement={removeElement}
+                  updateLabel={(newLabel, newContent) =>
+                    updateElement(formId, el.id, newLabel, newContent)
+                  }
+                  removeElement={() => removeElement(formId, el.id)}
                 />
               ) : (
                 <InputElement
@@ -96,14 +116,14 @@ const BuildForm = () => {
                   id={el.id}
                   type={el.type}
                   label={el.label}
-                  updateLabel={updateElement}
-                  removeElement={removeElement}
+                  updateLabel={(newLabel) =>
+                    updateElement(formId, el.id, newLabel, el.bubblecontent)
+                  }
+                  removeElement={() => removeElement(formId, el.id)}
                 />
               )
             )
-          ) : (
-            <div>No elements to display</div>
-          )}
+          }
         </div>
       </div>
     </>
