@@ -11,6 +11,8 @@ import DeleteDialog from "../../components/DeleteDialog.jsx";
 
 import Dropdown from "../../components/Dropdown.jsx";
 import ShareDialog from "../../components/shareDialog.jsx";
+import useWorkspaceStore from "../../../store/share.js";
+
  // Import the shareDialog
 
 const HomeScreen = () => {
@@ -34,12 +36,16 @@ const HomeScreen = () => {
   } = useHomeStore();
 
   const { user, authCheck } = useAuthStore();
+  const { fetchWorkspaces, fetchWorkspaceDetails } = useWorkspaceStore();
   const { username } = user;
 
   useEffect(() => {
     fetchHome();
-    authCheck(); // Perform auth check to load user data
-  }, [fetchHome, authCheck]);
+    authCheck(); 
+    fetchWorkspaces();
+    fetchWorkspaceDetails();
+    // Perform auth check to load user data
+  }, [fetchHome, authCheck, fetchWorkspaces]);
 
   // Dynamic box handler
   const toggleBox = (type) => {

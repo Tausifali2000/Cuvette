@@ -119,3 +119,57 @@ export const fetchWorkspaces = async (req, res) => {
     });
   }
 };
+
+export const fetchWorkspaceDetails = async (req, res) => {
+  try {
+    const { workspaceId } = req.params; // Extract workspace ID from the request parameters
+
+    // Find the workspace by ID and populate necessary fields
+    const workspace = await Workspace.findById(workspaceId)
+      .populate("folders")
+      .populate("forms")
+      .populate("user", "email username"); // Include `username` in the populated user data
+
+    if (!workspace) {
+      return res.status(404).json({
+        success: false,
+        message: "Workspace not found.",
+      });
+    }
+
+    // Fetch additional details for folders and forms if necessary
+    const folders = await Folder.find({ _id: { $in: workspace.folders } });
+    const forms = await Form.find({ _id: { $in: workspace.forms } });
+
+    // Prepare the response data
+    const workspaceData = {
+      id: workspace._id,
+      ownerEmail: workspace.user.email,
+      ownerUsername: workspace.user.username, // Add owner's username
+      accessList: workspace.accessList,
+      folders: folders.map((folder) => ({
+        id: folder._id,
+        name: folder.name,
+        createdAt: folder.createdAt,
+      })),
+      forms: forms.map((form) => ({
+        id: form._id,
+        name: form.name,
+        folderId: form.folderId,
+        createdAt: form.createdAt,
+      })),
+    };
+
+    res.status(200).json({
+      success: true,
+      message: "Workspace details retrieved successfully.",
+      workspace: workspaceData,
+    });
+  } catch (error) {
+    console.error("Error fetching workspace details:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};

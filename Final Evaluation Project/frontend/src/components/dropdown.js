@@ -1,19 +1,18 @@
 const dropStyles = {
   control: (provided) => ({
     ...provided,
-    backgroundColor: "",
-    border: "1px solid #FFFFFF29", // Match the `.dropdown` border style
+    backgroundColor: "#1a1a1a", // Dark background for consistency
+    border: "1px solid #FFFFFF29",
     boxShadow: "none",
     cursor: "pointer",
     color: "white",
-    padding: "5px 10px",
-    width: "292px", // Match the `.dropdown` width
-    height: "40px", // Match the `.dropdown` height
-    fontSize: "16px", // Match the `.dropdown` font size
-    textAlign: "center", // Align text
+    padding: "5px",
+    width: "100%", // Allow dynamic width
+    maxWidth: "300px", // Restrict to a reasonable max width
+    fontSize: "16px",
+    textAlign: "left", // Align text to the left
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
   }),
   singleValue: (provided) => ({
     ...provided,
@@ -26,9 +25,10 @@ const dropStyles = {
   }),
   menu: (provided) => ({
     ...provided,
-    backgroundColor: "black", // Match the transparent look but with a black background
+    backgroundColor: "#1a1a1a",
     border: "none",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    maxWidth: "300px", // Match dropdown width
   }),
   menuList: (provided) => ({
     ...provided,
@@ -36,16 +36,12 @@ const dropStyles = {
   }),
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isFocused
-      ? "#333333"
-      : state.data.value === "logout"
-      ? "#1a1a1a"
-      : "#1a1a1a", // Same default background for all options
-    color: state.data.value === "logout" ? "#ff8c00" : "white", // Orange for logout, white for others
+    backgroundColor: state.isFocused ? "#333333" : "#1a1a1a",
+    color: state.data.value === "logout" ? "#ff8c00" : "white",
     fontSize: "14px",
-    cursor: "pointer",
     padding: "10px",
-    fontWeight: state.data.value === "logout" ? "bold" : "normal", // Bold text for logout
+    cursor: "pointer",
+    fontWeight: state.data.value === "logout" ? "bold" : "normal",
   }),
   placeholder: (provided) => ({
     ...provided,
