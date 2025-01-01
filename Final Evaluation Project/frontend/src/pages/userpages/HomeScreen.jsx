@@ -13,7 +13,7 @@ import Dropdown from "../../components/Dropdown.jsx";
 import ShareDialog from "../../components/shareDialog.jsx";
 import useWorkspaceStore from "../../../store/share.js";
 
- // Import the shareDialog
+// Import the shareDialog
 
 const HomeScreen = () => {
   const [activeBox, setActiveBox] = useState(null); // To manage both folder and form boxes
@@ -38,14 +38,18 @@ const HomeScreen = () => {
   const { user, authCheck } = useAuthStore();
   const { fetchWorkspaces, fetchWorkspaceDetails } = useWorkspaceStore();
   const { username } = user;
+  const { id } = fetchWorkspaceDetails;
 
   useEffect(() => {
     fetchHome();
-    authCheck(); 
+    authCheck();
     fetchWorkspaces();
     fetchWorkspaceDetails();
+
     // Perform auth check to load user data
   }, [fetchHome, authCheck, fetchWorkspaces]);
+
+  console.log(id);
 
   // Dynamic box handler
   const toggleBox = (type) => {
@@ -152,7 +156,7 @@ const HomeScreen = () => {
         </div>
       </header>
 
-      <div className={homestyles.container}>
+      {"IF userID selected render user ID" ?   (<div className={homestyles.container}>
         <div className={homestyles.workspace}>
           <div className={homestyles.folderbar}>
             <button
@@ -240,9 +244,11 @@ const HomeScreen = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> )
+      : "populate data from workspace ID"
+    }
 
-  
+
       {isShareDialogOpen && <ShareDialog />}
     </div>
   );

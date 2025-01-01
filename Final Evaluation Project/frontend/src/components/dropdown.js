@@ -36,8 +36,14 @@ const dropStyles = {
   }),
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isFocused ? "#333333" : "#1a1a1a",
-    color: state.data.value === "logout" ? "#ff8c00" : "white",
+    backgroundColor:
+      state.isFocused && state.data.value !== "username" // Keep background color for focused state except for the "username" option
+        ? "#333333"
+        : state.data.value === "username" // Specific styling for the "username" option
+        ? "#444444"
+        : "#1a1a1a",
+    color: state.data.value === "username" ? "#00bfff" : // Light blue for the "username" option
+      state.data.value === "logout" ? "#ff8c00" : "white",
     fontSize: "14px",
     padding: "10px",
     cursor: "pointer",

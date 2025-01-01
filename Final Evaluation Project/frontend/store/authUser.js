@@ -5,10 +5,8 @@ import {create} from 'zustand';
 
 export const useAuthStore = create((set) => ({
   withCredentials: true,
-   baseURL: 'http://localhost:5000',
-   headers: {
-    'Content-Type': 'application/json',
-  },
+  
+  
   user: null,
   isSigningUp: false,
   isCheckingAuth: true,
@@ -18,7 +16,7 @@ export const useAuthStore = create((set) => ({
   signup: async (credentials) => {
     set({isSigningUp: true})
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/signup", credentials,  { withCredentials: true });
+      const response = await axios.post("/api/auth/signup", credentials,  { withCredentials: true });
       set({user:response.data.user, isSigningUp: false}) //fetching backend success response
       toast.success("Account created successfully");
     } catch (error) {
@@ -31,7 +29,7 @@ export const useAuthStore = create((set) => ({
   login: async (credentials) => {
 		set({ isLoggingIn: true });
 		try {
-			const response = await axios.post("http://localhost:5000/api/auth/login", credentials, { withCredentials: true });
+			const response = await axios.post("/api/auth/login", credentials, { withCredentials: true });
 			set({ user: response.data.user, isLoggingIn: false });
 		} catch (error) {
 			set({ isLoggingIn: false, user: null });
@@ -42,7 +40,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     set({isLoggingOut:true})
     try {
-      await axios.post("http://localhost:5000/api/auth/logout")
+      await axios.post("/api/auth/logout",  { withCredentials: true })
       set({user: null, isLoggingOut: false});
     } catch (error) {
       set({isLoggingOut: false});
@@ -54,7 +52,7 @@ export const useAuthStore = create((set) => ({
     set({ isCheckingAuth: true});
     try {
      
-      const response = await axios.get("http://localhost:5000/api/auth/authCheck", {
+      const response = await axios.get("/api/auth/authCheck", {
         withCredentials: true, // Send cookies with the request
       });
       

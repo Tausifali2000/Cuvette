@@ -5,12 +5,15 @@ import useWorkspaceStore from "../../store/share.js"; // Correct import for work
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import dropStyles from "./dropdown";
+import { useHomeStore } from "../../store/home.js";
 
 const Dropdown = ({ username }) => {
   const [selectedOption, setOption] = useState(null);
   const { logout } = useAuthStore();
-  const { fetchWorkspaces, fetchWorkspaceDetails, workspaces } = useWorkspaceStore();
+  const { fetchWorkspaces, fetchWorkspaceDetails, workspaces, getWorkspaceById } = useWorkspaceStore();
+  const { fetchHome } = useHomeStore();
   const navigate = useNavigate();
+  const us = username + "'s Workspace";
 
   // Fetch workspaces on component mount
   useEffect(() => {
@@ -20,7 +23,7 @@ const Dropdown = ({ username }) => {
         await fetchWorkspaceDetails(); // Fetch detailed workspace data
       } catch (error) {
         console.error("Error fetching workspaces:", error);
-        toast.error("Failed to load workspaces.");
+        // toast.error("Failed to load workspaces.");
       }
     };
 
@@ -35,28 +38,36 @@ const Dropdown = ({ username }) => {
 
   // Default options
   const defaultOptions = [
+   
     { value: "settings", label: "Settings" },
     { value: "logout", label: "Log Out" },
   ];
+  const user = [
+    { value: "username", label:`${us}`},
+  ]
 
   const handleDropdownChange = async (option) => {
     setOption(option);
 
     if (option.value === "logout") {
       await logout();
-      toast.success("Logged out successfully!");
+      
     } else if (option.value === "settings") {
       navigate("/home/settings");
-    } else {
-      toast.info(`Selected Workspace: ${option.label}`);
-      // Add logic for navigating to the workspace or other actions
+    } else if (option.value === "username") {
+      // Fetch the home data when the "username" option is selected
+      fetchHome();
+    }
+      else {
+      const workspaceId = option.value;
+      const selectedWorkspace = getWorkspaceById(workspaceId);
     }
   };
 
   return (
     <div className="dropdown">
       <Select
-        options={[...workspaceOptions, ...defaultOptions]} // Combine options
+        options={[...user, ...workspaceOptions, ...defaultOptions]} // Combine options
         value={selectedOption}
         placeholder={`${username}'s Workspace`}
         onChange={handleDropdownChange}

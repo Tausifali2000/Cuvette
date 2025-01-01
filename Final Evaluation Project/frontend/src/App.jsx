@@ -9,7 +9,7 @@ import Home from "./pages/Home";
 import { useAuthStore } from "../store/authUser";
 import { useEffect } from "react";
 import BuildForm from "./pages/userpages/BuildForm";
-import FormViewer from "./formview/FormViewer";
+
 import Settings from "./pages/userpages/Settings";
 
 
@@ -34,7 +34,7 @@ function App() {
         <Route path ='/home/settings' element={<Settings />} />
         <Route path ='/buildform/:formId' element={<BuildForm />}/>
         <Route path ='/response/:formId' element={<Response />}/>
-        <Route path = '/formview/:formId' element={<FormViewer />} />
+        
      </Routes>
      <Toaster />
     </>

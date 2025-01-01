@@ -10,7 +10,7 @@ export const useWorkspaceStore = create((set, get) => ({
   fetchWorkspaces: async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/workspace/shared", // Adjust the URL based on your API
+        "/api/workspace/shared", // Adjust the URL based on your API
         { withCredentials: true }
       );
 
@@ -42,7 +42,7 @@ export const useWorkspaceStore = create((set, get) => ({
         workspaces.map(async (workspace) => {
           try {
             const response = await axios.get(
-              `http://localhost:5000/api/workspace/shared/${workspace.id}`, // Adjust the endpoint
+              `/api/workspace/shared/${workspace.id}`, // Adjust the endpoint
               { withCredentials: true }
             );
 
@@ -77,7 +77,7 @@ export const useWorkspaceStore = create((set, get) => ({
   shareWorkspace: async (emailToShareWith, permission) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/workspace/share", // Adjust the URL based on your API
+        "/api/workspace/share", // Adjust the URL based on your API
         { emailToShareWith, permission },
         { withCredentials: true }
       );
@@ -92,6 +92,18 @@ export const useWorkspaceStore = create((set, get) => ({
     } catch (error) {
       console.error("Failed to share workspace:", error);
       toast.error(error.response?.data?.message || "An error occurred");
+    }
+  },
+
+  getWorkspaceById: (workspaceId) => {
+    const { workspaces } = get(); // Access the current workspaces from state
+    const workspace = workspaces.find((ws) => ws.id === workspaceId);
+
+    if (workspace) {
+      return workspace; // Return the matching workspace
+    } else {
+      toast.error(`Workspace with ID ${workspaceId} not found`);
+      return null; // Return null if not found
     }
   },
 }));

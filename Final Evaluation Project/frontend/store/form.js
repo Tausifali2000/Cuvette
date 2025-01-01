@@ -4,7 +4,7 @@ import axios from 'axios';
 export const useFormStore = create(() => ({
   fetchFormFromBackend: async (formId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/form/${formId}`, {
+      const response = await axios.get(`/api/form/${formId}`, {
         withCredentials: true,
       });
       return response.data.form; // Return form data
@@ -18,7 +18,7 @@ export const useFormStore = create(() => ({
     try {
        console.log(payload);
       const response = await axios.post(
-        `http://localhost:5000/api/form/${formId}/saveform`,
+        `/api/form/${formId}/saveform`,
         payload,
         { withCredentials: true }
       );

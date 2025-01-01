@@ -14,7 +14,7 @@ export const useHomeStore = create((set) => ({
   fetchHome: async () => {
     set({ isLoadingFolders: true, isLoadingForms: true });
     try {
-      const response = await axios.get("http://localhost:5000/api/home", {
+      const response = await axios.get("/api/home", {
         withCredentials: true,
       });
 
@@ -42,7 +42,7 @@ export const useHomeStore = create((set) => ({
     set({ isCreatingFolder: true });
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/home/createfolder",
+        "/api/home/createfolder",
         folderData,
         { withCredentials: true }
       );
@@ -60,7 +60,7 @@ export const useHomeStore = create((set) => ({
   folderById: async (folderId) => {
     set({ isLoadingForms: true });
     try {
-      const response = await axios.get(`http://localhost:5000/api/home/folder/${folderId}`, {
+      const response = await axios.get(`/api/home/folder/${folderId}`, {
         withCredentials: true,
       });
       set({
@@ -77,7 +77,7 @@ export const useHomeStore = create((set) => ({
     set({ isCreatingForm: true });
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/home/createform",
+        "/api/home/createform",
         formData,
         { withCredentials: true }
       );
@@ -98,7 +98,7 @@ export const useHomeStore = create((set) => ({
 
   deleteForm: async (formId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/home/form/${formId}`, {
+      await axios.delete(`/api/home/form/${formId}`, {
         withCredentials: true,
       });
       set((state) => ({
@@ -112,7 +112,7 @@ export const useHomeStore = create((set) => ({
 
   deleteFolder: async (folderId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/home/folder/${folderId}`, {
+      await axios.delete(`/api/home/folder/${folderId}`, {
         withCredentials: true,
       });
       set((state) => ({
@@ -128,7 +128,7 @@ export const useHomeStore = create((set) => ({
     set({ isUpdatingUser: true });
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/home/settings", // Adjust endpoint if needed
+        "/api/home/settings", // Adjust endpoint if needed
         userData,
         { withCredentials: true }
       );
