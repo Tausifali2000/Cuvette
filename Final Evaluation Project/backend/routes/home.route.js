@@ -1,5 +1,5 @@
 import express from "express";
-import { createFolder, createForm, getFolderById, getHome, getFormById, deleteFolderById, deleteFormById} from "../controllers/home.controllers.js";
+import { createFolder, createForm, getFolderById, getHome, getFormById, deleteFolderById, deleteFormById, updateUser} from "../controllers/home.controllers.js";
 import { protectRoute } from "../middleware/protectRoute.js";
 
 
@@ -18,8 +18,10 @@ router.post("/createform", protectRoute, createForm);
 
 
 
-router.delete("/:id", protectRoute, deleteFormById);
-router.delete("/:id", protectRoute, deleteFolderById);
+router.delete("/form/:id", protectRoute, deleteFormById);
+router.delete("/folder/:id", protectRoute, deleteFolderById);
+
+router.put("/settings", protectRoute, updateUser);
 
 
 export default router;

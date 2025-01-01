@@ -1,5 +1,6 @@
 import { Folder } from "../models/folder.model.js";
 import { Form } from "../models/form.model.js";
+import { User } from "../models/user.model.js";
 
 
 
@@ -219,6 +220,62 @@ export async function deleteFolderById(req, res) {
   } catch (error) {
     console.error("Error in deleteFolderById controller:", error);
     res.status(500).json({ message: "Server error" });
+  }
+}
+
+
+// Update User Details
+export async function updateUser(req, res) {
+  try {
+    const userId = req.user.id; // User ID from authCheck middleware
+    const { name, email, oldPassword, newPassword } = req.body; // Updated fields from the frontend
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    // Update name
+    if (name) {
+      user.name = name;
+    }
+
+    // Validate email format and check for uniqueness
+    if (email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ success: false, message: "Invalid email format." });
+      }
+      const existingUser = await User.findOne({ email });
+      if (existingUser && existingUser._id.toString() !== userId) {
+        return res.status(400).json({ success: false, message: "Email already exists." });
+      }
+      user.email = email;
+    }
+
+    // Update password
+    if (oldPassword && newPassword) {
+      const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
+      if (!isPasswordCorrect) {
+        return res.status(400).json({ success: false, message: "Old password is incorrect." });
+      }
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(newPassword, salt);
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "User details updated successfully.",
+      user: {
+        ...user._doc,
+        password: undefined, // Remove password from the response
+      },
+    });
+  } catch (error) {
+    console.error("Error updating user details:", error.message);
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
 }
 

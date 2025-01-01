@@ -68,7 +68,7 @@ const BuildForm = () => {
         </div>
 
         <div className={createform.btn}>
-          <button className="share">Share</button>
+          <button onClick={() => navigate(`/formview/${formId}`)}>Share</button>
           <button onClick={handleSaveForm}>Save</button>
           <button>X</button>
         </div>

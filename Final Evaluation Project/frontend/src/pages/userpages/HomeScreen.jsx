@@ -4,44 +4,77 @@ import { useHomeStore } from "../../../store/home.js";
 import { useAuthStore } from "../../../store/authUser.js";
 import { useNavigate } from "react-router-dom";
 
+import ToggleButton from "react-toggle-button";
+
+import CreateDialog from "../../components/createDialog.jsx";
+import DeleteDialog from "../../components/DeleteDialog.jsx";
+
+import Dropdown from "../../components/Dropdown.jsx";
+import ShareDialog from "../../components/shareDialog.jsx";
+ // Import the shareDialog
 
 const HomeScreen = () => {
   const [activeBox, setActiveBox] = useState(null); // To manage both folder and form boxes
   const [folderName, setFolderName] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState(null);
+  const [deleteDialog, setDeleteDialog] = useState({ type: null, id: null });
   const [formName, setFormName] = useState("");
+  const [isShareDialogOpen, setIsShareDialogOpen] = useState(false); // Manage share dialog visibility
 
   const navigate = useNavigate();
   const {
     folders,
     forms,
-    isLoadingFolders,
-    isLoadingForms,
     fetchHome,
     createFolder,
     folderById,
     createForm,
+    deleteFolder,
+    deleteForm,
   } = useHomeStore();
 
-  const { user, authCheck, isCheckingAuth } = useAuthStore();
+  const { user, authCheck } = useAuthStore();
+  const { username } = user;
 
-  // Fetch folders and forms on component mount
   useEffect(() => {
     fetchHome();
     authCheck(); // Perform auth check to load user data
   }, [fetchHome, authCheck]);
 
   // Dynamic box handler
-  function toggleBox(type) {
-    if (type === activeBox) {
-      setActiveBox(null); // Close the box if it's already active
-    } else {
-      setActiveBox(type); // Set the active box type
+  const toggleBox = (type) => {
+    setDeleteDialog({ type: null, id: null }); // Close delete dialog if active
+    setActiveBox((prev) => (prev === type ? null : type));
+  };
+
+  // Delete dialog handler
+  const openDeleteDialog = (type, id) => {
+    setActiveBox(null); // Close other dialogs
+    setDeleteDialog({ type, id });
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteDialog({ type: null, id: null });
+  };
+
+  // Confirm deletion
+  const handleConfirmDelete = async () => {
+    try {
+      const { type, id } = deleteDialog;
+      if (type === "folder") {
+        await deleteFolder(id);
+      } else if (type === "form") {
+        await deleteForm(id);
+      }
+    } catch (error) {
+      console.error(`Failed to delete ${deleteDialog.type}:`, error);
+    } finally {
+      closeDeleteDialog();
     }
-  }
+  };
 
   // Handle folder creation
-  async function handleCreateFolder() {
+  const handleCreateFolder = async () => {
     try {
       await createFolder({ name: folderName });
       setFolderName(""); // Clear the input
@@ -49,7 +82,7 @@ const HomeScreen = () => {
     } catch (error) {
       console.error("Error creating folder:", error);
     }
-  }
+  };
 
   const handleFolderClick = async (folderId) => {
     try {
@@ -64,7 +97,7 @@ const HomeScreen = () => {
     }
   };
 
-  async function handleCreateForm() {
+  const handleCreateForm = async () => {
     try {
       const formData = {
         name: formName,
@@ -77,125 +110,134 @@ const HomeScreen = () => {
     } catch (error) {
       console.error("Error creating form:", error);
     }
-  }
+  };
 
-  async function handleFormClick(formId) {
+  const handleFormClick = (formId) => {
     navigate(`/buildform/${formId}`);
-  }
+  };
 
+  const isDialogActive = !!(activeBox || deleteDialog.type);
 
+  const options = [
+    { value: "settings", label: "Settings" },
+    { value: "logout", label: "Log Out" },
+  ];
 
+  const toggleShareDialog = () => {
+    setIsShareDialogOpen((prev) => !prev); // Toggle share dialog visibility
+  };
 
   return (
     <div className={homestyles.homebody}>
-      <header className={homestyles.homeheader}>
-       <div className={homestyles.dropdown}>
-            {user.username}'s Workspace
-             
+      <header className={homestyles.header}>
+        <div className={homestyles.dropdown}>
+          <Dropdown username={username} />
         </div>
         <div className={homestyles.btn}>
-          <div>light and dark</div>
-          <button>Share</button>
+          <div>
+            <ToggleButton />
+          </div>
+          <button
+            className={homestyles.share}
+            onClick={toggleShareDialog} // Toggle share dialog when Share button is clicked
+          >
+            Share
+          </button>
         </div>
       </header>
 
       <div className={homestyles.container}>
         <div className={homestyles.workspace}>
-          <div className={homestyles.foldernames}>
-            <button onClick={() => toggleBox("folder")}>Create a folder</button>
+          <div className={homestyles.folderbar}>
+            <button
+              className={homestyles.create1}
+              onClick={() => toggleBox("folder")}
+            >
+              <img src="/create.png" alt="Create" /> Create a folder
+            </button>
             <div className={homestyles.folders}>
-              {isLoadingFolders ? (
-                <p>Loading folders...</p>
-              ) : (
-                folders?.map((folder, index) =>
-                  folder ? (
-                    <button
-                      key={index}
-                      onClick={() => handleFolderClick(folder._id)} // Pass folder ID to fetch forms
-                    >
-                      {folder.name}
-                    </button>
-                  ) : null // Skip undefined folders
-                )
-              )}
+              {folders?.map((folder) => (
+                <div key={folder._id} className={homestyles.folderc}>
+                  <button
+                    className={homestyles.folder}
+                    onClick={() => handleFolderClick(folder._id)}
+                  >
+                    {folder.name}
+                  </button>
+                  <button
+                    className={homestyles.x}
+                    onClick={() => openDeleteDialog("folder", folder._id)}
+                  >
+                    <img src="/delete.png" alt="Delete" />
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Forms and Folder Creation */}
           <div className={homestyles.container0}>
             <button
               className={homestyles.createform}
               onClick={() => toggleBox("form")}
             >
-              Create a typebot
+              <img src="/plus.png" alt="Create" /> Create a typebot
             </button>
             <div className={homestyles.forms}>
               {activeBox === "folder" && (
-                <div className={homestyles.folderbox}>
-                  <h1>Create New Folder</h1>
-                  <input
-                    type="text"
-                    placeholder="Enter folder name"
-                    value={folderName}
-                    onChange={(e) => setFolderName(e.target.value)}
-                  />
-                  <div className={homestyles.folderboxbtn}>
-                    <button onClick={handleCreateFolder}>Done</button>
-                    <button onClick={() => toggleBox(null)}>Cancel</button>
-                  </div>
-                </div>
+                <CreateDialog
+                  title="Create New Folder"
+                  placeholder="Enter folder name"
+                  value={folderName}
+                  setValue={setFolderName}
+                  onConfirm={handleCreateFolder}
+                  onCancel={() => toggleBox(null)}
+                />
               )}
 
               {activeBox === "form" && (
-                <div className={homestyles.folderbox}>
-                  <h1>Create New Type Bot</h1>
-                  <input
-                    type="text"
-                    placeholder="Enter type bot name"
-                    value={formName}
-                    onChange={(e) => setFormName(e.target.value)}
-                  />
-                  <div className={homestyles.folderboxbtn}>
-                    <button onClick={handleCreateForm}>Done</button>
-                    <button onClick={() => toggleBox(null)}>Cancel</button>
-                  </div>
-                </div>
+                <CreateDialog
+                  title="Create New Type Bot"
+                  placeholder="Enter type bot name"
+                  value={formName}
+                  setValue={setFormName}
+                  onConfirm={handleCreateForm}
+                  onCancel={() => toggleBox(null)}
+                />
               )}
 
-              {/* Display standalone forms when no folder is selected */}
-              {activeBox === null && (
-                <div className={homestyles.formList}>
-                  {isLoadingForms ? (
-                    <p>Loading forms...</p>
-                  ) : selectedFolderId ? (
-                    // Display forms in the selected folder
-                    forms?.map((form, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleFormClick(form._id)} // Pass form ID for navigation
-                        className={homestyles.form}
-                      >
-                        {form.name}
-                      </button>
-                    ))
-                  ) : (
-                    // Display standalone forms
-                    forms?.map((form, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleFormClick(form._id)} // Pass form ID for navigation
-                        className={homestyles.form}
-                      >
-                        {form.name}
-                      </button>
-                    ))
-                  )}
-                </div>
+              {deleteDialog.type && (
+                <DeleteDialog
+                  type={deleteDialog.type}
+                  onConfirm={handleConfirmDelete}
+                  onCancel={closeDeleteDialog}
+                />
               )}
+
+              {/* Hide `.fc` if any dialog is active */}
+              {!isDialogActive &&
+                forms?.map((form) => (
+                  <div key={form._id} className={homestyles.fc}>
+                    <button
+                      className={homestyles.x2}
+                      onClick={() => openDeleteDialog("form", form._id)}
+                    >
+                      <img src="/delete.png" alt="Delete" />
+                    </button>
+                    <button
+                      className={homestyles.form}
+                      onClick={() => handleFormClick(form._id)}
+                    >
+                      {form.name}
+                    </button>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
       </div>
+
+  
+      {isShareDialogOpen && <ShareDialog />}
     </div>
   );
 };

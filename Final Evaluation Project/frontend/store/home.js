@@ -9,51 +9,46 @@ export const useHomeStore = create((set) => ({
   isCreatingForm: false,
   isLoadingFolders: false,
   isLoadingForms: false,
+  isUpdatingUser: false,
 
   fetchHome: async () => {
-    set({ isLoadingFolders: true, isLoadingForms: true }); // Start loading state
+    set({ isLoadingFolders: true, isLoadingForms: true });
     try {
       const response = await axios.get("http://localhost:5000/api/home", {
-        withCredentials: true // Ensure cookies (e.g., tokens) are included in the request
+        withCredentials: true,
       });
-      
-  
-      const { standaloneForms, folders } = response.data.data; // Access the correct structure
-  
+
+      const { standaloneForms, folders } = response.data.data;
+
       set({
-        folders: folders?.filter((folder) => folder), // Set folders to the folders array from the backend
-        forms: standaloneForms, // Set forms to the standalone forms from the backend
+        folders: folders?.filter((folder) => folder),
+        forms: standaloneForms,
         isLoadingFolders: false,
         isLoadingForms: false,
       });
     } catch (error) {
-      // Handle specific error cases
       if (error.response?.status === 401) {
         toast.error("Unauthorized: Please log in again.");
-        // Optional: Redirect the user to the login page
-        // window.location.href = "/login";
       } else if (error.response?.status === 403) {
         toast.error("Forbidden: You do not have access to this resource.");
       } else {
         toast.error(error.response?.data?.message || "Failed to fetch folders and forms");
       }
-      set({ isLoadingFolders: false, isLoadingForms: false }); // Reset loading state on error
+      set({ isLoadingFolders: false, isLoadingForms: false });
     }
   },
-  
 
-//Create Folder
   createFolder: async (folderData) => {
     set({ isCreatingFolder: true });
-    console.log(folderData);
-    
     try {
-      const response = await axios.post("http://localhost:5000/api/home/createfolder", folderData, {
-        withCredentials: true // Ensure cookies (e.g., tokens) are included in the request
-      });
-      set((state) => ({ 
-        folders: [...state.folders, response.data.folder], 
-        isCreatingFolder: false 
+      const response = await axios.post(
+        "http://localhost:5000/api/home/createfolder",
+        folderData,
+        { withCredentials: true }
+      );
+      set((state) => ({
+        folders: [...state.folders, response.data.folder],
+        isCreatingFolder: false,
       }));
       toast.success("Folder created successfully");
     } catch (error) {
@@ -62,53 +57,88 @@ export const useHomeStore = create((set) => ({
     }
   },
 
- // Fetch forms inside a specific folder by its ID
- folderById: async (folderId) => {
-  set({ isLoadingForms: true }); // Start loading forms for the folder
+  folderById: async (folderId) => {
+    set({ isLoadingForms: true });
+    try {
+      const response = await axios.get(`http://localhost:5000/api/home/folder/${folderId}`, {
+        withCredentials: true,
+      });
+      set({
+        forms: response.data.forms,
+        isLoadingForms: false,
+      });
+    } catch (error) {
+      toast.error("Failed to load forms for the selected folder");
+      set({ isLoadingForms: false });
+    }
+  },
 
-  try {
-    const response = await axios.get(
-      `http://localhost:5000/api/home/folder/${folderId}`,
-      {
-        withCredentials: true, // Ensure cookies (e.g., tokens) are included in the request
-      }
-    );
+  createForm: async (formData) => {
+    set({ isCreatingForm: true });
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/home/createform",
+        formData,
+        { withCredentials: true }
+      );
 
-    // Update the forms state with the data from the folder
-    set({
-      forms: response.data.forms, // Set forms to the forms inside the selected folder
-      isLoadingForms: false, // Reset loading state
-    });
-  } catch (error) {
-    toast.error("Failed to load forms for the selected folder");
-    set({ isLoadingForms: false }); // Reset loading state on error
-  }
-},
+      const newForm = response.data.form;
 
-//create Form
-createForm: async (formData) => {
-  set({ isCreatingForm: true });
-  try {
-    const response = await axios.post(
-      "http://localhost:5000/api/home/createform",
-      formData,
-      { withCredentials: true } // Ensure cookies are included
-    );
+      set((state) => ({
+        forms: [...state.forms, newForm],
+        isCreatingForm: false,
+      }));
 
-    const newForm = response.data.form;
+      toast.success("Type Bot created successfully");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to create Type Bot");
+      set({ isCreatingForm: false });
+    }
+  },
 
-    set((state) => ({
-      forms: [...state.forms, newForm], // Add the new form to the state
-      isCreatingForm: false,
-    }));
+  deleteForm: async (formId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/home/form/${formId}`, {
+        withCredentials: true,
+      });
+      set((state) => ({
+        forms: state.forms.filter((form) => form._id !== formId),
+      }));
+      toast.success("Form deleted successfully");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete form");
+    }
+  },
 
-    toast.success("Type Bot created successfully");
-  } catch (error) {
-    toast.error(error.response?.data?.message || "Failed to create Type Bot");
-    set({ isCreatingForm: false });
-  }
-},
+  deleteFolder: async (folderId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/home/folder/${folderId}`, {
+        withCredentials: true,
+      });
+      set((state) => ({
+        folders: state.folders.filter((folder) => folder._id !== folderId),
+      }));
+      toast.success("Folder and its forms deleted successfully");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete folder");
+    }
+  },
 
-
- 
-}));
+  updateUser: async (userId, userData) => {
+    set({ isUpdatingUser: true });
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/home/settings", // Adjust endpoint if needed
+        userData,
+        { withCredentials: true }
+      );
+  
+      set({ isUpdatingUser: false });
+      toast.success("User details updated successfully.");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to update user details.");
+      set({ isUpdatingUser: false });
+    }
+  },
+  
+}))

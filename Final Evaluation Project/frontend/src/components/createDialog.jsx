@@ -1,28 +1,19 @@
-// DialogBox.jsx
 import React from "react";
-
-
-const CreateDialog = ({
-  type,
-  title,
-  inputPlaceholder,
-  inputValue,
-  onInputChange,
-  onSubmit,
-  onCancel,
-}) => {
+import createStyles from './cssModule/create.module.css';
+const CreateDialog = ({ title, placeholder, value, setValue, onConfirm, onCancel }) => {
   return (
-    <div className={styles.dialogBox}>
+    <div className={createStyles.folderbox}>
       <h1>{title}</h1>
       <input
         type="text"
-        placeholder={inputPlaceholder}
-        value={inputValue}
-        onChange={onInputChange}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
-      <div className={styles.dialogBoxButtons}>
-        <button onClick={onSubmit}>Done</button>
-        <button onClick={onCancel}>Cancel</button>
+      <div className={createStyles.btn}>
+        <button onClick={onConfirm}>Done</button>
+        <div className={createStyles.sep}></div>
+        <button className= {createStyles.cancel} onClick={onCancel}>Cancel</button>
       </div>
     </div>
   );
