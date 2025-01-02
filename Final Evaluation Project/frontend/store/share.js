@@ -3,78 +3,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export const useWorkspaceStore = create((set, get) => ({
-  // State to hold workspaces
-  workspaces: [],
-
-  // Function to fetch accessible workspaces
-  fetchWorkspaces: async () => {
-    try {
-      const response = await axios.get(
-        "/api/workspace/shared", // Adjust the URL based on your API
-        { withCredentials: true }
-      );
-
-      if (response.data.success) {
-        set({ workspaces: response.data.workspaces });
-        toast.success("Workspaces retrieved successfully");
-      } else {
-        set({ workspaces: [] });
-        toast.error(response.data.message || "Failed to fetch workspaces");
-      }
-    } catch (error) {
-      console.error("Failed to fetch workspaces:", error);
-     
-      toast.error(error.response?.data?.message || "An error occurred");
-    }
-  },
-
-  // Function to fetch detailed data for all workspaces in the state
-  fetchWorkspaceDetails: async () => {
-    const { workspaces } = get(); // Get current workspaces from state
-
-    if (!workspaces.length) {
-      toast.error("No workspaces to fetch details for");
-      return;
-    }
-
-    try {
-      const detailedWorkspaces = await Promise.all(
-        workspaces.map(async (workspace) => {
-          try {
-            const response = await axios.get(
-              `/api/workspace/shared/${workspace.id}`, // Adjust the endpoint
-              { withCredentials: true }
-            );
-
-            if (response.data.success) {
-              return response.data.workspace; // Return detailed workspace data
-            } else {
-              toast.error(
-                response.data.message || `Failed to fetch details for workspace ${workspace.id}`
-              );
-              return null; // Skip this workspace on failure
-            }
-          } catch (error) {
-            console.error(`Failed to fetch details for workspace ${workspace.id}:`, error);
-            toast.error(
-              error.response?.data?.message || `Error fetching details for workspace ${workspace.id}`
-            );
-            return null; // Skip this workspace on error
-          }
-        })
-      );
-
-      // Filter out null values and update the state
-      set({ workspaces: detailedWorkspaces.filter(Boolean) });
-      toast.success("Workspace details retrieved successfully");
-    } catch (error) {
-      console.error("Failed to fetch workspace details:", error);
-      toast.error("An error occurred while fetching workspace details");
-    }
-  },
-
-  // Function to share a workspace
-  shareWorkspace: async (emailToShareWith, permission) => {
+  isLoadingWorkspace: false,
+  workspaceOwner: null,
+  accessibleWorkspaces: [],
+  folders: [],
+  forms: [],
+ shareWorkspace: async (emailToShareWith, permission) => {
     try {
       const response = await axios.post(
         "/api/workspace/share", // Adjust the URL based on your API
@@ -95,17 +29,56 @@ export const useWorkspaceStore = create((set, get) => ({
     }
   },
 
-  getWorkspaceById: (workspaceId) => {
-    const { workspaces } = get(); // Access the current workspaces from state
-    const workspace = workspaces.find((ws) => ws.id === workspaceId);
+  fetchAccessList: async () => {
+    try {
+      const response = await axios.get("/api/workspace/accesslist", {
+        withCredentials: true,
+      });
 
-    if (workspace) {
-      return workspace; // Return the matching workspace
-    } else {
-      toast.error(`Workspace with ID ${workspaceId} not found`);
-      return null; // Return null if not found
+      if (response.data.success) {
+        // Store the accessible workspaces in the state
+        set({ accessibleWorkspaces: response.data.workspaces });
+        toast.success("Access list fetched successfully");
+      } else {
+        toast.error(response.data.message || "Failed to fetch access list");
+      }
+
+      return response.data.workspaces; // Return the fetched workspaces
+    } catch (error) {
+      console.error("Failed to fetch access list:", error);
+      toast.error(error.response?.data?.message || "An error occurred");
     }
   },
+
+  fetchWorkspace: async (workspaceId) => {
+    set({ isLoadingWorkspace: true });
+    try {
+      const response = await axios.get(`/api/workspace/${workspaceId}`, {
+        withCredentials: true,
+      });
+
+      const { owner, standaloneForms, folders, accessList } = response.data.data;
+
+      set({
+        workspaceOwner: owner,
+        folders: folders?.filter((folder) => folder),
+        forms: standaloneForms,
+        workspaceAccessList: accessList,
+        isLoadingWorkspace: false,
+      });
+    } catch (error) {
+      if (error.response?.status === 404) {
+        toast.error("Workspace not found. Please check the workspace ID.");
+      } else if (error.response?.status === 401) {
+        toast.error("Unauthorized: Please log in again.");
+      } else {
+        toast.error(error.response?.data?.message || "Failed to fetch workspace data");
+      }
+      set({ isLoadingWorkspace: false });
+    }
+  },
+
+  
 }));
 
 export default useWorkspaceStore;

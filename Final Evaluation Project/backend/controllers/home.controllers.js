@@ -2,6 +2,7 @@ import { Folder } from "../models/folder.model.js";
 import { Form } from "../models/form.model.js";
 import { User } from "../models/user.model.js";
 import { Workspace } from "../models/workspace.model.js";
+import bcryptjs from "bcryptjs";
 
 
 
@@ -269,55 +270,95 @@ export async function deleteFolderById(req, res) {
 // Update User Details
 export async function updateUser(req, res) {
   try {
-    const userId = req.user.id; // User ID from authCheck middleware
-    const { name, email, oldPassword, newPassword } = req.body; // Updated fields from the frontend
+    const userId = req.user?.id;
+    
+    const { username, email, oldPassword, newPassword } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required" });
+    }
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found." });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    // Update name
-    if (name) {
-      user.name = name;
+    if(!oldPassword ) {
+      return res.status(404).json({ success: false, message: "Please enter password" });
     }
 
-    // Validate email format and check for uniqueness
+    const isMatch = await bcryptjs.compare(oldPassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ success: false, message: "Password is incorrect" });
+      }
+
+
+    if (username) {
+      const existingUserByUsername = await User.findOne({ username });
+      if (existingUserByUsername && existingUserByUsername._id.toString() !== userId) {
+        return res.status(400).json({ success: false, message: "Username already exists" });
+      }
+      user.username = username;
+    }
     if (email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({ success: false, message: "Invalid email format." });
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ success: false, message: "Invalid email" });
+    }
+
+    
+      const existingUserByEmail = await User.findOne({ email });
+      if (existingUserByEmail && existingUserByEmail._id.toString() !== userId) {
+        return res.status(400).json({ success: false, message: "Email already exists" });
       }
-      const existingUser = await User.findOne({ email });
-      if (existingUser && existingUser._id.toString() !== userId) {
-        return res.status(400).json({ success: false, message: "Email already exists." });
-      }
+      const oldEmail = user.email;
       user.email = email;
+
+      await Workspace.updateMany(
+        { "accessList.email": oldEmail },
+        { $set: { "accessList.$.email": email } }
+      );
+
+      // Update workspaces owned by the user
+      await Workspace.updateMany(
+        { user: userId },
+        { $set: { "accessList.$[elem].email": email } },
+        { arrayFilters: [{ "elem.email": oldEmail }] }
+      );
     }
 
-    // Update password
-    if (oldPassword && newPassword) {
-      const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
-      if (!isPasswordCorrect) {
-        return res.status(400).json({ success: false, message: "Old password is incorrect." });
+    if ( newPassword) {
+      if (newPassword.length < 6) {
+        return res.status(400).json({ success: false, message: "New password must be at least 6 characters" });
       }
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(newPassword, salt);
+
+      const salt = await bcryptjs.genSalt(10);
+      user.password = await bcryptjs.hash(newPassword, salt);
     }
 
+    // Save updated user details
     await user.save();
+
+    // Update workspace references if email changed
+    if (email || username) {
+      await Workspace.updateMany(
+        { "accessList.email": user.email },
+        { $set: { "accessList.$.email": email || user.email } }
+      );
+    }
 
     res.status(200).json({
       success: true,
-      message: "User details updated successfully.",
+      message: "User details updated successfully",
       user: {
         ...user._doc,
-        password: undefined, // Remove password from the response
+        password: "", // Exclude password from response
       },
     });
   } catch (error) {
-    console.error("Error updating user details:", error.message);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    console.log("Error in updateUser controller", error.message);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 }
+
 

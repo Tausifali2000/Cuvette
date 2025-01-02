@@ -22,6 +22,7 @@ const HomeScreen = () => {
   const [deleteDialog, setDeleteDialog] = useState({ type: null, id: null });
   const [formName, setFormName] = useState("");
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false); // Manage share dialog visibility
+  const [selectedWorkspaceId, setSelectedWorkspaceId] = useState(null);
 
   const navigate = useNavigate();
   const {
@@ -36,20 +37,24 @@ const HomeScreen = () => {
   } = useHomeStore();
 
   const { user, authCheck } = useAuthStore();
-  const { fetchWorkspaces, fetchWorkspaceDetails } = useWorkspaceStore();
+  const { fetchAccessList, fetchWorkspace } = useWorkspaceStore();
   const { username } = user;
-  const { id } = fetchWorkspaceDetails;
+  const { id } = fetchAccessList;
 
   useEffect(() => {
-    fetchHome();
+    
+    
+    fetchHome()// Fetch data for the selected workspace
     authCheck();
-    fetchWorkspaces();
-    fetchWorkspaceDetails();
+    fetchAccessList();
+  }, [selectedWorkspaceId, fetchHome, fetchWorkspace, authCheck, fetchAccessList]);
 
-    // Perform auth check to load user data
-  }, [fetchHome, authCheck, fetchWorkspaces]);
+  const handleWorkspaceSelect = (workspaceId) => {
+    setSelectedWorkspaceId(workspaceId);
+    console.log("Selected Workspace ID:", workspaceId);
+  };
 
-  console.log(id);
+
 
   // Dynamic box handler
   const toggleBox = (type) => {
@@ -141,7 +146,7 @@ const HomeScreen = () => {
     <div className={homestyles.homebody}>
       <header className={homestyles.header}>
         <div className={homestyles.dropdown}>
-          <Dropdown username={username} />
+          <Dropdown username={username}  onWorkspaceSelect={handleWorkspaceSelect}/>
         </div>
         <div className={homestyles.btn}>
           <div>

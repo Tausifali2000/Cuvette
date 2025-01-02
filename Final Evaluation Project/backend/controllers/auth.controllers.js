@@ -46,7 +46,12 @@ export async function signup(req, res) {
     // Create a workspace for the new user
     const newWorkspace = new Workspace({
       user: newUser._id,
-      accessList: [], // Optional: predefine if necessary
+      accessList: [
+        {
+          email, 
+          permission: "edit"
+        }
+      ], // Include the current user's email and permission
       folders: [],
       forms: [],
     });

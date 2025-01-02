@@ -140,5 +140,26 @@ export const useHomeStore = create((set) => ({
       set({ isUpdatingUser: false });
     }
   },
+
+  updateUser: async (userData) => {
+    set({ isUpdatingUser: true });
+    try {
+      const response = await axios.post(
+        `/api/home/settings`, // Adjust endpoint based on your API route
+        userData,
+        { withCredentials: true }
+      );
+  
+      set({ isUpdatingUser: false });
+  
+      toast.success("User details updated successfully.");
+      return response.data; // Return the updated user data if needed
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to update user details.";
+      toast.error(errorMessage);
+      set({ isUpdatingUser: false });
+      throw new Error(errorMessage); // Rethrow the error if you want the caller to handle it
+    }
+  },
   
 }))

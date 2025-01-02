@@ -6,6 +6,7 @@ import { protectRoute } from "../middleware/protectRoute.js";
 
 
 
+
 const router = express.Router();
 
 router.get("/", protectRoute, getHome )
@@ -22,7 +23,7 @@ router.post("/createform", protectRoute, createForm);
 router.delete("/form/:id", protectRoute, deleteFormById);
 router.delete("/folder/:id", protectRoute, deleteFolderById);
 
-router.put("/settings", protectRoute, updateUser);
+router.post("/settings", protectRoute, updateUser);
 
 
 export default router;

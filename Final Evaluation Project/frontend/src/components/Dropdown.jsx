@@ -7,10 +7,10 @@ import toast from "react-hot-toast";
 import dropStyles from "./dropdown";
 import { useHomeStore } from "../../store/home.js";
 
-const Dropdown = ({ username }) => {
+const Dropdown = ({ username, onWorkspaceSelect }) => {
   const [selectedOption, setOption] = useState(null);
   const { logout } = useAuthStore();
-  const { fetchWorkspaces, fetchWorkspaceDetails, workspaces, getWorkspaceById } = useWorkspaceStore();
+  const { fetchAccessList, accessibleWorkspaces, fetchWorkspace } = useWorkspaceStore();
   const { fetchHome } = useHomeStore();
   const navigate = useNavigate();
   const us = username + "'s Workspace";
@@ -19,8 +19,8 @@ const Dropdown = ({ username }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetchWorkspaces(); // Fetch initial workspaces
-        await fetchWorkspaceDetails(); // Fetch detailed workspace data
+        await fetchAccessList(); // Fetch initial workspaces
+         // Fetch detailed workspace data
       } catch (error) {
         console.error("Error fetching workspaces:", error);
         // toast.error("Failed to load workspaces.");
@@ -28,13 +28,14 @@ const Dropdown = ({ username }) => {
     };
 
     fetchData();
-  }, [fetchWorkspaces, fetchWorkspaceDetails]);
+  }, [fetchAccessList]);
 
   // Transform workspaces into dropdown options
-  const workspaceOptions = workspaces.map((workspace) => ({
+  const workspaceOptions =  accessibleWorkspaces.map((workspace) => ({
     value: workspace.id,
     label: workspace.ownerUsername || "Unnamed Workspace", // Handle missing names
   }));
+  
 
   // Default options
   const defaultOptions = [
@@ -43,7 +44,7 @@ const Dropdown = ({ username }) => {
     { value: "logout", label: "Log Out" },
   ];
   const user = [
-    { value: "username", label:`${us}`},
+    { value: "currentUser", label:`${us}`},
   ]
 
   const handleDropdownChange = async (option) => {
@@ -54,13 +55,16 @@ const Dropdown = ({ username }) => {
       
     } else if (option.value === "settings") {
       navigate("/home/settings");
-    } else if (option.value === "username") {
+    } else if (option.value === "currentUser") {
       // Fetch the home data when the "username" option is selected
       fetchHome();
     }
       else {
       const workspaceId = option.value;
-      const selectedWorkspace = getWorkspaceById(workspaceId);
+      if (onWorkspaceSelect) {
+        onWorkspaceSelect(workspaceId);
+      }
+      
     }
   };
 

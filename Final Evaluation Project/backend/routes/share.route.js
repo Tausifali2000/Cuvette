@@ -1,6 +1,6 @@
 import express from "express";
 import { protectRoute } from "../middleware/protectRoute.js";
-import { fetchWorkspaceDetails, fetchWorkspaces, shareWorkspace } from "../controllers/share.controller.js";
+import { fetchAccessList, getWorkspace, shareWorkspace } from "../controllers/share.controller.js";
 
 
 const router = express.Router(); //creating router instance
@@ -8,7 +8,7 @@ const router = express.Router(); //creating router instance
 router.post("/share", protectRoute, shareWorkspace);
 
 
-router.get("/shared", protectRoute, fetchWorkspaces);
-router.get("/shared/:workspaceId", protectRoute, fetchWorkspaceDetails);
+router.get("/accesslist", protectRoute, fetchAccessList);
+router.get("/:workspaceId", protectRoute, getWorkspace);
 
 export default router;

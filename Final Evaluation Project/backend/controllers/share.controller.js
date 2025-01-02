@@ -5,9 +5,23 @@ import { Workspace } from "../models/workspace.model.js";
 
 export const shareWorkspace = async (req, res) => {
   try {
-    const { emailToShareWith, permission } = req.body; // Email and permission (view/edit) to share with
+    const { emailToShareWith, permission = 'view' } = req.body; // Default permission is 'view'
 
+    // Validate input
+    if (!emailToShareWith) {
+      return res.status(400).json({ success: false, message: "Email to share with is required" });
+    }
+
+    const validPermissions = ['view', 'edit'];
+    if (!validPermissions.includes(permission)) {
+      return res.status(400).json({ success: false, message: "Invalid permission type" });
+    }
+
+    // Verify the logged-in user
     const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
 
     // Check if the email to share with exists
     const recipientUser = await User.findOne({ email: emailToShareWith });
@@ -18,61 +32,41 @@ export const shareWorkspace = async (req, res) => {
       });
     }
 
-    // Find all folders and forms related to this user
-    const folders = await Folder.find({ user: user._id });
-    const forms = await Form.find({ user: user._id });
-
-    // Check if the folders or forms arrays are empty
-    if (folders.length === 0 || forms.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "No folders or forms found for this user.",
-      });
-    }
-
-    // Check if workspace exists, otherwise create a new workspace
-    let workspace = await Workspace.findOne({ user: user._id });
-
+    // Find the workspace of the current user
+    const workspace = await Workspace.findOne({ user: req.user._id });
     if (!workspace) {
-      // Create a new workspace if it doesn't exist
-      workspace = new Workspace({
-        user: user._id,
-        accessList: [
-          { email: user.email, permission: "edit" }, // Add the current user with 'edit' permission
-        ],
-        folders: folders.map((folder) => folder._id),
-        forms: forms.map((form) => form._id),
-      });
+      return res.status(404).json({ success: false, message: "Workspace not found" });
     }
 
-    // Check if the email already has access to the workspace
+    // Check if the email already has access
     const existingAccess = workspace.accessList.find(
       (access) => access.email === emailToShareWith
     );
     if (existingAccess) {
       return res.status(400).json({
         success: false,
-        message: "User already has access to this workspace.",
+        message: "This user already has access to the workspace.",
       });
     }
 
-    // Add the user to the access list with the specified permission
+    // Add the email and permission to the access list
     workspace.accessList.push({ email: emailToShareWith, permission });
+    await workspace.save();
 
-    await workspace.save(); // Save the workspace with the updated access list
-
-    res
-      .status(200)
-      .json({ success: true, message: "Workspace shared successfully." });
+    res.status(200).json({
+      success: true,
+      message: `Workspace successfully shared with ${emailToShareWith}`,
+      workspace,
+    });
   } catch (error) {
-    console.error("Error sharing workspace:", error);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    console.error("Error in shareWorkspace:", error.message);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
-export const fetchWorkspaces = async (req, res) => {
+export const fetchAccessList = async (req, res) => {
   try {
-    // Retrieve the current user from the request
+    // Retrieve the current user's ID and email from the request
     const userId = req.user._id;
 
     // Fetch the user's email from the User model
@@ -86,10 +80,11 @@ export const fetchWorkspaces = async (req, res) => {
 
     const userEmail = user.email;
 
-    // Find all workspaces where the user's email is in the accessList
+    // Find all workspaces where the user's email is in the accessList but exclude the user's own workspaces
     const accessibleWorkspaces = await Workspace.find({
       "accessList.email": userEmail,
-    }).populate("user", "email");
+      user: { $ne: userId }, // Exclude workspaces owned by the current user
+    }).populate("user", "email username");
 
     if (accessibleWorkspaces.length === 0) {
       return res.status(200).json({
@@ -105,6 +100,7 @@ export const fetchWorkspaces = async (req, res) => {
       message: "Accessible workspaces retrieved successfully.",
       workspaces: accessibleWorkspaces.map((workspace) => ({
         id: workspace._id,
+        ownerUsername: workspace.user.username,
         ownerEmail: workspace.user.email,
         permission: workspace.accessList.find(
           (access) => access.email === userEmail
@@ -112,7 +108,7 @@ export const fetchWorkspaces = async (req, res) => {
       })),
     });
   } catch (error) {
-    console.error("Error checking accessible workspaces:", error);
+    console.error("Error fetching accessible workspaces:", error);
     res.status(500).json({
       success: false,
       message: "Internal server error.",
@@ -120,15 +116,25 @@ export const fetchWorkspaces = async (req, res) => {
   }
 };
 
-export const fetchWorkspaceDetails = async (req, res) => {
-  try {
-    const { workspaceId } = req.params; // Extract workspace ID from the request parameters
 
-    // Find the workspace by ID and populate necessary fields
+
+export const fetchWorkspaceById = async (req, res) => {
+  try {
+    const { workspaceId } = req.params;
+
+    // Validate the workspaceId
+    if (!workspaceId) {
+      return res.status(400).json({
+        success: false,
+        message: "Workspace ID is required.",
+      });
+    }
+
+    // Fetch the workspace by ID and populate related fields
     const workspace = await Workspace.findById(workspaceId)
-      .populate("folders")
-      .populate("forms")
-      .populate("user", "email username"); // Include `username` in the populated user data
+      .populate("user", "username email") // Fetch owner details
+      .populate("folders") // Fetch folder details
+      .populate("forms"); // Fetch form details
 
     if (!workspace) {
       return res.status(404).json({
@@ -137,39 +143,62 @@ export const fetchWorkspaceDetails = async (req, res) => {
       });
     }
 
-    // Fetch additional details for folders and forms if necessary
-    const folders = await Folder.find({ _id: { $in: workspace.folders } });
-    const forms = await Form.find({ _id: { $in: workspace.forms } });
-
-    // Prepare the response data
-    const workspaceData = {
-      id: workspace._id,
-      ownerEmail: workspace.user.email,
-      ownerUsername: workspace.user.username, // Add owner's username
-      accessList: workspace.accessList,
-      folders: folders.map((folder) => ({
-        id: folder._id,
-        name: folder.name,
-        createdAt: folder.createdAt,
-      })),
-      forms: forms.map((form) => ({
-        id: form._id,
-        name: form.name,
-        folderId: form.folderId,
-        createdAt: form.createdAt,
-      })),
-    };
-
+    // Respond with the workspace data
     res.status(200).json({
       success: true,
-      message: "Workspace details retrieved successfully.",
-      workspace: workspaceData,
+      message: "Workspace fetched successfully.",
+      workspace,
     });
   } catch (error) {
-    console.error("Error fetching workspace details:", error);
+    console.error("Error fetching workspace:", error.message);
     res.status(500).json({
       success: false,
       message: "Internal server error.",
     });
   }
 };
+
+
+export async function getWorkspace(req, res) {
+  try {
+    const { workspaceId } = req.params;
+
+    // Validate the workspace ID
+    if (!workspaceId) {
+      return res.status(400).json({ success: false, message: "Workspace ID is required" });
+    }
+
+    // Fetch the workspace by ID and populate folders and forms
+    const workspace = await Workspace.findById(workspaceId)
+      .populate({
+        path: "folders",
+        populate: {
+          path: "forms",
+          model: "Form",
+        },
+      })
+      .populate("forms"); // Populate standalone forms
+
+    // Check if the workspace exists
+    if (!workspace) {
+      return res.status(404).json({ success: false, message: "Workspace not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        owner: {
+          id: workspace.user,
+          email: workspace.user?.email,
+          username: workspace.user?.username,
+        },
+        standaloneForms: workspace.forms, // Forms not associated with any folder
+        folders: workspace.folders, // Folders with their forms populated
+        accessList: workspace.accessList, // Access list for the workspace
+      },
+    });
+  } catch (error) {
+    console.error("Error in getWorkspace controller:", error.message);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}

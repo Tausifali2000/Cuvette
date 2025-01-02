@@ -10,38 +10,34 @@ const Settings = () => {
   const { updateUser } = useHomeStore(); // Update user method from the home store
   const navigate = useNavigate();
 
-  const [name, setName] = useState(user?.name || ""); // Populate initial values
-  const [email, setEmail] = useState(user?.email || "");
+  const [name, setName] = useState( ""); 
+  const [email, setEmail] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
   const handleUpdate = async () => {
-    try {
-      if (!user?._id) {
-        toast.error("User ID is not available");
-        return;
-      }
+    
 
-      const updateData = {
-        name,
-        email,
-        ...(oldPassword && newPassword && { oldPassword, newPassword }), // Include passwords if provided
-      };
+    const userData = {
+      username: name || undefined,
+      email: email || undefined,
+      oldPassword,
+      newPassword: newPassword || undefined,
+    };
 
-      await updateUser(user._id, updateData); // Pass user ID directly from auth
-      toast.success("User details updated successfully!");
-    } catch (error) {
-      toast.error("Failed to update user details.");
-    }
+    
+      await updateUser(userData);
+     setName("")
+     setEmail("")
+     setOldPassword("")
+     setNewPassword('')
+   
   };
 
   const handleLogout = async () => {
-    try {
-      await logout();
-      navigate("/");
-    } catch (error) {
-      toast.error("Error logging out");
-    }
+    await logout();
+    toast.success("Logged out successfully.");
+    navigate("/login"); // Redirect to login page
   };
 
   return (
@@ -77,6 +73,7 @@ const Settings = () => {
             onChange={(e) => setOldPassword(e.target.value)}
             className={styles.input}
           />
+          <img className={styles.eyeIcon} src="/view.png" alt="" />
         </div>
         <div className={styles.inputContainer}>
           <img className={styles.icon} src="/password.png" alt="" />
@@ -87,6 +84,7 @@ const Settings = () => {
             onChange={(e) => setNewPassword(e.target.value)}
             className={styles.input}
           />
+          <img className={styles.eyeIcon} src="/view.png" alt="" />
         </div>
         <button className={styles.updateButton} onClick={handleUpdate}>
           Update
