@@ -49,7 +49,9 @@ img[src="/ellipse2.png"] {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color:#18181B;
+  background: linear-gradient(0deg, #121212, #121212),
+  linear-gradient(0deg, #171923, #171923),
+  linear-gradient(0deg, #171923, #171923);
   color: #ffffff;
  
   padding: 20px;

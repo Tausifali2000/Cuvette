@@ -2,7 +2,11 @@ import mongoose from "mongoose";
 
 const folderSchema = mongoose.Schema({
  
-  
+  workspace: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "Workspace", 
+    required: true },
+
   name: {
     type: String,
     required: true,
@@ -14,11 +18,7 @@ const folderSchema = mongoose.Schema({
     ref: "Form",
   },
 ],
-user: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "User", // Reference the User model
-  required: true,
-},
+
 },
 )
 

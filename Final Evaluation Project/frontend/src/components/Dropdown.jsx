@@ -51,22 +51,19 @@ const Dropdown = ({ username, onWorkspaceSelect }) => {
     setOption(option);
 
     if (option.value === "logout") {
-      await logout();
-      
+        await logout();
     } else if (option.value === "settings") {
-      navigate("/home/settings");
+        navigate("/home/settings");
     } else if (option.value === "currentUser") {
-      // Fetch the home data when the "username" option is selected
-      fetchHome();
+        fetchHome(); // Fetch the current user's home data
+    } else {
+        const workspaceId = option.value;
+        if (onWorkspaceSelect) {
+            onWorkspaceSelect(workspaceId); // Pass workspaceId to parent
+        }
     }
-      else {
-      const workspaceId = option.value;
-      if (onWorkspaceSelect) {
-        onWorkspaceSelect(workspaceId);
-      }
-      
-    }
-  };
+};
+
 
   return (
     <div className="dropdown">

@@ -49,9 +49,11 @@ img[src="/ellipse2.png"] {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color:#18181B;
+  background: linear-gradient(0deg, #121212, #121212),
+linear-gradient(0deg, #171923, #171923),
+linear-gradient(0deg, #171923, #171923);
   color: #ffffff;
- 
+
   padding: 20px;
   
 }
@@ -60,9 +62,9 @@ img[src="/ellipse2.png"] {
   
   
   font-family: "Poppins", serif;
-
+ 
   width: 314px;
-  height: 239px;
+  height: 461.69px;
   z-index: 10;
 }
 
@@ -124,6 +126,11 @@ img[src="/ellipse2.png"] {
 .para {
   width: 259px;
  
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+
   display: flex;
   font-family: "Inter", sans-serif;
 }

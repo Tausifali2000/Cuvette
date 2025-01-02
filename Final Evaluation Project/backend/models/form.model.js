@@ -19,12 +19,7 @@ const elementSchema = new mongoose.Schema({
 
 const FormSchema = new mongoose.Schema({
   
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Reference the User model
-    required: true,
-  },
-  
+  workspace: { type: mongoose.Schema.Types.ObjectId, ref: "Workspace", required: true },
   folder: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Folder", // Reference the Folder model

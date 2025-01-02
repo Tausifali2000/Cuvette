@@ -7,65 +7,134 @@ import { Link } from 'react-router-dom';
 
 
 const LandingPage = () => {
-
-   
   return (
     <>
-    <div className={landingStyle.landingbody}></div>
-    <header className={landingStyle.header}>
-      <div className={landingStyle.title}> 
-        <div><img src="/SVG.png" /></div>
-        <h1>FormBot</h1>
-      </div>
-      <div className={landingStyle.headbtn}>
-      <Link to="/login">
-        <button>Sign in</button>
-        <button>Create a FormBot</button>
-        </Link>
-      </div>
-    </header>
-
-    <div className={landingStyle.body}>
-      <div className={landingStyle.bodyContent}>
-        {/* <div className={landingStyle.bimg1}> <img  src="/triangle.png" /></div>
-        <div className={landingStyle.bimg2} > <img  src="/semicircle.png"/></div> */}
-       
-        
-          <h2>Build advanced chatbots
-          visually</h2>
-          <p>Typebot gives you powerful blocks to create unique chat experiences. Embed them
-          anywhere on your web/mobile apps and start collecting results like magic.</p>
-          <Link to="/login"> <button>Create a FormBot for free</button></Link>
-      </div>
-      <img src="/image.png" alt="" />
-    </div>
-      
-    <footer className={landingStyle.footer}>
-    <div className={landingStyle.footerContent}>
-          <div className={landingStyle.footerSection}>
-            <h3>FormBot</h3>
-            <p>Made with ❤️ by [Your Team]</p>
+      <div className={landingStyle.landingpage}>
+        <header className={landingStyle.header}>
+          <div className={`${landingStyle.logo} ${landingStyle.headerLogo}`}>
+            <span>
+              <img
+                src="/SVG.png"
+               
+                className={landingStyle.logoIcon}
+              />
+            </span>
+            <span>FormBot</span>
           </div>
-          <div className={landingStyle.footerSection}>
-            <h3>Product</h3>
+          <div className={landingStyle.headerbuttons}>
+            <Link to="/login"><button className={`${landingStyle.btn} ${landingStyle.secondary}`}>
+              Sign in
+            </button></Link>
+            <Link to="/signup">
+            <button
+              className={`${landingStyle.btn} ${landingStyle.primary} ${landingStyle.ml10}`}
+            >
+              Create a FormBot
+            </button>
+            </Link>
+          </div>
+        </header>
+  
+       
+          <div className={landingStyle.shapes}>
+            <img
+              src="/triangle.png"
+             
+              className={landingStyle.triangle}
+            />
+            <img
+              src="/semicircle.png"
+              
+              className={landingStyle.semicircle}
+            />
+          </div>
+  
+          <div className={landingStyle.herosection}>
+            <h1 className={landingStyle.title}>Build advanced chatbots visually</h1>
+            <p className={landingStyle.subtitle}>
+              Typebot gives you powerful blocks to create unique chat experiences.
+              Embed them anywhere on your web/mobile apps and start collecting results
+              like magic.
+            </p>
+            <Link to="/signup">
+            <button className={`${landingStyle.btn} ${landingStyle.primary}`}>
+              Create a FormBot for Free
+            </button>
+            </Link>
+            
+          </div>
+  
+          <div className={landingStyle.imagepreview}>
+            <img
+              src="blur2.png"
+              alt="Yellow Blur Background"
+              className={landingStyle.yellowBlurBg}
+            />
+            <img
+              src="blur1.png"
+              alt="Blue Blur Background"
+              className={landingStyle.blueBlurBg}
+            />
+            <img
+              src="image.png"
+              alt="FormBot Workflow Preview"
+              className={landingStyle.previewimage}
+            />
+          </div>
+       
+  
+        <footer className={landingStyle.footer}>
+          <div className={landingStyle.footersection}>
+            <div className={landingStyle.logo}>
+              <span>
+                <img
+                  src="SVG.png"
+                  alt="FormBot Logo"
+                  className={landingStyle.logoIcon}
+                />
+              </span>
+              <span>FormBot</span>
+            </div>
+            <p>
+              Made with ❤️ by <br />
+              @cuvette
+            </p>
+          </div>
+          <div className={landingStyle.footersection}>
+            <h4>Product</h4>
             <ul>
-              <li>Status</li>
-              <li>Documentation</li>
-              <li>Roadmap</li>
+              <li>
+                Status <img src="/link.png" alt="Share Icon" />
+              </li>
+              <li>
+                Documentation <img src="/link.png" alt="Share Icon" />
+              </li>
+              <li>
+                Roadmap <img src="/link.png" alt="Share Icon" />
+              </li>
               <li>Pricing</li>
             </ul>
           </div>
-          <div className={landingStyle.footerSection}>
-            <h3>Community</h3>
+          <div className={landingStyle.footersection}>
+            <h4>Community</h4>
             <ul>
-              <li><a >Discord</a></li>
-              <li><a >GitHub</a></li>
-              <li><a >Twitter</a></li>
-              <li><a >LinkedIn</a></li>
+              <li>
+                Discord <img src="/link.png" alt="Share Icon" />
+              </li>
+              <li>
+                GitHub Repository <img src="/link.png" alt="Share Icon" />
+              </li>
+              <li>
+                Twitter <img src="/link.png" alt="Share Icon" />
+              </li>
+              <li>
+                LinkedIn <img src="/link.png" alt="Share Icon" />
+              </li>
+              <li>OSS Friends</li>
             </ul>
           </div>
-          <div className={landingStyle.footerSection}>
-            <h3>Company</h3>
+          <div className={landingStyle.footersection}>
+            <h4>Company</h4>
             <ul>
               <li>About</li>
               <li>Contact</li>
@@ -73,13 +142,12 @@ const LandingPage = () => {
               <li>Privacy Policy</li>
             </ul>
           </div>
-        </div>
-        <p className={landingStyle.footerBottom}>
-          © 2024 FormBot. All rights reserved.
-        </p>
-    </footer>
+        </footer>
+      </div>
     </>
-  )
+  );
+  
+ 
 }
 
 export default LandingPage

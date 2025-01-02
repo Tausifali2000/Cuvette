@@ -56,7 +56,8 @@ export const useWorkspaceStore = create((set, get) => ({
       const response = await axios.get(`/api/workspace/${workspaceId}`, {
         withCredentials: true,
       });
-
+      const show = response.data.data;
+      console.log(show);
       const { owner, standaloneForms, folders, accessList } = response.data.data;
 
       set({
@@ -66,6 +67,8 @@ export const useWorkspaceStore = create((set, get) => ({
         workspaceAccessList: accessList,
         isLoadingWorkspace: false,
       });
+
+
     } catch (error) {
       if (error.response?.status === 404) {
         toast.error("Workspace not found. Please check the workspace ID.");

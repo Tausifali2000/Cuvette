@@ -42,12 +42,13 @@ const HomeScreen = () => {
   const { id } = fetchAccessList;
 
   useEffect(() => {
-    
-    
-    fetchHome()// Fetch data for the selected workspace
-    authCheck();
-    fetchAccessList();
-  }, [selectedWorkspaceId, fetchHome, fetchWorkspace, authCheck, fetchAccessList]);
+    if (selectedWorkspaceId) {
+        fetchWorkspace(selectedWorkspaceId); // Fetch selected workspace data
+    } else {
+        fetchHome(); // Default to current user's home data
+    }
+}, [selectedWorkspaceId, fetchWorkspace, fetchHome]);
+
 
   const handleWorkspaceSelect = (workspaceId) => {
     setSelectedWorkspaceId(workspaceId);

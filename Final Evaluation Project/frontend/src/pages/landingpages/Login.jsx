@@ -19,10 +19,11 @@ const Login = () => {
 return (
   <>
   
-  <div className={loginStyle.backbutton}><img src="/arrow_back.png" /></div>
+  
   <img src="/triangle2.png" />
   <img src="/ellipse1.png" />
   <img src="/ellipse2.png"/>
+  <Link to="/"><div className={loginStyle.backbutton}><img src="/arrow_back.png" /></div></Link>
   <div className={loginStyle.formcontainer}>
     <form onSubmit={handleLogin}>
      

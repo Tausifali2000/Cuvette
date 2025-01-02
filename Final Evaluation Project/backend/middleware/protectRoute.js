@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { ENV_VARS } from "../config/envVars.js";
+import { Workspace } from "../models/workspace.model.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
@@ -30,7 +31,15 @@ export const protectRoute = async (req, res, next) => {
       return res.status(404).json({ Success: false, Message: "User not found" });
     }
 
-    req.user = user; // Attach the user to the request object
+    const workspace = await Workspace.findOne({ user: user._id });
+    if (!workspace) {
+      console.error("Workspace not found for user:", user._id);
+      return res.status(404).json({ Success: false, Message: "Workspace not found" });
+    }
+
+
+    req.user = user; 
+    req.workspaceId = workspace._id;// Attach the user to the request object
     next(); // Call the next middleware
   } catch (error) {
     console.error("Error in protectRoute middleware:", error.message);

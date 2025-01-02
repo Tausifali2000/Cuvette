@@ -47,30 +47,32 @@ export async function getHome(req, res) {
 export async function createFolder(req, res) {
   try {
     const { name } = req.body;
-    const userId = req.user?.id;
 
-    if (!userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
+    // Workspace ID is now attached by protectRoute middleware
+    const workspaceId = req.workspaceId;
+
+    if (!workspaceId) {
+      return res.status(401).json({ success: false, message: "Unauthorized - Workspace ID not found" });
     }
 
     if (!name) {
-      return res.status(400).json({ success: false, message: "All fields are required" });
+      return res.status(400).json({ success: false, message: "Folder name is required" });
     }
 
-    // Check if a folder with the same name already exists for the user
-    const existingFolder = await Folder.findOne({ name: name, user: userId });
+    // Check if a folder with the same name already exists in the workspace
+    const existingFolder = await Folder.findOne({ name: name, workspace: workspaceId });
     if (existingFolder) {
       return res
         .status(400)
-        .json({ success: false, message: "A folder with this name already exists" });
+        .json({ success: false, message: "A folder with this name already exists in the workspace" });
     }
 
     // Create the folder
-    const folder = new Folder({ name, user: userId });
+    const folder = new Folder({ name, workspace: workspaceId });
     await folder.save();
 
     // Link the folder to the workspace
-    const workspace = await Workspace.findOne({ user: userId });
+    const workspace = await Workspace.findById(workspaceId);
     if (!workspace) {
       return res.status(404).json({ success: false, message: "Workspace not found" });
     }
@@ -87,37 +89,38 @@ export async function createFolder(req, res) {
 
 
 
-
 //Create Form
 export async function createForm(req, res) {
   try {
     const { name, folderId } = req.body;
+    const workspaceId = req.workspaceId; // Assume middleware attaches `workspaceId` to the request object
 
-    const userId = req.user?.id;
-    if (!userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
+    if (!workspaceId) {
+      return res.status(401).json({ success: false, message: "Unauthorized - Workspace ID not found" });
     }
 
     if (!name) {
-      return res.status(400).json({ success: false, message: "All fields are required" });
+      return res.status(400).json({ success: false, message: "Form name is required" });
     }
 
     let folder = null;
 
     if (!folderId) {
-      // Check for duplicate form names globally for standalone forms
-      const existingForm = await Form.findOne({ name, user: userId, folder: null });
+      // Check for duplicate form names globally for standalone forms in the workspace
+      const existingForm = await Form.findOne({ name, workspace: workspaceId, folder: null });
       if (existingForm) {
-        return res.status(400).json({ success: false, message: "Form name already exists as a standalone form" });
+        return res
+          .status(400)
+          .json({ success: false, message: "Form name already exists as a standalone form in the workspace" });
       }
     } else {
-      // If folderId is provided, validate the folder and check for duplicate names within the folder
-      folder = await Folder.findOne({ _id: folderId, user: userId });
+      // Validate the folder ID and check for duplicate names within the folder
+      folder = await Folder.findOne({ _id: folderId, workspace: workspaceId });
       if (!folder) {
-        return res.status(400).json({ success: false, message: "Invalid folder ID" });
+        return res.status(400).json({ success: false, message: "Invalid folder ID or folder does not belong to workspace" });
       }
 
-      const existingFormInFolder = await Form.findOne({ name, folder: folderId });
+      const existingFormInFolder = await Form.findOne({ name, workspace: workspaceId, folder: folderId });
       if (existingFormInFolder) {
         return res.status(400).json({ success: false, message: "Form name already exists in this folder" });
       }
@@ -126,20 +129,20 @@ export async function createForm(req, res) {
     // Create the new form
     const newForm = new Form({
       name,
-      user: userId,
+      workspace: workspaceId,
       folder: folderId || null, // Associate with folder if folderId exists
     });
 
     await newForm.save();
 
     // If the form is associated with a folder, update the folder's forms array
-    if (folderId) {
+    if (folder) {
       folder.forms.push(newForm._id);
       await folder.save();
     }
 
-    // Ensure the form reference is added to the workspace
-    const workspace = await Workspace.findOne({ user: userId });
+    // Update the workspace's forms array
+    const workspace = await Workspace.findById(workspaceId);
     if (!workspace) {
       return res.status(404).json({ success: false, message: "Workspace not found" });
     }
@@ -196,13 +199,14 @@ export async function getFormById(req, res) {
 export async function deleteFormById(req, res) {
   try {
     const formId = req.params.id;
-    const userId = req.user?.id;
+    const workspaceId = req.workspaceId; // Assume middleware attaches `workspaceId` to the request object
 
-    if (!userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
+    if (!workspaceId) {
+      return res.status(401).json({ success: false, message: "Unauthorized - Workspace ID not found" });
     }
 
-    const form = await Form.findOneAndDelete({ _id: formId, user: userId });
+    // Find and delete the form
+    const form = await Form.findOneAndDelete({ _id: formId, workspace: workspaceId });
 
     if (!form) {
       return res.status(404).json({ success: false, message: "Form not found or not authorized" });
@@ -218,7 +222,7 @@ export async function deleteFormById(req, res) {
     }
 
     // Remove the form reference from the workspace
-    const workspace = await Workspace.findOne({ user: userId });
+    const workspace = await Workspace.findById(workspaceId);
     if (workspace) {
       workspace.forms.pull(form._id);
       await workspace.save();
@@ -235,33 +239,31 @@ export async function deleteFormById(req, res) {
 // Delete Folder by ID
 export async function deleteFolderById(req, res) {
   try {
-    const folderId = req.params.id;
-    const userId = req.user?.id;
+    const folderId = req.params.id; // Folder ID from request parameters
+    const workspaceId = req.workspaceId; // Workspace ID from middleware
 
-    if (!userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
+    if (!workspaceId) {
+      return res.status(401).json({ success: false, message: "Unauthorized - Workspace ID not found" });
     }
 
-    // Find and delete the folder
-    const folder = await Folder.findOneAndDelete({ _id: folderId, user: userId });
+    // Find and delete the folder associated with the workspace
+    const folder = await Folder.findOneAndDelete({ _id: folderId, workspace: workspaceId });
 
     if (!folder) {
       return res.status(404).json({ success: false, message: "Folder not found or not authorized" });
     }
 
     // Remove the folder reference from the workspace
-    const workspace = await Workspace.findOne({ user: userId });
+    const workspace = await Workspace.findById(workspaceId);
     if (workspace) {
       workspace.folders.pull(folderId);
       await workspace.save();
     }
 
-   
-
-    res.status(200).json({ success: true, message: "Folder and its forms deleted successfully, and reference removed from workspace" });
+    res.status(200).json({ success: true, message: "Folder deleted successfully and reference removed from workspace" });
   } catch (error) {
     console.error("Error in deleteFolderById controller:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 }
 

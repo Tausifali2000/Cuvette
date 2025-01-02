@@ -3,66 +3,45 @@ import { Form } from "../models/form.model.js";
 import { User } from "../models/user.model.js";
 import { Workspace } from "../models/workspace.model.js";
 
-export const shareWorkspace = async (req, res) => {
+export async function shareWorkspace(req, res) {
   try {
-    const { emailToShareWith, permission = 'view' } = req.body; // Default permission is 'view'
+    const { email, permission } = req.body;
 
-    // Validate input
-    if (!emailToShareWith) {
-      return res.status(400).json({ success: false, message: "Email to share with is required" });
+    if (!email || !permission) {
+      return res.status(400).json({ success: false, message: "Email and permission are required" });
     }
 
-    const validPermissions = ['view', 'edit'];
-    if (!validPermissions.includes(permission)) {
+    if (!['view', 'edit'].includes(permission)) {
       return res.status(400).json({ success: false, message: "Invalid permission type" });
     }
 
-    // Verify the logged-in user
-    const user = await User.findById(req.user._id);
-    if (!user) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
+    const workspaceId = req.workspaceId;
 
-    // Check if the email to share with exists
-    const recipientUser = await User.findOne({ email: emailToShareWith });
-    if (!recipientUser) {
-      return res.status(404).json({
-        success: false,
-        message: "The email address you are trying to share with does not exist.",
-      });
-    }
-
-    // Find the workspace of the current user
-    const workspace = await Workspace.findOne({ user: req.user._id });
+    // Find the workspace by ID
+    const workspace = await Workspace.findById(workspaceId);
     if (!workspace) {
       return res.status(404).json({ success: false, message: "Workspace not found" });
     }
 
-    // Check if the email already has access
-    const existingAccess = workspace.accessList.find(
-      (access) => access.email === emailToShareWith
-    );
+    // Check if the email already exists in the access list
+    const existingAccess = workspace.accessList.find(user => user.email === email);
     if (existingAccess) {
-      return res.status(400).json({
-        success: false,
-        message: "This user already has access to the workspace.",
-      });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already has access to this workspace" });
     }
 
     // Add the email and permission to the access list
-    workspace.accessList.push({ email: emailToShareWith, permission });
+    workspace.accessList.push({ email, permission });
     await workspace.save();
 
-    res.status(200).json({
-      success: true,
-      message: `Workspace successfully shared with ${emailToShareWith}`,
-      workspace,
-    });
+    res.status(200).json({ success: true, message: "Workspace shared successfully" });
   } catch (error) {
-    console.error("Error in shareWorkspace:", error.message);
+    console.error("Error in shareWorkspace controller:", error.message);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
-};
+}
+
 
 export const fetchAccessList = async (req, res) => {
   try {
