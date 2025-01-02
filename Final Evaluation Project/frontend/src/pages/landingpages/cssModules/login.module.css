@@ -94,11 +94,27 @@ img[src="/ellipse2.png"] {
 
 }
 
+.formcontainer input:-webkit-autofill {
+  background-color: #121212 !important; /* Match your input's background */
+  color: #ffffff !important; /* Ensure the text remains visible */
+  -webkit-text-fill-color: #ffffff !important; /* Explicitly set the text fill color */
+  -webkit-box-shadow: 0 0 0 1000px #121212 inset !important; /* Match the form's background */
+  box-shadow: 0 0 0 1000px #121212 inset !important;
+  padding-left: 12px 10px; /* Match the form's background */
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 300;
+  border: 1px solid #FFFFFF80;
+}
+
+
 .formcontainer input:focus {
   outline: none;
   border-color: #1e50ff;
   box-shadow: 0 0 5px #1e50ff;
 }
+
+
 
 /* Buttons */
 .formcontainer button {
@@ -161,3 +177,14 @@ img[src="/ellipse2.png"] {
     display: none; /* Hide shapes on smaller screens */
   }
 }
+
+.formcontainer input:-webkit-autofill {
+  background-color: #121212 !important; /* Match your input's background */
+  color: #ffffff !important; /* Ensure the text remains visible */
+  -webkit-text-fill-color: #ffffff !important; /* Explicitly set the text fill color */
+  -webkit-box-shadow: 0 0 0 1000px #121212 inset !important; /* Match the form's background */
+  box-shadow: 0 0 0 1000px #121212 inset !important;
+  padding-left: 10px; /* Match the form's background */
+ 
+}
+

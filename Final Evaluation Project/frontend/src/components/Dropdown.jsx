@@ -10,7 +10,7 @@ import { useHomeStore } from "../../store/home.js";
 const Dropdown = ({ username, onWorkspaceSelect }) => {
   const [selectedOption, setOption] = useState(null);
   const { logout } = useAuthStore();
-  const { fetchAccessList, accessibleWorkspaces, fetchWorkspace } = useWorkspaceStore();
+  const { fetchAccessList, accessibleWorkspaces } = useWorkspaceStore();
   const { fetchHome } = useHomeStore();
   const navigate = useNavigate();
   const us = username + "'s Workspace";

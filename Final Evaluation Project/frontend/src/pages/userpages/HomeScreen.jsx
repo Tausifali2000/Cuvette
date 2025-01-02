@@ -151,8 +151,10 @@ const HomeScreen = () => {
         </div>
         <div className={homestyles.btn}>
           <div>
-            <ToggleButton />
-          </div>
+           Light <ToggleButton 
+             inactiveLabel=""
+             activeLabel=""/>
+          </div> Dark
           <button
             className={homestyles.share}
             onClick={toggleShareDialog} // Toggle share dialog when Share button is clicked

@@ -24,6 +24,8 @@ export async function getHome(req, res) {
         },
       })
       .populate("forms"); // Populate standalone forms
+      console.log(workspace);
+      
 
     if (!workspace) {
       return res.status(404).json({ success: false, message: "Workspace not found" });
