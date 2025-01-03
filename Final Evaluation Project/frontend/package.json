@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "axios": "^1.7.9",
+    "final-evaluation-project": "file:..",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropdown": "^1.11.0",
     "react-hot-toast": "^2.4.1",
+    "react-minimal-pie-chart": "^9.1.0",
     "react-router-dom": "^7.1.0",
     "react-select": "^5.9.0",
     "react-toggle-button": "^2.2.0",

@@ -1,16 +1,17 @@
 const dropStyles = {
   control: (provided) => ({
     ...provided,
-    backgroundColor: "#1a1a1a", // Dark background for consistency
+    backgroundColor: "transparent", // Dark background for consistency
     border: "1px solid #FFFFFF29",
     boxShadow: "none",
     cursor: "pointer",
     color: "white",
     padding: "5px",
-    width: "100%", // Allow dynamic width
-    maxWidth: "300px", // Restrict to a reasonable max width
+    width: "292px", // Allow dynamic width
+    maxWidth: "300px",
+    height: "40px", // Restrict to a reasonable max width
     fontSize: "16px",
-    textAlign: "left", // Align text to the left
+    textAlign: "center", // Align text to the left
     display: "flex",
     alignItems: "center",
   }),

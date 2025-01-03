@@ -6,8 +6,8 @@ import { useHomeStore } from "../../../store/home.js";
 import { useAuthStore } from "../../../store/authUser.js";
 
 const Settings = () => {
-  const { logout, user } = useAuthStore(); // User object from the auth store
-  const { updateUser } = useHomeStore(); // Update user method from the home store
+  const { logout, user } = useAuthStore(); 
+  const { updateUser } = useHomeStore(); 
   const navigate = useNavigate();
 
   const [name, setName] = useState( ""); 
@@ -37,7 +37,7 @@ const Settings = () => {
   const handleLogout = async () => {
     await logout();
     toast.success("Logged out successfully.");
-    navigate("/login"); // Redirect to login page
+    navigate("/login"); 
   };
 
   return (

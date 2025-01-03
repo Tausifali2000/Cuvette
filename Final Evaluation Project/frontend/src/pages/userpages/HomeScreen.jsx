@@ -14,19 +14,17 @@ import Dropdown from "../../components/Dropdown.jsx";
 import ShareDialog from "../../components/ShareDialog.jsx";
 import useWorkspaceStore from "../../../store/share.js";
 
-// Import the shareDialog
-
 const HomeScreen = () => {
-  const [activeBox, setActiveBox] = useState(null); // To manage both folder and form boxes
+  const [activeBox, setActiveBox] = useState(null); 
   const [folderName, setFolderName] = useState("");
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const [deleteDialog, setDeleteDialog] = useState({ type: null, id: null });
   const [formName, setFormName] = useState("");
-  const [isShareDialogOpen, setIsShareDialogOpen] = useState(false); // Manage share dialog visibility
+  const [isShareDialogOpen, setIsShareDialogOpen] = useState(false); 
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState(null);
   const [isWorkspaceSelected, setIsWorkspaceSelected] = useState(false); 
   const [permission , setPermission] = useState("")
- 
+
   const navigate = useNavigate();
   const {
     folders,
@@ -46,19 +44,17 @@ const HomeScreen = () => {
   const { id } = fetchAccessList;
 
   useEffect(() => {
-    console.log("useEffext Collect", selectedWorkspaceId || "");
-    
+
     if (selectedWorkspaceId) {
-     
-        fetchWorkspace(selectedWorkspaceId); // Fetch selected workspace data
+
+        fetchWorkspace(selectedWorkspaceId); 
     } else {
-     
+
       setSelectedWorkspaceId(null)
         fetchHome();
-         // Default to current user's home data
+
     }
 }, [selectedWorkspaceId, fetchWorkspace, fetchHome]);
-
 
   const handleWorkspaceSelect = (workspaceId, isSelected, permission) => {
     setSelectedWorkspaceId(workspaceId);
@@ -67,17 +63,13 @@ const HomeScreen = () => {
     console.log("Selected Workspace ID:", workspaceId, permission);
   };
 
-
-
-  // Dynamic box handler
   const toggleBox = (type) => {
-    setDeleteDialog({ type: null, id: null }); // Close delete dialog if active
+    setDeleteDialog({ type: null, id: null }); 
     setActiveBox((prev) => (prev === type ? null : type));
   };
 
-  // Delete dialog handler
   const openDeleteDialog = (type, id) => {
-    setActiveBox(null); // Close other dialogs
+    setActiveBox(null); 
     setDeleteDialog({ type, id });
   };
 
@@ -85,7 +77,6 @@ const HomeScreen = () => {
     setDeleteDialog({ type: null, id: null });
   };
 
-  // Confirm deletion
   const handleConfirmDelete = async () => {
     try {
       const { type, id } = deleteDialog;
@@ -101,12 +92,11 @@ const HomeScreen = () => {
     }
   };
 
-  // Handle folder creation
   const handleCreateFolder = async () => {
     try {
       await createFolder({ name: folderName });
-      setFolderName(""); // Clear the input
-      setActiveBox(null); // Close the box
+      setFolderName(""); 
+      setActiveBox(null); 
     } catch (error) {
       console.error("Error creating folder:", error);
     }
@@ -114,11 +104,11 @@ const HomeScreen = () => {
 
   const handleFolderClick = async (folderId) => {
     try {
-      setSelectedFolderId(folderId || null); // Update selected folder ID
+      setSelectedFolderId(folderId || null); 
       if (folderId) {
-        await folderById(folderId); // Fetch forms inside the folder
+        await folderById(folderId); 
       } else {
-        await fetchHome(); // Fetch standalone forms
+        await fetchHome(); 
       }
     } catch (error) {
       console.error("Error fetching folder forms:", error);
@@ -129,12 +119,12 @@ const HomeScreen = () => {
     try {
       const formData = {
         name: formName,
-        folderId: selectedFolderId, // Pass the selected folder ID or null for standalone forms
+        folderId: selectedFolderId, 
       };
 
-      await createForm(formData); // Call the store action
-      setFormName(""); // Clear the input field
-      setActiveBox(null); // Close the box
+      await createForm(formData); 
+      setFormName(""); 
+      setActiveBox(null); 
     } catch (error) {
       console.error("Error creating form:", error);
     }
@@ -153,8 +143,7 @@ const HomeScreen = () => {
       setIsShareDialogOpen((prev) => !prev);
     }
   };
-  
- 
+
   const closeShareDialog = () => setIsShareDialogOpen(false);
 
   return (
@@ -273,7 +262,7 @@ const HomeScreen = () => {
                 />
               )}
 
-              {/* Hide `.fc` if any dialog is active */}
+              
               {!isDialogActive &&
                 forms?.map((form) => (
                   <div key={form._id} className={homestyles.fc}>
@@ -303,7 +292,6 @@ const HomeScreen = () => {
       </div> )
       : "populate data from workspace ID"
     }
-
 
       {isShareDialogOpen && <ShareDialog   closeDialog={closeShareDialog}/>}
     </div>

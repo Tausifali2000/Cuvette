@@ -44,7 +44,7 @@ export async function getHome(req, res) {
   }
 }
 
-//Create Folder
+
 // Create Folder
 export async function createFolder(req, res) {
   try {
@@ -94,8 +94,13 @@ export async function createFolder(req, res) {
 //Create Form
 export async function createForm(req, res) {
   try {
-    const { name, folderId } = req.body;
-    const workspaceId = req.workspaceId; // Assume middleware attaches `workspaceId` to the request object
+    console.log("TAUISF");
+
+    const { name, folderId } = req.body; // Include folderId in the request body
+    const workspaceId = req.workspaceId;  // Workspace ID attached by the middleware
+
+    console.log("Request Body:", req.body);  // Log request body for inspection
+    console.log("Workspace ID:", workspaceId);
 
     if (!workspaceId) {
       return res.status(401).json({ success: false, message: "Unauthorized - Workspace ID not found" });
@@ -105,62 +110,57 @@ export async function createForm(req, res) {
       return res.status(400).json({ success: false, message: "Form name is required" });
     }
 
-    let folder = null;
-
-    if (!folderId) {
-      // Check for duplicate form names globally for standalone forms in the workspace
-      const existingForm = await Form.findOne({ name, workspace: workspaceId, folder: null });
-      if (existingForm) {
-        return res
-          .status(400)
-          .json({ success: false, message: "Form name already exists as a standalone form in the workspace" });
-      }
-    } else {
-      // Validate the folder ID and check for duplicate names within the folder
-      folder = await Folder.findOne({ _id: folderId, workspace: workspaceId });
-      if (!folder) {
-        return res.status(400).json({ success: false, message: "Invalid folder ID or folder does not belong to workspace" });
-      }
-
-      const existingFormInFolder = await Form.findOne({ name, workspace: workspaceId, folder: folderId });
-      if (existingFormInFolder) {
-        return res.status(400).json({ success: false, message: "Form name already exists in this folder" });
-      }
-    }
-
-    // Create the new form
-    const newForm = new Form({
-      name,
-      workspace: workspaceId,
-      folder: folderId || null, // Associate with folder if folderId exists
-    });
-
-    await newForm.save();
-
-    // If the form is associated with a folder, update the folder's forms array
-    if (folder) {
-      folder.forms.push(newForm._id);
-      await folder.save();
-    }
-
-    // Update the workspace's forms array
     const workspace = await Workspace.findById(workspaceId);
     if (!workspace) {
       return res.status(404).json({ success: false, message: "Workspace not found" });
     }
 
-    // Add the form reference to the workspace if it doesn't already exist
-    if (!workspace.forms.some(formId => formId.toString() === newForm._id.toString())) {
-      workspace.forms.push(newForm._id);
-      await workspace.save();
+    let formData = { name, workspace: workspaceId };
+
+    if (folderId) {
+      const folder = await Folder.findById(folderId);
+      if (!folder) {
+        return res.status(404).json({ success: false, message: "Folder not found" });
+      }
+
+      // Check for duplicate forms within the folder
+      const existingForm = await Form.findOne({ name, folder: folderId });
+      if (existingForm) {
+        return res.status(400).json({ success: false, message: "A form with this name already exists in the folder" });
+      }
+
+      formData.folder = folderId;
+      
+      // Add form ID to the folder's forms array
+      folder.forms.push(formData._id);  // Push the form ID instead of formData
+      await folder.save();  // Save the folder after adding the form ID
+    } else {
+      // Check for duplicate forms in the standalone area
+      const existingForm = await Form.findOne({ name, workspace: workspaceId, folder: null });
+      if (existingForm) {
+        return res.status(400).json({ success: false, message: "A form with this name already exists in the standalone area" });
+      }
+
+      formData.folder = null;  // Explicitly set folder to null for standalone form
     }
 
-    res.status(201).json({ success: true, form: newForm, folderId: folder?._id || null });
+    const form = new Form(formData);
+    await form.save();
+
+    // Add the form to the Workspace's 'forms' array
+    workspace.forms.push(form._id);
+    await workspace.save();  // Save the Workspace with the updated forms array
+
+    console.log("Form saved successfully:", form);
+
+    return res.status(201).json({ success: true, form });
   } catch (error) {
-    console.error("Error in createForm controller:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.error("Error in createForm controller:", error);  // Log the error for debugging
+    res.status(500).json({ success: false, message: "Internal server error", error: error.message });
   }
 }
+
+
 
 
 //Get folder by ID

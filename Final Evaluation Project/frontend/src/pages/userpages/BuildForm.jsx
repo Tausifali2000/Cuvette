@@ -4,12 +4,13 @@ import createform from './cssModules/createform.module.css';
 import InputElement from '../../components/inputs/InputElement';
 import BubbleElement from '../../components/bubbles/BubbleElement';
 import useSessionStore from '../../../store/session';
+import toast from "react-hot-toast";
 
 const BuildForm = () => {
   const { formId } = useParams();
   const navigate = useNavigate();
 
-  const [isActive, setIsActive] = useState(false); // Track if buttons are active
+  const [isActive, setIsActive] = useState(false); 
 
   const {
     forms,
@@ -23,10 +24,12 @@ const BuildForm = () => {
   } = useSessionStore();
 
   const form = forms[formId] || { formName: '', elements: [] };
-
+  
   useEffect(() => {
     if (formId && !hasFormBeenFetched(formId)) {
+      toast.success("Click start to enable buttons");
       fetchForm(formId);
+     
     }
   }, [formId, fetchForm, hasFormBeenFetched]);
 
@@ -41,6 +44,10 @@ const BuildForm = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  const handleDisabledButtonClick = () => {
+    toast.error("Please start the form to enable the buttons.");
+  };
 
   return (
     <>
@@ -63,25 +70,26 @@ const BuildForm = () => {
                   },
                 }))
               }
-              disabled={!isActive} // Disable input field until buttons are active
+              
             />
           </div>
 
           <div className="response">
-            <button
+            <Link>  <button
               className={createform.flowButton}
-              onClick={() => navigate(`/buildform/${formId}`)}
-              disabled={!isActive}
+             
+             
             >
               Flow
-            </button>
-            <button
+            </button></Link>
+             <button
               className={createform.responseButton}
               onClick={() => navigate(`/response/${formId}`)}
-              disabled={!isActive}
+            
             >
               Response
             </button>
+           
           </div>
 
           <div className={createform.btn}>
@@ -121,6 +129,7 @@ const BuildForm = () => {
                 <button
                   onClick={() => addElement(formId, 'textBubble')}
                   disabled={!isActive}
+                  onDoubleClick={handleDisabledButtonClick}
                 >
                   <img
                     src="/textBubble.png"
@@ -235,35 +244,37 @@ const BuildForm = () => {
                 className={createform.iconPadding10}
               />
               <button
-                onClick={() => setIsActive(true)} // Enable buttons when clicked
+                onClick={() => setIsActive(true)} 
               >
                 Start
               </button>
             </div>
-
+            {console.log("YAHA DEKHO" ,form.elements, form)}
             {form.elements.map((el, index) =>
-              el.type === 'textBubble' || el.type === 'imageBubble' ? (
+             el.type === 'textBubble' || el.type === 'imageBubble' ? (
                 <BubbleElement
-                  key={el.id}
-                  id={el.id}
+                  key={el._id ?? el.id}
+                  id={el._id ?? el.id}
                   type={el.type === 'textBubble' ? 'text' : 'image'}
                   label={el.label}
                   bubblecontent={el.bubblecontent}
                   updateLabel={(newLabel, newContent) =>
-                    updateElement(formId, el.id, newLabel, newContent)
+                    updateElement(formId, el._id ?? el.id, newLabel, newContent)
                   }
-                  removeElement={() => removeElement(formId, el.id)}
+                  
+                  removeElement={() => removeElement(formId, el._id ?? el.id)}
+
                 />
               ) : (
                 <InputElement
-                  key={el.id}
-                  id={el.id}
-                  type={el.type}
+                  key={el._id ?? el.id}
+                  id={el._id ?? el.id}
+                  type={el.type }
                   label={el.label}
                   updateLabel={(newLabel) =>
-                    updateElement(formId, el.id, newLabel, el.bubblecontent)
+                    updateElement(formId, el._id ?? el.id, newLabel, el.bubblecontent)
                   }
-                  removeElement={() => removeElement(formId, el.id)}
+                  removeElement={() => removeElement(formId, el._id ?? el.id)}
                 />
               )
             )}

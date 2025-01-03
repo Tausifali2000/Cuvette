@@ -76,10 +76,11 @@ export const saveForm = async (req, res) => {
 
 
 export async function deleteElement(req, res) {
+  console.log("reqTausif");
   try {
     const { formId } = req.params; // Get the form ID from the request params
     const { elementId } = req.body; // Expect the element ID to be deleted in the request body
-
+    console.log(req.params, req.body);
     if (!elementId) {
       return res.status(400).json({ success: false, message: "Element ID is required" });
     }

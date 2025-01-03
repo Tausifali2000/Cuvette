@@ -76,6 +76,7 @@ export const useHomeStore = create((set) => ({
   createForm: async (formData) => {
     set({ isCreatingForm: true });
     try {
+      console.log("store")
       const response = await axios.post(
         "/api/home/createform",
         formData,
@@ -89,7 +90,7 @@ export const useHomeStore = create((set) => ({
         isCreatingForm: false,
       }));
 
-      toast.success("Type Bot created successfully");
+      
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to create Type Bot");
       set({ isCreatingForm: false });

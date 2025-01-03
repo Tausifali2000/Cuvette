@@ -7,7 +7,7 @@ export const useFormStore = create(() => ({
       const response = await axios.get(`/api/form/${formId}`, {
         withCredentials: true,
       });
-      return response.data.form; // Return form data
+      return response.data.form; 
     } catch (error) {
       console.error('Failed to fetch form:', error);
       throw error;
@@ -22,7 +22,7 @@ export const useFormStore = create(() => ({
         payload,
         { withCredentials: true }
       );
-      return {"final REsponse" : response.data }; // Return backend response
+      return {"final REsponse" : response.data }; 
     } catch (error) {
       console.error('Failed to save form:', error);
       throw error;
@@ -31,7 +31,9 @@ export const useFormStore = create(() => ({
 
   deleteElementFromBackend: async (formId, elementId) => {
     try {
-      const response = await axios.delete(`/api/form/${formId}/deleteelement`, {
+      console.log("formstore");
+      console.log(elementId);
+      const response = await axios.post(`/api/form/${formId}/deleteElement`, {
         elementId  // Send elementId in the body for DELETE requests
       });
 

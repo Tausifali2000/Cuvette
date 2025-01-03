@@ -103,7 +103,9 @@ const useSessionStore = create(
 
      
       addElement: (formId, type) => {
-        console.log("4 consoled here");
+        console.log("Adding element with formId:", formId, "Type:", type);
+        const newId = Date.now() + Math.random();
+        console.log("Generated ID:", newId);
         set((state) => ({
           forms: {
             ...state.forms,
@@ -112,9 +114,9 @@ const useSessionStore = create(
               elements: [
                 ...state.forms[formId].elements,
                 {
-                  id: uuidv4(),
+                  id: newId,  // Ensure ID is being set properly
                   type,
-                  label: '',
+                  label: 'Label',
                   bubblecontent: '',
                 },
               ],
@@ -122,7 +124,7 @@ const useSessionStore = create(
           },
         }));
       },
-
+      
      
       updateElement: (formId, id, newLabel, newContent) => {
        
@@ -146,6 +148,7 @@ const useSessionStore = create(
 
       removeElement: async (formId, id) => {
         try {
+          console.log("session", formId, id);
           // Send the delete request to the backend to remove the element from the database
           const { deleteElementFromBackend } = useFormStore.getState();
           await deleteElementFromBackend(formId, id);

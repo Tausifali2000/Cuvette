@@ -34,7 +34,7 @@ function App() {
         <Route path ='/home' element={<HomeScreen />} />
         <Route path ='/home/settings' element={<Settings />} />
         <Route path ='/buildform/:formId' element={<BuildForm />}/>
-        <Route path ='/response/:formId' element={<Response />}/>
+        <Route path ='/response' element={<Response />}/>
         <Route path ='/viewform/:formId' element={<FormView />}/>
 
         

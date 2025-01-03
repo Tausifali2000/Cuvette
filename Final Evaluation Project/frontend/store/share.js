@@ -39,7 +39,7 @@ export const useWorkspaceStore = create((set, get) => ({
       if (response.data.success) {
         // Store the accessible workspaces in the state
         set({ accessibleWorkspaces: response.data.workspaces });
-        toast.success("Access list fetched successfully");
+       
       } else {
         toast.error(response.data.message || "Failed to fetch access list");
       }

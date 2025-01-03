@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 
 const elementSchema = new mongoose.Schema({
+  id: {
+    type: String
+  },
+  
   type: {
     type: String,
     enum: ['textBubble', 'imageBubble' ,'textInput', 'numberInput', 'emailInput', 'phoneInput', 'dateInput', 'ratingInput', 'buttonInput'],

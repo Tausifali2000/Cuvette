@@ -191,6 +191,7 @@ align-items: center;
   
   width: 100%;
   height: auto;
+  flex-wrap: wrap;
 }
 
 .formList {

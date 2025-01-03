@@ -29,14 +29,15 @@ const BubbleElement = ({
         className={textBubble.bubbleButton}
         onClick={() => removeElement(id)}
       >
-        X
+        <img className={textBubble.deleteIcon} src="/delete.png" alt="Delete" />
       </button>
-      <form>
+      <form className={textBubble.form}>
         <input
           type="text"
           value={editableLabel}
           onChange={(e) => setEditableLabel(e.target.value)}
           onBlur={handleBlur}
+          className={textBubble.inputLabel}
           placeholder={type === 'image' ? 'Edit label' : 'Edit label'}
         />
         <input
@@ -44,6 +45,7 @@ const BubbleElement = ({
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onBlur={handleBlur}
+          className={textBubble.inputField}
           placeholder={getPlaceholder()}
         />
       </form>

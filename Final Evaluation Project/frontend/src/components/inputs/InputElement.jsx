@@ -33,16 +33,17 @@ const InputElement = ({ id, type, label, removeElement, updateLabel }) => {
   return (
     <div className={inputStyles.input}>
       <button className={inputStyles.inputButton} onClick={() => removeElement(id)}>
-        X
+      <img className={inputStyles.deleteIcon} src="/delete.png" alt="Delete" />
       </button>
       <input
         type="text"
         value={editableLabel}
         onChange={(e) => setEditableLabel(e.target.value)}
         onBlur={handleBlur}
+        className={inputStyles.inputLabel}
         placeholder="Edit label"
       />
-      <p>{getHint(type)}</p>
+      <p className={inputStyles.hint}>{getHint(type)}</p>
     </div>
   );
 };
