@@ -85,7 +85,7 @@ const useSessionStore = create(
               [formId]: {
                 ...form,
                 formName: payload.name,
-                folderId: payload.folderId,
+                folderId: payload.folder,
                 elements: payload.elements,
               },
             },
