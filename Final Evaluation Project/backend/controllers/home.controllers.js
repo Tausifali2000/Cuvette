@@ -183,9 +183,15 @@ export async function getFolderById(req, res) {
 export async function getFormById(req, res) {
   try {
     const formId = req.params.id;
-    const form = await Form.findById(formId);
+    console.log("Fetching form with ID:", formId);
 
+    if (!mongoose.Types.ObjectId.isValid(formId)) {
+      return res.status(400).json({ success: false, message: "Invalid Form ID" });
+    }
+
+    const form = await Form.findById(formId);
     if (!form) {
+      console.log("Form not found for ID:", formId);
       return res.status(404).json({ success: false, message: "Form not found" });
     }
 

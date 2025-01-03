@@ -13,7 +13,7 @@ const BubbleElement = ({
   const [content, setContent] = useState(bubblecontent);
 
   const handleBlur = () => {
-    updateLabel(id, editableLabel, content);
+    updateLabel(editableLabel, content);
   };
 
   const getPlaceholder = () => {

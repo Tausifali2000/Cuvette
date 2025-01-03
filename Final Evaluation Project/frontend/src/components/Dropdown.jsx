@@ -9,6 +9,7 @@ import { useHomeStore } from "../../store/home.js";
 
 const Dropdown = ({ username, onWorkspaceSelect }) => {
   const [selectedOption, setOption] = useState(null);
+  const [isWorkspaceSelected, setIsWorkspaceSelected] = useState(false);
   const { logout } = useAuthStore();
   const { fetchAccessList, accessibleWorkspaces } = useWorkspaceStore();
   const { fetchHome } = useHomeStore();
@@ -31,9 +32,10 @@ const Dropdown = ({ username, onWorkspaceSelect }) => {
   }, [fetchAccessList]);
 
   // Transform workspaces into dropdown options
-  const workspaceOptions =  accessibleWorkspaces.map((workspace) => ({
-    value: workspace.id,
-    label: workspace.ownerUsername || "Unnamed Workspace", // Handle missing names
+  const workspaceOptions = accessibleWorkspaces.map(({ id, ownerUsername, permission }) => ({
+    value: id,
+    label: ownerUsername || "Unnamed Workspace", // Handle missing names
+    permission, // Include permission in the options
   }));
   
 
@@ -46,24 +48,29 @@ const Dropdown = ({ username, onWorkspaceSelect }) => {
   const user = [
     { value: "currentUser", label:`${us}`},
   ]
-
   const handleDropdownChange = async (option) => {
     setOption(option);
-
+  
     if (option.value === "logout") {
-        await logout();
+      await logout();
     } else if (option.value === "settings") {
-        navigate("/home/settings");
+      navigate("/home/settings");
     } else if (option.value === "currentUser") {
-        fetchHome(); // Fetch the current user's home data
+      setIsWorkspaceSelected(false);
+      fetchHome(); // Fetch the current user's home data
+      if (onWorkspaceSelect) {
+        onWorkspaceSelect(null, false, null); // Indicate no workspace is selected
+      }
     } else {
-        const workspaceId = option.value;
-        if (onWorkspaceSelect) {
-            onWorkspaceSelect(workspaceId); // Pass workspaceId to parent
-        }
+      const { value: workspaceId, permission } = option; // Extract workspaceId and permission
+      setIsWorkspaceSelected(true);
+      if (onWorkspaceSelect) {
+        onWorkspaceSelect(workspaceId, true, permission); // Pass workspaceId and permission to parent
+      }
     }
-};
-
+  };
+  
+  
 
   return (
     <div className="dropdown">

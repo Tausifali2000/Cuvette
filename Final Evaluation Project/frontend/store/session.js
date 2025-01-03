@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import toast from 'react-hot-toast';
 import useFormStore from './form.js';
+import { v4 as uuidv4 } from 'uuid';
 
 const useSessionStore = create(
   persist(
@@ -13,12 +14,13 @@ const useSessionStore = create(
       fetchForm: async (formId) => {
         const { fetchFormFromBackend } = useFormStore.getState();
         set({ isLoading: true });
-
+      
         try {
           const form = await fetchFormFromBackend(formId);
+      
+          const { name, folder, element} = form;
+          console.log("1 consoled here", form);
           
-          const { name, folder, element } = form;
-          console.log(folder);
           set((state) => ({
             forms: {
               ...state.forms,
@@ -27,40 +29,45 @@ const useSessionStore = create(
                 folder: folder,
                 elements: element.map((el) => ({
                   ...el,
-                  id: el.id || Date.now() + Math.random(),
+                  id: el.id, 
+                  label: el.label,
+                  bubblecontent: el.content || '',
                 })),
               },
             },
             isLoading: false,
           }));
-          toast.success('Form loaded successfully!');
+          toast.success("Form loaded successfully!");
         } catch (error) {
-          toast.error('Failed to load form.');
+          toast.error("Failed to load form.");
           set({ isLoading: false });
         }
       },
+      
 
-      // Check if a form has been fetched
+     
       hasFormBeenFetched: (formId) => {
         return !!get().forms[formId];
       },
 
-      // Save a form by formId
+     
       saveForm: async (formId) => {
         const { forms } = get();
         const form = forms[formId];
+        console.log(useFormStore.getState());
+
         // console.log(forms)
         if (!form) return;
-
+       
         const { sendFormToBackend } = useFormStore.getState();
-
+        console.log("2 consoled here", form);
         const payload = {
-          name: form.formName || '',
+          name: form.formName,
           folder: forms.folder || null,
           elements: form.elements.map(({ type, label, bubblecontent }) => ({
             type,
-            label:label || '',
-            content: bubblecontent || '',
+            label:label,
+            content: bubblecontent,
           })),
         };
 
@@ -70,7 +77,8 @@ const useSessionStore = create(
           await sendFormToBackend(formId, payload);
           toast.success('Form saved successfully!');
           // console.log(payload);
-          // Sync the persisted session storage state with the database
+          
+          console.log("3 consoled here", form);
           set((state) => ({
             forms: {
               ...state.forms,
@@ -83,18 +91,19 @@ const useSessionStore = create(
             },
           }));
 
-          // Clear the session storage data for the saved formId
+        
           sessionStorage.removeItem(`zustand-form-storage-${formId}`);
 
-          // Re-fetch the form data from the backend
+         
           await get().fetchForm(formId);
         } catch (error) {
           toast.error('Failed to save form.');
         }
       },
 
-      // Add element to a form by formId
+     
       addElement: (formId, type) => {
+        console.log("4 consoled here");
         set((state) => ({
           forms: {
             ...state.forms,
@@ -103,7 +112,7 @@ const useSessionStore = create(
               elements: [
                 ...state.forms[formId].elements,
                 {
-                  id: Date.now(),
+                  id: uuidv4(),
                   type,
                   label: '',
                   bubblecontent: '',
@@ -114,9 +123,13 @@ const useSessionStore = create(
         }));
       },
 
-      // Update element in a form by formId
+     
       updateElement: (formId, id, newLabel, newContent) => {
-        set((state) => ({
+       
+        set((state) => {
+          console.log("5 consoled here",newLabel, newContent);
+         return ({
+          
           forms: {
             ...state.forms,
             [formId]: {
@@ -126,24 +139,44 @@ const useSessionStore = create(
               ),
             },
           },
-        }));
+        })});
       },
 
-      // Remove element from a form by formId
-      removeElement: (formId, id) => {
-        set((state) => ({
-          forms: {
-            ...state.forms,
-            [formId]: {
-              ...state.forms[formId],
-              elements: state.forms[formId].elements.filter((el) => el.id !== id),
+     
+
+      removeElement: async (formId, id) => {
+        try {
+          // Send the delete request to the backend to remove the element from the database
+          const { deleteElementFromBackend } = useFormStore.getState();
+          await deleteElementFromBackend(formId, id);
+      
+          // Now remove the element from the local state
+          set((state) => ({
+            forms: {
+              ...state.forms,
+              [formId]: {
+                ...state.forms[formId],
+                elements: state.forms[formId].elements.filter((el) => el.id !== id),
+              },
             },
-          },
-        }));
+          }));
+      
+          toast.success("Element deleted successfully!");
+        } catch (error) {
+          toast.error("Failed to delete element.");
+          console.error("Error deleting element:", error);
+        }
       },
+      
+    
 
-      // Reset form state for a specific formId
+
+
+
+      
+      
       resetFormState: (formId) => {
+        console.log("7 consoled here");
         set((state) => ({
           forms: {
             ...state.forms,

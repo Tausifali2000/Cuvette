@@ -28,6 +28,23 @@ export const useFormStore = create(() => ({
       throw error;
     }
   },
+
+  deleteElementFromBackend: async (formId, elementId) => {
+    try {
+      const response = await axios.delete(`/api/form/${formId}/deleteelement`, {
+        elementId  // Send elementId in the body for DELETE requests
+      });
+
+      if (response.status !== 200) {
+        throw new Error('Failed to delete element from backend');
+      }
+
+      return response.data; // Optionally return the response if needed
+    } catch (error) {
+      console.error("Error deleting element:", error);
+      throw error; // Rethrow the error to handle it in the calling function
+    }
+  },
 }));
 
 export default useFormStore;

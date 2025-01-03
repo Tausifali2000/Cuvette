@@ -3,18 +3,19 @@ import styles from './cssModule/share.module.css';
 import useWorkspaceStore from '../../store/share.js';
 import toast from 'react-hot-toast';
 
-const ShareDialog = () => {
+const ShareDialog = ({ closeDialog }) => {
   const [email, setEmail] = useState(''); // Store the email input
   const [permission, setPermission] = useState('edit'); // Default permission is 'edit'
-  const { shareWorkspace, message } = useWorkspaceStore(); // Use the store
+  const { shareWorkspace } = useWorkspaceStore(); // Use the store
 
   const handleEmailChange = (e) => setEmail(e.target.value); // Handle email input change
   const handlePermissionChange = (e) => setPermission(e.target.value); // Handle permission change
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     try {
+      console.log(permission, email)
       await shareWorkspace(email, permission);
    
     } catch (error) {
@@ -29,7 +30,7 @@ const ShareDialog = () => {
 
   return (
     <dialog open className={styles.dialog}>
-      <button className={styles.close}> <img src="/close.png" /></button>
+      <button className={styles.close} onClick={closeDialog} > <img src="/close.png" /></button>
       <div className={styles.container}>
         <div className={styles.head}>
         <h1 className={styles.title}>Invite by Email</h1>

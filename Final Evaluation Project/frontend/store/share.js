@@ -10,9 +10,10 @@ export const useWorkspaceStore = create((set, get) => ({
   forms: [],
  shareWorkspace: async (emailToShareWith, permission) => {
     try {
+      const email = emailToShareWith
       const response = await axios.post(
         "/api/workspace/share", // Adjust the URL based on your API
-        { emailToShareWith, permission },
+        { email, permission },
         { withCredentials: true }
       );
 

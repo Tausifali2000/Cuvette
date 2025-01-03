@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import BuildForm from "./pages/userpages/BuildForm";
 
 import Settings from "./pages/userpages/Settings";
+import FormView from "./formview/FormView";
 
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
         <Route path ='/home/settings' element={<Settings />} />
         <Route path ='/buildform/:formId' element={<BuildForm />}/>
         <Route path ='/response/:formId' element={<Response />}/>
+        <Route path ='/viewform/:formId' element={<FormView />}/>
+
         
      </Routes>
      <Toaster />

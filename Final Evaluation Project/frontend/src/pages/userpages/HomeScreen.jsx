@@ -4,13 +4,14 @@ import { useHomeStore } from "../../../store/home.js";
 import { useAuthStore } from "../../../store/authUser.js";
 import { useNavigate } from "react-router-dom";
 
+import toast from "react-hot-toast";
 import ToggleButton from "react-toggle-button";
 
 import CreateDialog from "../../components/createDialog.jsx";
 import DeleteDialog from "../../components/DeleteDialog.jsx";
 
 import Dropdown from "../../components/Dropdown.jsx";
-import ShareDialog from "../../components/shareDialog.jsx";
+import ShareDialog from "../../components/ShareDialog.jsx";
 import useWorkspaceStore from "../../../store/share.js";
 
 // Import the shareDialog
@@ -23,7 +24,9 @@ const HomeScreen = () => {
   const [formName, setFormName] = useState("");
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false); // Manage share dialog visibility
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState(null);
-
+  const [isWorkspaceSelected, setIsWorkspaceSelected] = useState(false); 
+  const [permission , setPermission] = useState("")
+ 
   const navigate = useNavigate();
   const {
     folders,
@@ -34,25 +37,34 @@ const HomeScreen = () => {
     createForm,
     deleteFolder,
     deleteForm,
+    fetchWorkspace,
   } = useHomeStore();
 
   const { user, authCheck } = useAuthStore();
-  const { fetchAccessList, fetchWorkspace } = useWorkspaceStore();
+  const { fetchAccessList } = useWorkspaceStore();
   const { username } = user;
   const { id } = fetchAccessList;
 
   useEffect(() => {
+    console.log("useEffext Collect", selectedWorkspaceId || "");
+    
     if (selectedWorkspaceId) {
+     
         fetchWorkspace(selectedWorkspaceId); // Fetch selected workspace data
     } else {
-        fetchHome(); // Default to current user's home data
+     
+      setSelectedWorkspaceId(null)
+        fetchHome();
+         // Default to current user's home data
     }
 }, [selectedWorkspaceId, fetchWorkspace, fetchHome]);
 
 
-  const handleWorkspaceSelect = (workspaceId) => {
+  const handleWorkspaceSelect = (workspaceId, isSelected, permission) => {
     setSelectedWorkspaceId(workspaceId);
-    console.log("Selected Workspace ID:", workspaceId);
+    setIsWorkspaceSelected(isSelected);
+    setPermission(permission);
+    console.log("Selected Workspace ID:", workspaceId, permission);
   };
 
 
@@ -134,14 +146,16 @@ const HomeScreen = () => {
 
   const isDialogActive = !!(activeBox || deleteDialog.type);
 
-  const options = [
-    { value: "settings", label: "Settings" },
-    { value: "logout", label: "Log Out" },
-  ];
-
   const toggleShareDialog = () => {
-    setIsShareDialogOpen((prev) => !prev); // Toggle share dialog visibility
+    if (isWorkspaceSelected) {
+      toast.error("Shared workspaces can't be shared again.");
+    } else {
+      setIsShareDialogOpen((prev) => !prev);
+    }
   };
+  
+ 
+  const closeShareDialog = () => setIsShareDialogOpen(false);
 
   return (
     <div className={homestyles.homebody}>
@@ -156,23 +170,39 @@ const HomeScreen = () => {
              activeLabel=""/>
           </div> Dark
           <button
-            className={homestyles.share}
-            onClick={toggleShareDialog} // Toggle share dialog when Share button is clicked
-          >
-            Share
-          </button>
+  className={homestyles.share}
+  onClick={toggleShareDialog}
+  disabled={isWorkspaceSelected}
+  style={
+    isWorkspaceSelected
+      ? {
+          backgroundColor: "#F0F8FF", 
+          color: "black", 
+          cursor: "not-allowed", 
+        }
+      : {}
+  }
+>
+  Share
+</button>
         </div>
       </header>
 
       {"IF userID selected render user ID" ?   (<div className={homestyles.container}>
         <div className={homestyles.workspace}>
           <div className={homestyles.folderbar}>
-            <button
-              className={homestyles.create1}
-              onClick={() => toggleBox("folder")}
-            >
-              <img src="/create.png" alt="Create" /> Create a folder
-            </button>
+          <button
+    className={homestyles.create1}
+    onClick={() => toggleBox("folder")}
+    disabled={permission === "view"}
+    style={
+      permission === "view"
+        ? { cursor: "not-allowed" }
+        : {}
+    }
+  >
+    <img src="/create.png" alt="Create" /> Create a folder
+  </button>
             <div className={homestyles.folders}>
               {folders?.map((folder) => (
                 <div key={folder._id} className={homestyles.folderc}>
@@ -185,21 +215,33 @@ const HomeScreen = () => {
                   <button
                     className={homestyles.x}
                     onClick={() => openDeleteDialog("folder", folder._id)}
-                  >
-                    <img src="/delete.png" alt="Delete" />
-                  </button>
+                    disabled={permission === "view"}
+                    style={
+            permission === "view"
+              ? {  cursor: "not-allowed" }
+              : {}
+          }
+        >
+          <img src="/delete.png" alt="Delete" />
+        </button>
                 </div>
               ))}
             </div>
           </div>
 
           <div className={homestyles.container0}>
-            <button
-              className={homestyles.createform}
-              onClick={() => toggleBox("form")}
-            >
-              <img src="/plus.png" alt="Create" /> Create a typebot
-            </button>
+          <button
+    className={homestyles.createform}
+    onClick={() => toggleBox("form")}
+    disabled={permission === "view"}
+    style={
+      permission === "view"
+        ? { cursor: "not-allowed" }
+        : {}
+    }
+  >
+    <img src="/plus.png" alt="Create" /> Create a typebot
+  </button>
             <div className={homestyles.forms}>
               {activeBox === "folder" && (
                 <CreateDialog
@@ -235,12 +277,18 @@ const HomeScreen = () => {
               {!isDialogActive &&
                 forms?.map((form) => (
                   <div key={form._id} className={homestyles.fc}>
-                    <button
-                      className={homestyles.x2}
-                      onClick={() => openDeleteDialog("form", form._id)}
-                    >
-                      <img src="/delete.png" alt="Delete" />
-                    </button>
+                     <button
+            className={homestyles.x2}
+            onClick={() => openDeleteDialog("form", form._id)}
+            disabled={permission === "view"}
+            style={
+              permission === "view"
+                ? {  cursor: "not-allowed" }
+                : {}
+            }
+          >
+            <img src="/delete.png" alt="Delete" />
+          </button>
                     <button
                       className={homestyles.form}
                       onClick={() => handleFormClick(form._id)}
@@ -257,7 +305,7 @@ const HomeScreen = () => {
     }
 
 
-      {isShareDialogOpen && <ShareDialog />}
+      {isShareDialogOpen && <ShareDialog   closeDialog={closeShareDialog}/>}
     </div>
   );
 };

@@ -5,10 +5,10 @@ const InputElement = ({ id, type, label, removeElement, updateLabel }) => {
   const [editableLabel, setEditableLabel] = useState(label);
 
   const handleBlur = () => {
-    updateLabel(id, editableLabel, null); // Update label only, as `bubblecontent` isn't applicable here.
+    updateLabel(editableLabel, null); 
   };
 
-  // Define dynamic hints for different input types
+  
   const getHint = (type) => {
     switch (type) {
       case 'textInput':
@@ -24,7 +24,7 @@ const InputElement = ({ id, type, label, removeElement, updateLabel }) => {
       case 'ratingInput':
         return 'Hint: User will provide a rating';
       case 'buttonInput':
-        return 'Hint: User will select a button';
+        return 'Hint: Enter button text value in label ';
       default:
         return 'Hint: Input type not recognized';
     }

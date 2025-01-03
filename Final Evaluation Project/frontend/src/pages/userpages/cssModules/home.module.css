@@ -3,9 +3,9 @@
 .homebody {
   width: 100%;
   height: 100%;
-/*   
+  
   background: linear-gradient(0deg, #121212, #121212),
-   linear-gradient(0deg, #18181B, #18181B); */
+   linear-gradient(0deg, #18181B, #18181B);
     
    font-family: "Open Sans", serif;
 }
@@ -51,6 +51,7 @@
   border-radius: 8px;
   background: #1A5FFF;
   color: white;
+  cursor: pointer;
 
 }
 

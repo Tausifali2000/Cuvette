@@ -160,6 +160,39 @@ export const useHomeStore = create((set) => ({
       set({ isUpdatingUser: false });
       throw new Error(errorMessage); // Rethrow the error if you want the caller to handle it
     }
+  }, 
+
+  fetchWorkspace: async (workspaceId) => {
+    set({ isLoadingWorkspace: true });
+    try {
+      const response = await axios.get(`/api/workspace/${workspaceId}`, {
+        withCredentials: true,
+      });
+      const show = response.data.data;
+      console.log(show);
+      const { owner, standaloneForms, folders, accessList } = response.data.data;
+
+      set({
+        workspaceOwner: owner,
+        folders: folders?.filter((folder) => folder),
+        forms: standaloneForms,
+        workspaceAccessList: accessList,
+        isLoadingWorkspace: false,
+      });
+
+
+    } catch (error) {
+      if (error.response?.status === 404) {
+        toast.error("Workspace not found. Please check the workspace ID.");
+      } else if (error.response?.status === 401) {
+        toast.error("Unauthorized: Please log in again.");
+      } else {
+        toast.error(error.response?.data?.message || "Failed to fetch workspace data");
+      }
+      set({ isLoadingWorkspace: false });
+    }
   },
+
+  
   
 }))

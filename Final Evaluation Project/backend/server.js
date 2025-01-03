@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js"; //authroutes import
 import homeRoutes from "./routes/home.route.js";
 import fromRoutes from "./routes/form.route.js";
-import botRoutes from "./routes/bot.route.js";
+import viewForm from "./routes/viewForm.route.js" 
 import shareRoutes from "./routes/share.route.js";
 import { ENV_VARS } from "./config/envVars.js"; //Contant variable import
 import { connectDB } from "./config/db.js"; //MongoDB connection import
@@ -30,8 +30,8 @@ app.use(cors({
 app.use("/api/auth", authRoutes); //authentication routes
 app.use("/api/home", homeRoutes);
 app.use("/api/form", fromRoutes);
-app.use("/api/formbot", botRoutes);
 app.use("/api/workspace", shareRoutes);
+app.use("/api/viewform", viewForm);
 
 
 
