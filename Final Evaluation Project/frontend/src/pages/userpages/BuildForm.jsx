@@ -82,13 +82,16 @@ const BuildForm = () => {
             >
               Flow
             </button></Link>
+             <Link to= "/response">
              <button
               className={createform.responseButton}
-              onClick={() => navigate(`/response/${formId}`)}
+             
             
             >
               Response
             </button>
+             </Link>
+             
            
           </div>
 

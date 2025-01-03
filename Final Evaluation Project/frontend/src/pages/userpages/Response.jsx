@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import responseForm from "./cssModules/responseForm.module.css";
-import InputElement from '../../components/inputs/InputElement';
-import BubbleElement from '../../components/bubbles/BubbleElement';
+
 import useSessionStore from '../../../store/session';
 import { PieChart } from 'react-minimal-pie-chart';
 
